@@ -17,7 +17,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/WebSocketMain.swf"></script>
    -->
    <!-- <script src="node_modules/three/examples/jsm/libs/basis/basis_transcoder.js"></script> -->
-  <script type="module" crossorigin src="/assets/index-962d59c1.js"></script>
+    <!-- <script type="text/javascript" src="https://spectorcdn.babylonjs.com/spector.bundle.js"></script>  -->
+    
+ 
+  <script type="module" crossorigin src="/assets/index-58388864.js"></script>
   <link rel="stylesheet" href="/assets/index-763e44df.css">
 </head>
 
@@ -106,7 +109,7 @@
       <!-- UI -->
       <div class="col border overflow-auto vh-40" id="UI">
         <!-- WELCOME SECTION -->
-        <div id="welcomSection">
+        <div class="Section_Container">
           <div class="d-flex py-1 flex-row justify-content-center">          
               <div class="col-auto text-center mx-5">
                 <button type="button" class="btn px-5 py-1 text-light btn-sm active"
@@ -137,7 +140,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
           </div>
         </div>
         <!-- FURNITURE SECTION -->
-        <div id="furnitureSection" style="display: none;">
+        <div class="Section_Container" style="display: none;">
         <div class="d-flex py-1 justify-content-center">
           <div class="col-auto">
             <button type="button" class="btn rounded-circle btn-outline-secondary p-2 d-flex justify-content-center prevNext"><svg
@@ -257,7 +260,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
 
         </div>
         <!-- LIGHTING SECTION -->
-        <div id="lightingSection" style="display: none;">
+        <div class="Section_Container" style="display: none;">
           <div class="d-flex py-1 justify-content-center">
           <div class="col-auto">
             <button type="button" class="btn rounded-circle btn-outline-secondary p-2 d-flex justify-content-center prevNext"><svg
@@ -306,7 +309,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
 
                         <div class="d-flex">
                           <div class="d-flex flex-row ml-0">
-                          <input type="checkbox" id="CeilingLight" name="lights" value="CeilingLight" class="largerCheckbox lightTypes">
+                          <input type="checkbox" id="CeilingLight" name="lights" checked value="CeilingLight" class="largerCheckbox lightTypes">
                           <label for="CeilingLight">Ceiling Light</label>
                         </div>
                           <div class="slidecontainer" style="margin-left: 5px;">                          
@@ -376,7 +379,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                     </div>
                         <div class="d-flex">
                           <div class="d-flex flex-row">
-                            <input type="checkbox" id="DayLight" name="lights" value="DayLight" checked class="largerCheckbox lightTypes">
+                            <input type="checkbox" id="DayLight" name="lights" value="DayLight" class="largerCheckbox lightTypes">
                             <label for="DayLight">Sun Light</label>                      
                         </div>
                           <div class="slidecontainer" style="margin-left: 20px;">                          
@@ -409,7 +412,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
 
                         <div class="d-flex">
                           <div class="d-flex flex-row">
-                            <input type="checkbox" name="Cylindrical_Light" value="Cylindrical_Light" id="Cylindrical_Light" class="largerCheckbox">
+                            <input type="checkbox" name="Cylindrical_Light" value="Cylindrical_Light" checked id="Cylindrical_Light" class="largerCheckbox">
                             <label for="Cylindrical_Light">Wall Washer Light</label>                      
                         </div>
                           <div class="slidecontainer" style="margin-left: 1px;">                          
@@ -443,11 +446,11 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             </div>                          
                           </div>   
                           <div class="d-flex flex-row pb-1">              
-                            <input type="checkbox" name="Emissive" value="Emissive" class="largerCheckbox" id="Emissive">
+                            <input type="checkbox" name="Emissive" value="Emissive" checked class="largerCheckbox" id="Emissive">
                             <label for="Emissive">Emissive</label>
                             </div>
                             <div class="d-flex flex-row pb-1">   
-                            <input type="checkbox" id="Shadows_SunLight" name="controls" checked value="Shadows_SunLight" class="largerCheckbox">
+                            <input type="checkbox" id="Shadows_SunLight" name="controls" value="Shadows_SunLight" class="largerCheckbox">
                             <label for="Shadows_SunLight">Shadows SunLight</label>                               
                             </div>
                             <div class="d-flex flex-row pb-1"> 
@@ -458,6 +461,10 @@ Generate photo-realistic images via VisCommerce 3DCloud
                               <input type="checkbox" id="Shadows_NightLight2" name="controls" value="Shadows_NightLight2" class="largerCheckbox">
                               <label for="Shadows_NightLight2">Shadows NightLight2</label>   
                               </div>
+                              <div class="d-flex flex-row pb-1"> 
+                                <input type="checkbox" id="intial_shadows" name="controls" checked value="intial_shadows" class="largerCheckbox">
+                                <label for="intial_shadows">Intial Shadows</label>   
+                                </div>
                               <div class="d-flex flex-row pb-1"> 
                               <input type="checkbox" id="ReflectionsMirror_C" name="effects" value="ReflectionsMirror_C" class="largerCheckbox">
                               <label for="ReflectionsMirror_C">Mirror Reflections</label>
@@ -539,7 +546,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                   <div name="lightPreset">
 
                     <div class="d-flex flex-row">
-                      <input type="radio" id="DayLightPreset" name="preset" checked class="labelAlignment largerCheckbox lightPreset" value="DayLightPreset">
+                      <input type="radio" id="DayLightPreset" name="preset" class="labelAlignment largerCheckbox lightPreset" value="DayLightPreset">
                       <label for="DayLightPreset">Day Lighting</label>
                     </div>   
                     <div class="d-flex flex-row">    
@@ -606,7 +613,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
 
         </div>
         <!-- ARRANGEMENT SECTION -->
-        <div id="arrangementSection" style="display: none;">
+        <div class="Section_Container" style="display: none;">
           <div class="d-flex py-1 justify-content-center">
             <div class="col-auto">
               <button type="button" class="btn rounded-circle btn-outline-secondary p-2 d-flex justify-content-center prevNext"><svg
@@ -683,7 +690,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
           
         </div>
         <!-- NAVIGATION SECTION -->
-        <div id="navigationSection" style="display: none;">
+        <div class="Section_Container" style="display: none;">
           <div class="d-flex py-1 justify-content-center">
             <div class="col-auto">
               <button type="button" class="btn rounded-circle btn-outline-secondary p-2 d-flex justify-content-center prevNext"><svg
@@ -797,7 +804,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
 
         </div>
         <!-- ADVANCED SECTION -->
-        <div id="advancedSection" style="display: none;">
+        <div class="Section_Container" style="display: none;">
           <div class="d-flex py-1 justify-content-center">
             <div class="col-auto">
               <button type="button" class="btn rounded-circle btn-outline-secondary p-2 d-flex justify-content-center prevNext"><svg
@@ -931,7 +938,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
           </div> 
         </div>
         <!-- SETTINGS SECTION -->
-        <div id="settingsSection" style="display: none;">
+        <div class="Section_Container" style="display: none;">
           <div class="d-flex py-1 justify-content-center">
             <div class="col-auto">
               <button type="button" class="btn rounded-circle btn-outline-secondary p-2 d-flex justify-content-center prevNext"><svg
