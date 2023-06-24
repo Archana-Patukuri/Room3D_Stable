@@ -1,0 +1,55 @@
+{
+	"lights": [		
+		"Point"	,
+		"Sun001",
+		"Desktop_Lamp_Light002"
+	],
+	"receivers": [		
+		"Back_Wall",
+		"Left_Wall",
+		"Front_Wall",
+		"Right_Wall",
+		"Floor",		
+		"Table_Top_Mesh"
+	],
+	"casters": [
+		"TableBottom",
+		"Table_Top_Mesh",		
+		"Object001",
+		"Object001_1",		
+		"Node_Legs",
+		"Mesh_Adjustment_Knob_1",
+		"Mesh_SeatSupport002_1",		
+		"Mesh100_2",
+		"Mesh100_1",
+		"Mesh100",
+		"Mesh_Leaves001",
+		"Mesh_Leaves002",		
+		"Box001",
+		"Line001",
+		
+		"Plane010",
+		"Plane001",
+		"Plane002",
+		"Plane003",
+		"Plane004",
+		"Plane005",
+		"Plane006",
+		"Plane007",
+		"Plane008",
+		"Plane009",
+		"Plane010",
+		"Plane011",
+		"Plane012",
+		"Plane013",
+		"Plane014",
+		"Plane015",
+		"Plane016",
+		"Plane017",
+		"Plane018",
+		"Box001001",
+		"Line001001",
+		"Line002",
+		"WindowFrame"		
+	]
+}

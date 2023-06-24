@@ -1,0 +1,15 @@
+{
+	"receivers": [		
+		"Floor",
+		"Table_Top_Mesh"		
+	],
+	"casters": [									
+		"TableBottom",		
+		"Table_Top_Mesh",
+		"Node_Legs"	,
+		"Node_Tyres",
+		"Node_SeatSupport001",
+		"Mesh_SeatSupport002_1",
+		"Mesh_Adjustment_Knob_3"
+	]
+}

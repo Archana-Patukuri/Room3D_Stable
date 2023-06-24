@@ -1,0 +1,26 @@
+{
+	"receivers": [
+		"Back_Wall",
+		"Left_Wall",
+		"Front_Wall",
+		"Right_Wall",
+		"Cealing",
+		"Floor",
+		"Table_Top_Mesh"
+	],
+	"casters": [
+		"Box001",
+		"Line001",
+		"Plane010",
+		"Node_Legs",
+		"Node_Tyres",		
+		"Mesh_SeatSupport002_1",
+		"Mesh_Adjustment_Knob_3",			
+		"Laptop_Selectable",	
+		"Lamp_Selectable",
+		"TableBottom",		
+		"Table_Top_Mesh",				
+		"Flower",
+		"Pot"		
+	]
+}

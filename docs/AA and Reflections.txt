@@ -1,0 +1,21 @@
+Effect	-	FPS
+TAA			44-50
+FXAA			58		
+SSAA			11
+SMAA			57
+
+
+High FPS	-	FXAA and SMAA
+Better Look	-	TAA and SMAA 
+   
+SMAA suits better for our demo.
+
+
+
+Floor Reflections:
+Before FPS 1-10
+after changing textureWidth and textureHeight values FPS 15-20
+
+Mirror Reflections:
+Before FPS 4-10
+After FPS 13-25

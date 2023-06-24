@@ -1,0 +1,10 @@
+spector commands
+with shadows and hdri	-1588
+without hdri 		- 1545
+without shadows 	-1307
+without shadows and hdri-1295 
+
+previous loading time-30sec
+after postprocessing code modifications and new hdri and altered shadows and lighting -20sec
+
+it is loading around 15 seconds
