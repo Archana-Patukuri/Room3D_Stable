@@ -1383,7 +1383,7 @@ let taaRenderPass
       console.log('SSR loading End time = ', millis ,'ms');
   
     }
-    SSR_fun()
+    // SSR_fun()
       ssr_ui.addEventListener("click",function(e){        
         if(e.target.checked){
           SSR_fun()
