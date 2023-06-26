@@ -143,7 +143,7 @@ function reflection(scene,renderer,camera,clock,gui) {
         }
     })
     //ReflectionsMirror_Add();
-    //Reflections_Floor_Add();  
+    Reflections_Floor_Add();  
     let ReflectionsFloor_C=document.getElementById("ReflectionsFloor_C");      
     ReflectionsFloor_C.addEventListener("change",(e)=>{
         if(e.target.checked){                                     

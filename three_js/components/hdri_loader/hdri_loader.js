@@ -13,7 +13,6 @@ async function hdriLoad() {
     textureLoader.loadAsync("lythwood_room_1k.jpg"),
     textureLoader.loadAsync("cyclorama_hard_light_1k.jpg"),
   ]);
-
   background1.encoding = sRGBEncoding;
   background1.mapping = EquirectangularReflectionMapping;
   hdri1.mapping = EquirectangularReflectionMapping;

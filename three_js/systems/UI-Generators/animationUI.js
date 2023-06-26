@@ -18,7 +18,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
   div1.className = "d-flex gap-2";               
 
   if (category == "tables") {
-    let tweens = [];  
+    let tweens = [];      
     let tableTopPos = gltfData.scene.getObjectByName("Table_Top").position;
     // console.log(tableTopPos);  
             

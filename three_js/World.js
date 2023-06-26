@@ -334,7 +334,8 @@ class World {
   }
   async loadBackground() {
     const { background1, hdri1 } = await hdriLoad();        
-      scene.environment = hdri1;          
+      scene.environment = hdri1;  
+              
   }
   createUI() {
     //created FurnitureTypesUI from JSON data
@@ -542,6 +543,7 @@ async loadLaptopGLTF() {
 
     scene.add(cylindricalLight1);
     selectableObjects.push(cylindricalLight1)
+    renderer.render(scene, camera)
     console.log("cylindrical wall lamps loaded",delta.toPrecision(3),"seconds")
   }
   //LoadMirror
