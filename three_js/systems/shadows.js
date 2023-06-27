@@ -151,7 +151,7 @@ function shadows(scene,clock,shadowLight) {
       }
   })        
   let DayLightPreset=document.getElementById("DayLightPreset")
-  if(DayLightPreset.checked==true){
+ /*  if(DayLightPreset.checked==true){
     Shadows_SunLightOn()
   }else{
     //Shadows_NightLight1On()
@@ -160,7 +160,7 @@ function shadows(scene,clock,shadowLight) {
         child.castShadow = false;                              
       }      
     });         
-  }       
+  }     */   
     //NIGHT LIGHT 2
     const Shadows_NightLight2On_fn = async () => {
       await new Promise(resolve => setTimeout(() => {

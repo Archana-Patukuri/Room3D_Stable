@@ -540,6 +540,19 @@ async loadLaptopGLTF() {
 
     scene.add(cylindricalLight1);
     selectableObjects.push(cylindricalLight1)
+    cylindricalLampSpotLight_1 = scene.getObjectByName(
+      "Cylindrical_spot_light_1"
+    );
+     cylindricalLampSpotLight_2 = scene.getObjectByName(
+      "Cylindrical_spot_light_2"
+    );
+
+     cylindricalLampSpotLight_3 = scene.getObjectByName(
+      "Cylindrical_spot_light_3"
+    );
+   cylindricalLampSpotLight_4 = scene.getObjectByName(
+      "Cylindrical_spot_light_4"
+    );
     renderer.render(scene, camera)
     console.log("cylindrical wall lamps loaded",delta.toPrecision(3),"seconds")
   }
@@ -607,7 +620,7 @@ async loadLaptopGLTF() {
         
     
     dayLightSettings = function (hdri1) {                   
-      delta = clock.getDelta();      
+     // delta = clock.getDelta();      
     let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");     
     let fanLight = scene.getObjectByName("fanLight");    
     let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
@@ -616,35 +629,23 @@ async loadLaptopGLTF() {
       console.log("daylight: daylight settings enabled")   
      
       scene.background = new Color(0xffffff);
-      scene.environment = hdri1;          
-      renderer.toneMappingExposure = 0.3;   
+      //scene.environment = hdri1;          
+     /*  renderer.toneMappingExposure = 0.3;   
       delta = clock.getDelta();          
       console.log("daylight: hdri and background updated",delta.toPrecision(3),"seconds")
-     
+      */
       fanLightMesh.material.emissiveIntensity = 0;
       cealingLightMesh.material.emissiveIntensity = 0;
 
       tableLamp.intensity = 0;
       fanLight.intensity = 0;
       
-      cylindricalLampSpotLight_1 = scene.getObjectByName(
-        "Cylindrical_spot_light_1"
-      );
-       cylindricalLampSpotLight_2 = scene.getObjectByName(
-        "Cylindrical_spot_light_2"
-      );
-  
-       cylindricalLampSpotLight_3 = scene.getObjectByName(
-        "Cylindrical_spot_light_3"
-      );
-     cylindricalLampSpotLight_4 = scene.getObjectByName(
-        "Cylindrical_spot_light_4"
-      );
+      
       cylindricalLampSpotLight_1.intensity = 0;
       cylindricalLampSpotLight_2.intensity = 0;
       cylindricalLampSpotLight_3.intensity = 0;
       cylindricalLampSpotLight_4.intensity = 0;
-      delta = clock.getDelta();
+     // delta = clock.getDelta();
       console.log("daylight: turned of all the other lights",delta.toPrecision(3),"seconds")
       let tableLampTop = scene.getObjectByName("TableStand006");
       tableLampTop.material = tableLampMatNormal;          
@@ -662,15 +663,15 @@ async loadLaptopGLTF() {
 
                         
       sunLight.intensity = 30;     
-      delta = clock.getDelta(); 
+      // delta = clock.getDelta(); 
       console.log("daylight: sunlight intensity updated",delta.toPrecision(3),"seconds")
-      
+       
       sunLight.castShadow = true; 
       // if(shadowLight!=0){
         shadowLight=0;        
           shadows(scene,clock,shadowLight); 
       // }
-      renderer.render(scene,camera)
+    //  renderer.render(scene,camera)
           
     };    
     let a=0;  
