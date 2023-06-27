@@ -178,8 +178,7 @@ const sun_fn = async () => {
     sunLight.castShadow = true;                    
     slider_SL.oninput = function() {   
       localStorage.sunLight_Intensity=this.value           
-      sunLight.intensity=Number(localStorage.sunLight_Intensity)  
-      console.log(localStorage)               
+      sunLight.intensity=Number(localStorage.sunLight_Intensity)                  
     }   
     colorPicker_SL.oninput = function() {                                                  
      sunLight.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -280,8 +279,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
                 scene.add(ambientLight);            
                   slider_AL.oninput = function() {                              
                     localStorage.ambientLight_Intensity=this.value
-                    ambientLight.intensity=Number(localStorage.ambientLight_Intensity) 
-                    console.log(localStorage)                
+                    ambientLight.intensity=Number(localStorage.ambientLight_Intensity)                                  
                   }
                   colorPicker_AL.oninput = function() {                                             
                     ambientLight.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -373,7 +371,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
             cylindricalLampSpotLight_2.intensity=Number(localStorage.cylindricalLampSpotLight_2_Intensity)                      
             cylindricalLampSpotLight_3.intensity=Number(localStorage.cylindricalLampSpotLight_3_Intensity)                      
             cylindricalLampSpotLight_4.intensity=Number(localStorage.cylindricalLampSpotLight_4_Intensity)            
-            console.log(localStorage)
+            
           }
           colorPicker_CWL.oninput = function() {                                             
             cylindricalLampSpotLight_1.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -430,7 +428,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    // execute with a loading spinner
    await spinnedFn();
  }   
- Cylindrical_Light_Fun();    
+//  Cylindrical_Light_Fun();    
     Cylindrical_Light.addEventListener("change", (e) => {      
       if (e.target.checked) {            
         Cylindrical_Light_Fun();                             
@@ -442,7 +440,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         fanLight.intensity=10;
         fanLight.castShadow=true;
         console.log("fanlight") */
-        let a=0;
+        
     const CeilingLight_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         console.log("ceiling light enabled")                                        
@@ -451,18 +449,11 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         let fanLight=scene.getObjectByName("fanLight")        
         fanLight.castShadow=true;
         
-                                        
-        if(a==0){
-          scene.environment = hdri1;
-          renderer.toneMappingExposure = 0.5; 
-          scene.background = new Color(1,1,1); 
-          prompt.style.display="block";  
-          a=a+1        
-        }else{
+                                                
           scene.environment = hdri0; 
           renderer.toneMappingExposure = 1; 
           scene.background = new Color(0x0d0d0d);          
-        }
+        
         if(!localStorage.fanLight_Intensity){      
           localStorage.fanLight_Intensity=3;        
         }
@@ -470,8 +461,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         
         slider_CL.oninput = function() {                  
         localStorage.fanLight_Intensity=this.value;
-        fanLight.intensity=Number(localStorage.fanLight_Intensity) 
-        console.log(localStorage)      
+        fanLight.intensity=Number(localStorage.fanLight_Intensity)              
         }  
         colorPicker_CL.oninput = function() {                              
           fanLight.color.setHex("0x"+this.value.slice(1,7), 1);                                                                             
@@ -516,8 +506,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
      });      
      // execute with a loading spinner
      await spinnedFn();
-     const millis = Date.now() - start;
-     console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`);
+     
    }    
    
    const CeilingLight_Else_fn = async () => {
@@ -541,7 +530,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    // execute with a loading spinner
    await spinnedFn();
  }    
- CeilingLight_Fun();         
+//  CeilingLight_Fun();         
  stateList.CeilingLight.addEventListener("change",(e)=>{       
       if(e.target.checked){                   
         CeilingLight_Fun();                            
@@ -599,7 +588,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         slider_DL.oninput = function() {                  
           localStorage.Light_Intensity=this.value;
           Light.intensity=Number(localStorage.Light_Intensity);   
-          console.log(localStorage)        
+                
         }
         colorPicker_DL.oninput = function() {                                             
           Light.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -664,7 +653,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    // execute with a loading spinner
    await spinnedFn();
  }      
-    
+//  desktopLight_Fun();
  stateList.desktopLight.addEventListener("change",(e)=>{       
       if(e.target.checked){
         desktopLight_Fun();                             
@@ -692,8 +681,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
       floor_lamp_Ele.castShadow=true
       slider_FL.oninput = function() {        
         localStorage.floorLamp_Intensity=this.value;
-        floor_lamp_Ele.intensity=Number(localStorage.floorLamp_Intensity); 
-        console.log(localStorage)                      
+        floor_lamp_Ele.intensity=Number(localStorage.floorLamp_Intensity);                             
       }  
       colorPicker_FL.oninput = function() {                                             
         floor_lamp_Ele.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -774,8 +762,7 @@ async function floor_lamp_else_Fun() {
           localStorage.WL1_Intensity=this.value;
           localStorage.WL2_Intensity=this.value;
           Point_Light.intensity=Number(localStorage.WL1_Intensity);       
-          Point_Light1.intensity=Number(localStorage.WL2_Intensity);
-          console.log(localStorage)                    
+          Point_Light1.intensity=Number(localStorage.WL2_Intensity);                         
         }
         colorPicker_WL.oninput = function() {                                             
           Point_Light.color.setHex("0x"+this.value.slice(1,7), 1);          

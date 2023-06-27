@@ -335,7 +335,7 @@ class World {
   async loadBackground() {
     const { background1, hdri1 } = await hdriLoad();        
       scene.environment = hdri1;  
-              
+      // scene.background = new Color(1,1,1);      
   }
   createUI() {
     //created FurnitureTypesUI from JSON data
@@ -350,8 +350,7 @@ class World {
     let { gltfData } = await gltfLoad(assets.Room[0].URL,renderer);
     let loadedmodel = gltfData.scene;        
     roomParent.add(loadedmodel);    
-   let themesDiv=document.getElementById("themesDiv");
-      console.log(gltfData)
+   let themesDiv=document.getElementById("themesDiv");      
     for (let i = 0; i < gltfData.userData.variants.length; i++) {
       let div2 = document.createElement("div");
       div2.className = "d-flex flex-row"; 
@@ -373,8 +372,7 @@ class World {
        async function input_var_Fun(){
         let myPromise = new Promise(function(resolve) {                                                                 
           gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );  
-          //reflection(scene,renderer,camera,clock,gui); 
-          console.log(gltfData.userData.variants[i])          
+          //reflection(scene,renderer,camera,clock,gui);                  
           console.log(input)
         });                
         await myPromise;                 
@@ -565,7 +563,7 @@ async loadLaptopGLTF() {
     }) */
     
     reflection(scene,renderer,camera,clock,gui);    
-    shadows(scene,clock,shadowLight);
+    //shadows(scene,clock,shadowLight);
     viewPoints(camera); 
     renderer.render(scene, camera);    
     console.log("mirror loaded",delta.toPrecision(3),"seconds");
@@ -675,8 +673,10 @@ async loadLaptopGLTF() {
       // }
       renderer.render(scene,camera)
           
-    };      
+    };    
+    let a=0;  
     nightLightSettings1 = function (hdri1) {
+      
       delta = clock.getDelta();
       console.log("nightlight1 settings enabled")                        
       renderer.toneMappingExposure = 0.5;
@@ -711,83 +711,30 @@ async loadLaptopGLTF() {
       cylindricalLampSpotLight_4.distance = 1;     
 
       delta = clock.getDelta();       
-      console.log("nightlight1: wall washer lights intensity updated",delta.toPrecision(1),"seconds")
+      // console.log("nightlight1: wall washer lights intensity updated",delta.toPrecision(1),"seconds")
       let tableLampTop = scene.getObjectByName("TableStand006");
       
-      let tableLampMatSubsurface = tableLampTop.material;
-      tableLampTop.material = tableLampMatSubsurface;
-
+     
       let emissive_Obj=scene.getObjectByName("Mesh_Walls001");  
       emissive_Obj.material.emissive=new Color(1, 1, 1);  
       delta = clock.getDelta();       
-      console.log("nightlight1: emissive added",delta.toPrecision(1),"seconds")
-
-       shadowLight=1;       
-       shadows(scene,clock,shadowLight); 
- 
+      // console.log("nightlight1: emissive added",delta.toPrecision(1),"seconds")
+      
       stateList.HDRI.checked=true;      
       stateList.CeilingLight.checked=true;
-      stateList.desktopLight.checked=false
+      stateList.desktopLight.checked=true
       stateList.SunLightEle.checked=false;
       stateList.Shadows_SunLight.checked=false;
       stateList.Shadows_NightLight1.checked=true;
       stateList.Shadows_NightLight2.checked=false;
       stateList.Emissive.checked=true;
       stateList.Cylindrical_Light.checked=true;  
-      
-      tableLamp.intensity = 0;
-      tableLamp.castShadow=false;
-      fanLight.castShadow=true;
-      
+          
+      fanLight.castShadow=true;      
       fanLight.intensity = 3;
-      delta = clock.getDelta();       
-      console.log("nightlight1: fanlight intensity updated",delta.toPrecision(1),"seconds")
 
-    };
-
-    nightLightSettings2 = function (hdri1) {
-      delta = clock.getDelta(); 
-      console.log("night light 2 settings enabled")      
-
-      renderer.toneMappingExposure = 0.5;
-
-      scene.environment = hdri1;
-      scene.background = new Color(0x000000);
-      delta = clock.getDelta();
-      console.log("nightlight2: hdri and background updated",delta.toPrecision(3),"seconds")
-
-      sunLight.intensity = 0;
-      ambientLightSun.intensity = 0;
-
-      let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");
-      let fanLight = scene.getObjectByName("fanLight"); 
-      let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
-      let fanLightMesh = scene.getObjectByName("Motor_emissive");
-      fanLight.intensity = 0;
-      delta = clock.getDelta();
-      console.log("nightlight2: turned off all the other lights",delta.toPrecision(3),"seconds");
-      
-      cylindricalLampSpotLight_1 = scene.getObjectByName("Cylindrical_spot_light_1");
-      cylindricalLampSpotLight_2 = scene.getObjectByName("Cylindrical_spot_light_2");
-      cylindricalLampSpotLight_3 = scene.getObjectByName("Cylindrical_spot_light_3");
-      cylindricalLampSpotLight_4 = scene.getObjectByName("Cylindrical_spot_light_4");
-
-      cylindricalLampSpotLight_1.intensity = 0;
-      cylindricalLampSpotLight_2.intensity = 0;
-      cylindricalLampSpotLight_3.intensity = 0;
-      cylindricalLampSpotLight_4.intensity = 0;   
-      
-      fanLightMesh.material.emissiveIntensity = 2;
-      cealingLightMesh.material.emissiveIntensity = 2;
-      tableLamp.intensity = 2;
-      tableLamp.castShadow=true;
-      fanLight.castShadow=false;
-      delta = clock.getDelta();
-      console.log("nightlight2: desktop light intensity increased and ceiling emissive added",delta.toPrecision(3),"seconds");
-
-           
-
-      let tableLampTop = scene.getObjectByName("TableStand006");
+      tableLamp.intensity = 5;
+      tableLamp.castShadow=true;      
       let tableLampMatSubsurface = tableLampTop.material;
       tableLampTop.material = tableLampMatSubsurface;      
       let texLoader = new TextureLoader();
@@ -817,24 +764,19 @@ async loadLaptopGLTF() {
       });
 
       tableLampTop.material = subMaterial;
-      let emissive_Obj=scene.getObjectByName("Mesh_Walls001");  
-      emissive_Obj.material.emissive=new Color(1, 1, 1 ); 
-      delta = clock.getDelta();
-      console.log("nightlight2:sub surface scattering effect added",delta.toPrecision(3),"seconds");
-      shadowLight=2;      
-       shadows(scene,clock,shadowLight); 
-
-      stateList.HDRI.checked=true;
-      stateList.CeilingLight.checked=false;
-      stateList.desktopLight.checked=true;
-      stateList.SunLightEle.checked=false;
-      stateList.Shadows_SunLight.checked=false;
-      stateList.Shadows_NightLight1.checked=false;
-      stateList.Shadows_NightLight2.checked=true;
-      stateList.Emissive.checked=false;
-      stateList.Cylindrical_Light.checked=false;
+      if(a==0){
+        shadowLight=3;         
+      }else{
+        shadowLight=1;
+      }
+      shadows(scene,clock,shadowLight); 
+        if(a==0){
+          const millis = Date.now() - start;
+          console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`);
+        }   
+      a=a+1;
     };
-    
+   
 
     const dayLightSettings_fn = async () => {
       const { background0,background1,hdri0, hdri1 } = await hdriLoad();           
@@ -869,31 +811,18 @@ async loadLaptopGLTF() {
      });      
      // execute with a loading spinner
      await spinnedFn();
-   }          
+     /* const millis = Date.now() - start;
+     console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`); */
+     if(a>0){
+      prompt.style.display="block";
+     }
+   }       
+      NightLight1_Fun();
     lightsPresetsUI[1].addEventListener('change',function(){
       if (this.value == "NightLight1") {
         NightLight1_Fun();
       } 
-    })
-    const NightLight2_fn = async () => {
-      const {background0, background1,hdri0, hdri1 } = await hdriLoad(); 
-      await new Promise(resolve => setTimeout(() => {
-        nightLightSettings2(hdri1);        
-        resolve();
-      }, 10));
-    }; 
-    async function NightLight2_Fun() {                                      
-      const spinnedFn = useSpinner(NightLight2_fn, {
-       container: container_3d
-     });      
-     // execute with a loading spinner
-     await spinnedFn();
-   }       
-    lightsPresetsUI[2].addEventListener('change',function(){
-      if (this.value == "NightLight2") {
-        NightLight2_Fun();
-      } 
-    })
+    })  
      
 
     
@@ -1115,14 +1044,14 @@ let taaRenderPass
       }
     })
     let SMAApass;				   
-    
+    let start1,millis1
     let SMAA_C=document.getElementById("SMAA_C");
     const SMAA_fn = async () => {
       await new Promise(resolve => setTimeout(() => {        
         delta = clock.getDelta();
-        start = Date.now();
-         millis = Date.now() - start;        
-        console.log('SMAA loading Start time = ', millis ,'ms');
+        start1 = Date.now();
+         millis1 = Date.now() - start1;        
+        console.log('SMAA loading Start time = ', millis1 ,'ms');
         //console.log("SMAA Before",delta.toPrecision(3),"seconds") 
         SMAApass = new SMAAPass( window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio() );
         composer.addPass( SMAApass );                    
@@ -1135,8 +1064,8 @@ let taaRenderPass
      });      
      // execute with a loading spinner
      await spinnedFn();    
-    millis = Date.now() - start;     
-     console.log('SMAA loading End time = ', millis ,'ms');
+    millis1 = Date.now() - start1;     
+     console.log('SMAA loading End time = ', millis1 ,'ms');
      //console.log("SMAA After",delta.toPrecision(3),"seconds")         
    }        
     const SMAA_Else_fn = async () => {

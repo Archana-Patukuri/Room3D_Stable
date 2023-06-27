@@ -221,7 +221,7 @@ function shadows(scene,clock,shadowLight) {
                  
      }
  }) 
-function intial_shadowsOn(){
+function intial_shadowsOn(){  
   for(let j=0;j<n.length;j++){                          
     for(let i = 0; i < Is3_2; i++) {
      if(n[j].name==castersArrIn[i]){
@@ -231,11 +231,11 @@ function intial_shadowsOn(){
    for(let i = 0; i < Is3; i++) {
      if(n[j].name==receiversArrIn[i]){
        n[j].receiveShadow=true;              
-       /* n[j].material.flatShading=true;         
-       n[j].material.needsUpdate=true;     */          
+        n[j].material.flatShading=true;         
+       n[j].material.needsUpdate=true;              
      }    
    } 
- }  
+ }    
 }
 function intial_shadowsOf(){
   for(let i = 0; i < Is3_2; i++) {
@@ -250,27 +250,18 @@ function intial_shadowsOf(){
  let intial_shadows=document.getElementById('intial_shadows');
  intial_shadows.addEventListener("change",(e)=>{
   if(e.target.checked){     
-    intial_shadowsOn();
+    intial_shadowsOn();   
   }else{                         
     intial_shadowsOf();
               
   }
 }) 
-
- if(shadowLight==0){
-  /* Shadows_NightLight1Of(); 
-  Shadows_NightLight2Of(); */
+ if(shadowLight==0){ 
   Shadows_SunLightOn();   
  }else if(shadowLight==1){
- /*  Shadows_SunLightOf();  
-  Shadows_NightLight2Of(); */
   Shadows_NightLight1On();  
- }else if(shadowLight==2){
-   /*  Shadows_SunLightOf();
-  Shadows_NightLight1Of();   */
-  Shadows_NightLight2On();
- }else{
-  intial_shadowsOn();
+ }else{  
+  intial_shadowsOn(); 
  }
 }
 

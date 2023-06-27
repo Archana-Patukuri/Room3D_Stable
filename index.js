@@ -4,7 +4,7 @@ async function main() {
   const world = new World();
   world.createUI(); 
   world.loadBackground();
-  world.lightPresets();
+  
      
   await Promise.all([
     await world.loadRoomGLTF(),
@@ -18,7 +18,7 @@ async function main() {
     await world.loadCylindricalLight(),
     await world.loadMirrorGLTF(),
   ]);
-  
+  world.lightPresets();
   world.createTransfromCtrls();
   world.createPostProcess();
   world.createMeasurements();  
