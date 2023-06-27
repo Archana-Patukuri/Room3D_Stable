@@ -724,8 +724,7 @@ async loadLaptopGLTF() {
       stateList.CeilingLight.checked=true;
       stateList.desktopLight.checked=true
       stateList.SunLightEle.checked=false;
-      stateList.Shadows_SunLight.checked=false;
-      stateList.Shadows_NightLight1.checked=true;
+      stateList.Shadows_SunLight.checked=false;      
       stateList.Shadows_NightLight2.checked=false;
       stateList.Emissive.checked=true;
       stateList.Cylindrical_Light.checked=true;  
@@ -765,9 +764,11 @@ async loadLaptopGLTF() {
 
       tableLampTop.material = subMaterial;
       if(a==0){
-        shadowLight=3;         
+        shadowLight=3;
+        stateList.Shadows_NightLight1.checked=false;
       }else{
         shadowLight=1;
+        stateList.Shadows_NightLight1.checked=true;
       }
       shadows(scene,clock,shadowLight); 
         if(a==0){
