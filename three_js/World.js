@@ -423,11 +423,10 @@ async loadLightsGLTF() {
   delta = clock.getDelta(); 
     
   await lightsModels.loadModel();  
-  tableModels.parentGroup.add(lightsModels.parentGroup1)        
-   
-  
+               
   if(lightsModels.assetsList[0].Name=="Desktop Light"){
     scene.add(lightsModels.parentGroup1)
+    tableModels.parentGroup.add(lightsModels.parentGroup1)
     selectableObjects.push(lightsModels.parentGroup1);      
   }
   if(lightsModels.assetsList[1].Name=="Floor Light"){  
