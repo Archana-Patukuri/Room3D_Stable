@@ -78,6 +78,7 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUniformsLib.js";
 import useSpinner from '../use-spinner';
 import '../use-spinner/assets/use-spinner.css';
+import eruda from "eruda";
 
 
 let container_3d=document.getElementById("3dcontainer");
@@ -223,17 +224,15 @@ class World {
     
     var script = document.createElement('script');  
     script.src="//cdn.jsdelivr.net/npm/eruda"; 
-    document.body.appendChild(script);            
-       script.onload = function () {
-         eruda.init();
-       }   
+        document.body.appendChild(script);            
+           script.onload = function () {            
+             eruda.init();  
+             eruda.destroy()            
+           }      
+           
     const console_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
-        script.src="//cdn.jsdelivr.net/npm/eruda"; 
-        document.body.appendChild(script);            
-           script.onload = function () {
-             eruda.init();
-           }       
+        eruda.init();
         resolve();
       }, 10));
     }; 
@@ -243,11 +242,10 @@ class World {
      });      
      // execute with a loading spinner
      await spinnedFn();
-   }       
+   }          
       const console_Else_fn = async () => {
-        await new Promise(resolve => setTimeout(() => {
-          w3.hide('#scriptId')
-          document.body.removeChild(script); 
+        await new Promise(resolve => setTimeout(() => {              
+         eruda.destroy()                    
           resolve();
         }, 10));
       }; 
