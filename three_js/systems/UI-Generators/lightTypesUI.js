@@ -19,7 +19,7 @@ const lightTypesUI = function (
     spinner.role = "status";
 
     if (initialModelID == i) {
-      input.checked = true;
+      input.checked = true;      
     }
 
     input.type = "radio";

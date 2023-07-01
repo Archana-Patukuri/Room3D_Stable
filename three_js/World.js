@@ -80,6 +80,8 @@ import useSpinner from '../use-spinner';
 import '../use-spinner/assets/use-spinner.css';
 import eruda from "eruda";
 
+// import WebGPU from 'three/addons/capabilities/WebGPU.js';
+
 
 let container_3d=document.getElementById("3dcontainer");
 let lineId = 0 
@@ -200,6 +202,14 @@ class World {
     // camera.layers.enable(1);
     this.container = container;
     UIContainer = container;
+
+   /*  if ( WebGPU.isAvailable() === false ) {
+
+      document.body.appendChild( WebGPU.getErrorMessage() );
+
+      throw new Error( 'No WebGPU support' );
+
+    } */
 
     labelRenderer.setSize(container.clientWidth, container.clientHeight)
 
@@ -495,32 +505,11 @@ async loadLaptopGLTF() {
   //LoadPlants
   async loadPlants() {
  
-    delta = clock.getDelta();
-     
-    /* if (spector) {
-      spector.setMarker("Shadow map creation");
-  }
-  if (spector) {
-    // spector.clearMarker();   
-  } */
-  // var SPECTOR = require("spectorjs");
-  // var spector = new SPECTOR.Spector();
+    delta = clock.getDelta();        
     const { gltfData } = await gltfLoad(assets.Plants[0].URL,renderer);
     const loadedmodel = gltfData.scene;     
     const plant1 = loadedmodel;
-     /*  if(spector){      
-      spector.displayUI();
-
-       spector.onCapture.add((capture) => {
-        // Do something with capture.
-        var myEvent = new CustomEvent("SpectorOnCaptureEvent", { detail: { captureString: JSON.stringify(capture) } });
-        console.log(myEvent)
-        document.dispatchEvent(myEvent);
-    });         
-    spector.captureCanvas(renderer);
-
-    }     */
-
+    
     plantsParent.add(plant1);  
     scene.add(plantsParent);
      
@@ -563,23 +552,12 @@ async loadLaptopGLTF() {
     const mirror = loadedmodel;   
     mirrorParent.add(mirror)   
     scene.add(mirrorParent);    
-    selectableObjects.push(mirrorParent);
-   /*  console.log(mirror)
-    mirror.traverse(function(child){
-      if(child.isMesh){
-        console.log(child.material.name)
-        child.__SPECTOR_Metadata = { name: "mirror" };  
-      }
-    }) */
-    
-    reflection(scene,renderer,camera,clock,gui);    
-    //shadows(scene,clock,shadowLight);
-    viewPoints(camera); 
+    selectableObjects.push(mirrorParent);           
     renderer.render(scene, camera);    
     console.log("mirror loaded",delta.toPrecision(3),"seconds");
   }   
   lightPresets() {
-    
+   
     ambientLightSun = new AmbientLight();
     ambientLightSun.color = new Color(0xffffff);
     // ambientLightSun.intensity = 1;
@@ -621,9 +599,9 @@ async loadLaptopGLTF() {
      // delta = clock.getDelta();      
     let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");     
     let fanLight = scene.getObjectByName("fanLight");    
-    let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
+  /*   let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
     let fanLightMesh = scene.getObjectByName("Motor_emissive");
-    
+     */
       console.log("daylight: daylight settings enabled")   
      
       scene.background = new Color(0xffffff);
@@ -632,9 +610,9 @@ async loadLaptopGLTF() {
       delta = clock.getDelta();          
       console.log("daylight: hdri and background updated",delta.toPrecision(3),"seconds")
       */
-      fanLightMesh.material.emissiveIntensity = 0;
+     /*  fanLightMesh.material.emissiveIntensity = 0;
       cealingLightMesh.material.emissiveIntensity = 0;
-
+ */
       tableLamp.intensity = 0;
       fanLight.intensity = 0;
       
@@ -653,8 +631,7 @@ async loadLaptopGLTF() {
       stateList.desktopLight.checked=false
       stateList.SunLightEle.checked=true;
       stateList.Shadows_SunLight.checked=true;
-      stateList.Shadows_NightLight1.checked=false;
-      stateList.Shadows_NightLight2.checked=false;
+      stateList.Shadows_NightLight1.checked=false;      
       stateList.Emissive.checked=false;
       stateList.Cylindrical_Light.checked=false;
       stateList.HDRI.checked=true;  
@@ -663,7 +640,8 @@ async loadLaptopGLTF() {
       sunLight.intensity = 30;     
       // delta = clock.getDelta(); 
       console.log("daylight: sunlight intensity updated",delta.toPrecision(3),"seconds")
-       
+      fanLight.castShadow=false;   
+      tableLamp.castShadow=false;  
       sunLight.castShadow = true; 
       // if(shadowLight!=0){
         shadowLight=0;        
@@ -674,17 +652,10 @@ async loadLaptopGLTF() {
     };    
     let a=0;  
     nightLightSettings1 = function (hdri1) {
-      
-      delta = clock.getDelta();
-      console.log("nightlight1 settings enabled")                        
-      renderer.toneMappingExposure = 0.5;
-      
-      scene.environment = hdri1;
+                      
+      renderer.toneMappingExposure = 0.5;            
       scene.background = new Color(0x000000);
-      console.log("nightlight1: hdri and background updated",delta.toPrecision(1),"seconds")
-      sunLight.intensity = 0;
-      ambientLightSun.intensity = 0;
-
+               
       let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");
       let fanLight = scene.getObjectByName("fanLight"); 
       let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
@@ -692,46 +663,21 @@ async loadLaptopGLTF() {
       
       fanLightMesh.material.emissiveIntensity = 2;
       cealingLightMesh.material.emissiveIntensity = 2;
-         
-      cylindricalLampSpotLight_1 = scene.getObjectByName("Cylindrical_spot_light_1");
-      cylindricalLampSpotLight_2 = scene.getObjectByName("Cylindrical_spot_light_2");
-      cylindricalLampSpotLight_3 = scene.getObjectByName("Cylindrical_spot_light_3");
-      cylindricalLampSpotLight_4 = scene.getObjectByName("Cylindrical_spot_light_4");
-
-      cylindricalLampSpotLight_1.intensity = 2;
-      cylindricalLampSpotLight_2.intensity = 2;
-      cylindricalLampSpotLight_3.intensity = 2;
-      cylindricalLampSpotLight_4.intensity = 2;
-
-      cylindricalLampSpotLight_1.distance = 1;
-      cylindricalLampSpotLight_2.distance = 1;
-      cylindricalLampSpotLight_3.distance = 1;
-      cylindricalLampSpotLight_4.distance = 1;     
-
-      delta = clock.getDelta();       
-      // console.log("nightlight1: wall washer lights intensity updated",delta.toPrecision(1),"seconds")
       let tableLampTop = scene.getObjectByName("TableStand006");
       
      
       let emissive_Obj=scene.getObjectByName("Mesh_Walls001");  
       emissive_Obj.material.emissive=new Color(1, 1, 1);  
-      delta = clock.getDelta();       
-      // console.log("nightlight1: emissive added",delta.toPrecision(1),"seconds")
-      
+     
       stateList.HDRI.checked=true;      
       stateList.CeilingLight.checked=true;
       stateList.desktopLight.checked=true
       stateList.SunLightEle.checked=false;
-      stateList.Shadows_SunLight.checked=false;      
-      stateList.Shadows_NightLight2.checked=false;
+      stateList.Shadows_SunLight.checked=false;            
       stateList.Emissive.checked=true;
       stateList.Cylindrical_Light.checked=true;  
           
-      fanLight.castShadow=true;      
-      fanLight.intensity = 3;
-
-      tableLamp.intensity = 5;
-      tableLamp.castShadow=true;      
+           
       let tableLampMatSubsurface = tableLampTop.material;
       tableLampTop.material = tableLampMatSubsurface;      
       let texLoader = new TextureLoader();
@@ -761,19 +707,43 @@ async loadLaptopGLTF() {
       });
 
       tableLampTop.material = subMaterial;
-      if(a==0){
+      if(a==0){        
         shadowLight=3;
         stateList.Shadows_NightLight1.checked=false;
-      }else{
+      }else{       
+        sunLight.intensity = 0;
+      ambientLightSun.intensity = 0;   
+      scene.environment = hdri1;      
+      cylindricalLampSpotLight_1 = scene.getObjectByName("Cylindrical_spot_light_1");
+      cylindricalLampSpotLight_2 = scene.getObjectByName("Cylindrical_spot_light_2");
+      cylindricalLampSpotLight_3 = scene.getObjectByName("Cylindrical_spot_light_3");
+      cylindricalLampSpotLight_4 = scene.getObjectByName("Cylindrical_spot_light_4");
+
+      cylindricalLampSpotLight_1.intensity = 2;
+      cylindricalLampSpotLight_2.intensity = 2;
+      cylindricalLampSpotLight_3.intensity = 2;
+      cylindricalLampSpotLight_4.intensity = 2;
+
+      cylindricalLampSpotLight_1.distance = 1;
+      cylindricalLampSpotLight_2.distance = 1;
+      cylindricalLampSpotLight_3.distance = 1;
+      cylindricalLampSpotLight_4.distance = 1;     
+
+    
+         //fanLight.castShadow=true;      
+      fanLight.intensity = 3;
+
+      tableLamp.intensity = 15;
+      tableLamp.castShadow=true;
         shadowLight=1;
         stateList.Shadows_NightLight1.checked=true;
       }
-      shadows(scene,clock,shadowLight); 
+      shadows(scene,clock,shadowLight);   
         if(a==0){
           const millis = Date.now() - start;
           console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`);
         }   
-      a=a+1;
+      a=a+1;     
     };
    
 
@@ -812,7 +782,7 @@ async loadLaptopGLTF() {
      await spinnedFn();
      /* const millis = Date.now() - start;
      console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`); */
-     if(a>0){
+     if(a==1){
       prompt.style.display="block";
      }
    }       
@@ -823,14 +793,14 @@ async loadLaptopGLTF() {
       } 
     })  
      
-
+    exportScene(scene);
+    reflection(scene,renderer,camera,clock,gui);        
+    viewPoints(camera);     
+    lightControls(scene,renderer,prompt,sunLight,ambientLightSun,camera,clock,stateList,gui,start);      
     
   }
   //CreatePostProcess Effects
-  createPostProcess() {
-    exportScene(scene);
-    
-    lightControls(scene,renderer,prompt,sunLight,ambientLightSun,camera,clock,stateList,gui,start);      
+  createPostProcess() {    
      /*  let emissive_Obj=scene.getObjectByName("Mesh_Walls001");     
       let Motor_emissive=scene.getObjectByName("Motor_emissive");    
       let table_emissive=scene.getObjectByName("TableStand006_2");      
@@ -1052,7 +1022,7 @@ let taaRenderPass
          millis1 = Date.now() - start1;        
         console.log('SMAA loading Start time = ', millis1 ,'ms');
         //console.log("SMAA Before",delta.toPrecision(3),"seconds") 
-        SMAApass = new SMAAPass( window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio() );
+        SMAApass = new SMAAPass( (window.innerWidth*0.1) * renderer.getPixelRatio(), (window.innerHeight*0.1) * renderer.getPixelRatio() );
         composer.addPass( SMAApass );                    
         resolve();
       }, 10));

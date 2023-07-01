@@ -4,7 +4,8 @@ import {
   RepeatWrapping,
   ShaderMaterial,
   TextureLoader,
-  UniformsUtils,   
+  UniformsUtils, 
+  MeshStandardMaterial,  
 } from "three";
 import * as THREE from 'three';
 import { hdriLoad } from "../components/hdri_loader/hdri_loader.js";
@@ -334,17 +335,24 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         mild_ambient_light_Else_Fun();                                          
       }       
     }) 
+
+    let val_cyl=0;
     const Cylindrical_Light_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         console.log("cylindrical light added")
-        renderer.toneMappingExposure = 0.5;
-        scene.background = new Color(0x0d0d0d);
-        scene.environment = hdri1;          
+
+           
         let cylindricalLampSpotLight_1 = scene.getObjectByName("Cylindrical_spot_light_1");
         let cylindricalLampSpotLight_2 = scene.getObjectByName("Cylindrical_spot_light_2");    
         let cylindricalLampSpotLight_3 = scene.getObjectByName("Cylindrical_spot_light_3");
         let cylindricalLampSpotLight_4 = scene.getObjectByName("Cylindrical_spot_light_4");        
 
+        if(val_cyl!=0){
+          renderer.toneMappingExposure = 0.5;
+          scene.background = new Color(0x0d0d0d);
+          scene.environment = hdri1;       
+        }
+        
         if(!localStorage.cylindricalLampSpotLight_1_Intensity){
         localStorage.cylindricalLampSpotLight_1_Intensity=2;          
         localStorage.cylindricalLampSpotLight_2_Intensity=2;  
@@ -397,7 +405,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
             cylindricalLampSpotLight_3.decay=this.value;
             cylindricalLampSpotLight_4.decay=this.value;
           }    
-                   
+          val_cyl=val_cyl+1;        
         resolve();
       }, 10));
     }; 
@@ -428,31 +436,30 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    // execute with a loading spinner
    await spinnedFn();
  }   
-//  Cylindrical_Light_Fun();    
+  Cylindrical_Light_Fun();    
     Cylindrical_Light.addEventListener("change", (e) => {      
       if (e.target.checked) {            
         Cylindrical_Light_Fun();                             
       }else{
         Cylindrical_Light_Else_Fun();                                          
       }       
-    }) 
-    /* let fanLight=scene.getObjectByName("fanLight")                
-        fanLight.intensity=10;
-        fanLight.castShadow=true;
-        console.log("fanlight") */
-        
+    })    
+        let val_ceil=0;
     const CeilingLight_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         console.log("ceiling light enabled")                                        
                   
         stateList.Pitch_Dark.checked=false;                               
         let fanLight=scene.getObjectByName("fanLight")        
-        fanLight.castShadow=true;
         
-                                                
-          scene.environment = hdri0; 
-          renderer.toneMappingExposure = 1; 
-          scene.background = new Color(0x0d0d0d);          
+        
+             if(val_ceil!=0){
+              fanLight.castShadow=true;
+              scene.environment = hdri0; 
+              renderer.toneMappingExposure = 1; 
+              scene.background = new Color(0x0d0d0d);  
+             }                                   
+                  
         
         if(!localStorage.fanLight_Intensity){      
           localStorage.fanLight_Intensity=3;        
@@ -496,7 +503,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
 				ceilinglightFolder.add( config, 'ceilinglight_camera_far', 0, 1000, 1 ).name( 'camera_far' ).onChange( function ( value ) {					
           fanLight.shadow.camera.far = value; 
 				} );       */
-
+        val_ceil=val_ceil+1;
         resolve();
       }, 10));
     }; 
@@ -530,7 +537,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    // execute with a loading spinner
    await spinnedFn();
  }    
-//  CeilingLight_Fun();         
+  CeilingLight_Fun();         
  stateList.CeilingLight.addEventListener("change",(e)=>{       
       if(e.target.checked){                   
         CeilingLight_Fun();                            
@@ -538,24 +545,27 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         CeilingLight_Else_Fun();          
       }           
     })    
+    let val_desk=0
     const desktopLight_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         console.log("desktop light enabled") 
         let Light=scene.getObjectByName("Desktop_Lamp_Light002")                        
-        renderer.toneMappingExposure = 1;      
+            
         stateList.Pitch_Dark.checked=false;                                     
         Light.castShadow=true;  
-
-        if(!localStorage.Light_Intensity){
-          localStorage.Light_Intensity=7;        
-        }
-        
-        Light.intensity=Number(localStorage.Light_Intensity);
-
-        scene.background = new Color(0x0d0d0d);
+        if(val_desk==0){
+          if(!localStorage.Light_Intensity){
+            localStorage.Light_Intensity=15;        
+          }                       
+        }else{
+          renderer.toneMappingExposure = 1;
+          if(!localStorage.Light_Intensity){
+            localStorage.Light_Intensity=7;        
+          }  
+          scene.background = new Color(0x0d0d0d);
         scene.environment = hdri0;           
  //sss..........
-          let tableLampTop = scene.getObjectByName("TableStand006");
+        let tableLampTop = scene.getObjectByName("TableStand006");
         let texLoader = new TextureLoader();
         let subTexture = texLoader.load("textures/subSurface.jpg");
         subTexture.wrapS = RepeatWrapping;
@@ -585,6 +595,12 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         tableLampTop.material = subMaterial;
  
  //sss.......... 
+        }
+        
+        
+        Light.intensity=Number(localStorage.Light_Intensity);
+
+        
         slider_DL.oninput = function() {                  
           localStorage.Light_Intensity=this.value;
           Light.intensity=Number(localStorage.Light_Intensity);   
@@ -599,7 +615,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         decay_DL.oninput=function(){
           Light.decay=this.value;
         }    
-        if(gui)gui.destroy()                 
+       /*  if(gui)gui.destroy()                 
         gui = new GUI();    
 
         const desktoplightFolder = gui.addFolder( 'Desktop Light' );
@@ -621,7 +637,9 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
 				desktoplightFolder.add( config, 'desktoplight_camera_far', 0, 1000, 1 ).name( 'camera_far' ).onChange( function ( value ) {					
           Light.shadow.camera.far = value; 
 				} );        
-        resolve();
+        */ 
+        val_desk=val_desk+1;
+       resolve();
       }, 10));
     }; 
     async function desktopLight_Fun() {                                      
@@ -641,6 +659,9 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         scene.environment = hdri1; 
         renderer.toneMappingExposure = 0.1;
       } 
+      let tableLampMatNormal = new MeshStandardMaterial({ color: 0xff9f4b }); 
+      let tableLampTop = scene.getObjectByName("TableStand006");
+      tableLampTop.material = tableLampMatNormal;  
       localStorage.desktopLight="false"
       console.log("desktop light disabled")  
       resolve();
@@ -653,7 +674,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    // execute with a loading spinner
    await spinnedFn();
  }      
-//  desktopLight_Fun();
+ desktopLight_Fun();
  stateList.desktopLight.addEventListener("change",(e)=>{       
       if(e.target.checked){
         desktopLight_Fun();                             
@@ -926,13 +947,18 @@ async function floor_lamp_else_Fun() {
         Emissive_else_Fun()       
       }
     }) 
+    let val_hdri=0;
     const HDRI_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         delta = clock.getDelta();
-        scene.environment = hdri1;           
+
+        if(val_hdri!=0){
+        scene.environment = hdri1;                  
+        }
         slider_HDRI.oninput = function() {          
           renderer.toneMappingExposure=this.value;                     
-        }    
+        }  
+        val_hdri=val_hdri+1  
         resolve();
       }, 10));
     }; 
@@ -958,7 +984,7 @@ async function floor_lamp_else_Fun() {
    // execute with a loading spinner
    await spinnedFn();
   }    
- // HDRI_Fun();
+  HDRI_Fun();
 
   stateList.HDRI.addEventListener("change",(e)=>{
     if(e.target.checked){

@@ -41,7 +41,7 @@ class LightContainer {
       this.models[i] = loadedModel;
 
       if (i==0) {                  
-        loadedModel.position.set(0.04,0.03,0.3);
+        loadedModel.position.set(0.04,0.03,-0.1);
         let lamp_light=this.scene.getObjectByName("Desktop_Lamp_Light002"); 
         if(lamp_light){
           lamp_light.position.set(0,0,0);                    

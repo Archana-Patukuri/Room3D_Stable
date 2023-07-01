@@ -9,15 +9,14 @@
 		"Cealing"		
 	],
 	"casters": [									
-		"TableBottom",		
+				
 		"Table_Top_Mesh",
 		"Node_Legs"	,
 		"Node_Tyres",
 		"Node_SeatSupport001",
 		"Mesh_SeatSupport002_1",
 		"Mesh_Adjustment_Knob_3",		
-		"Plane010",
-		"Node_Legs",					
+		"Plane010",							
 		"Laptop_Selectable",	
 		"Lamp_Selectable",				
 		"Flower",

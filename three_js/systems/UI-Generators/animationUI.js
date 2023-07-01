@@ -18,26 +18,36 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
   div1.className = "d-flex gap-2";               
 
   if (category == "tables") {
-    let tweens = [];      
-    let tableTopPos = gltfData.scene.getObjectByName("Table_Top").position;
-    // console.log(tableTopPos);  
-            
+    let tweens = [];   
+    
+    let tableTopPos = gltfData.scene.getObjectByName("Table_Top").position;          
     for (let i = 0; i < tablesHeights[model_name].length; i++) {
       //TweenSetup      
       let level = { y: tablesHeights[model_name][i] };      
       let tween = new TWEEN.Tween(tableTopPos).to(level, 1200);
       tween.easing(TWEEN.Easing.Sinusoidal.InOut);      
-      tweens.push(tween);
+      tweens.push(tween);      
       //UI
       form = document.createElement("div");
-      form.className = "form-check";
-
+      form.className = "form-check";      
       input = document.createElement("input");
       input.className = "form-check-input largerCheckbox labelAlignment ";
       input.type = "radio";
       input.name = model_name;
-      input.id = tablesHeights[model_name][i];
-
+      input.id = tablesHeights[model_name][i];  
+      
+      if(i==0){
+        input.checked=true;                
+      }     
+      
+      /* if(model_name !=val){
+        console.log(model_name)
+        i==0
+        input.id=tablesHeights[model_name][0]                                    
+        input.checked=true;
+        //localStorage.table1=model_name
+      } */
+      //console.log(localStorage.table1)  
       label = document.createElement("label");
       label.className = "form-check-label";
       label.for = tablesHeights[model_name][i];
@@ -50,14 +60,20 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
           let lamp=scene.getObjectByName("Lamp0_Selectable");                              
           let laptop=scene.getObjectByName("Laptop_Selectable"); 
           let lamp_opos,vase_opos,laptop_ops;
-          if(modelName.slice(0,11)!="Table_Small"){                            
-             lamp_opos=[1.16,-0.15,0.3];
+          
+          if(modelName.slice(0,11)=="Table_Small"){                            
+            lamp_opos=[0.75,-0.185,0.2];
+            vase_opos=[-0.3,1,0.1];                     
+            laptop_ops=[0,0.1757,0];
+          }else if(modelName.slice(0,12)=="Table_Manual"){
+            lamp_opos=[1.16595,-0.2,0.5];
+             vase_opos=[-0.4898,1.01,0.301];                     
+             laptop_ops=[0,0.1757,0];               
+          }
+          else{      
+            lamp_opos=[1.16,-0.15,0.3];
              vase_opos=[-0.4898,1.05,0.301];                     
-             laptop_ops=[0,0.1757,0];
-          }else{            
-             lamp_opos=[0.75,-0.185,0.2];
-             vase_opos=[-0.3,1,0.1];                     
-             laptop_ops=[0,0.1757,0];
+             laptop_ops=[0,0.1757,0];            
           }
           if(i==0){            
              vase_tween=new TWEEN.Tween(vase.position).to({
@@ -96,17 +112,17 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
             if(i==2){            
                vase_tween=new TWEEN.Tween(vase.position).to({
                 x:vase_opos[0],
-                y:vase_opos[1]+0.27,
+                y:vase_opos[1]+0.3,
                 z:vase_opos[2]
               },1200);
               lamp_tween=new TWEEN.Tween(lamp.position).to({
                 x:lamp_opos[0],
-                y:lamp_opos[1]+0.27,
+                y:lamp_opos[1]+0.3,
                 z:lamp_opos[2]
               },1200);
               laptop_tween=new TWEEN.Tween(laptop.position).to({
                 x:laptop_ops[0],
-                y:laptop_ops[1]+0.3,
+                y:laptop_ops[1]+0.35,
                 z:laptop_ops[2]
               },1200);
             }
@@ -116,7 +132,9 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
             lamp_tween.easing(TWEEN.Easing.Sinusoidal.InOut);  
             lamp_tween.start();   
             laptop_tween.easing(TWEEN.Easing.Sinusoidal.InOut);  
-            laptop_tween.start();                                     
+            laptop_tween.start(); 
+
+           
         });
         await myPromise;  
       } 
@@ -124,7 +142,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
       input.addEventListener("click", function () {
         input_Fun();        
       });
-
+      
       form.appendChild(input);
       form.appendChild(label);
       div1.appendChild(form);

@@ -23,6 +23,23 @@
 </head>
 
 <body>
+  <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+
+ <!--  <script type="importmap">
+    {
+      "imports": {
+        "three": "../build/three.module.js",
+        "three/addons/": "./jsm/",
+        "three/nodes": "./jsm/nodes/Nodes.js"
+      }
+    }
+  </script>
+     -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
   <div class="container-fluid vh-100">
 
     <!-- NAVIGATION -->
@@ -454,11 +471,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             <div class="d-flex flex-row pb-1"> 
                               <input type="checkbox" id="Shadows_NightLight1" name="controls" value="Shadows_NightLight1" class="largerCheckbox">
                               <label for="Shadows_NightLight1">Shadows NightLight1</label>
-                              </div>
-                              <div class="d-flex flex-row pb-1"> 
-                              <input type="checkbox" id="Shadows_NightLight2" name="controls" value="Shadows_NightLight2" class="largerCheckbox">
-                              <label for="Shadows_NightLight2">Shadows NightLight2</label>   
-                              </div>
+                              </div>                             
                               <div class="d-flex flex-row pb-1"> 
                                 <input type="checkbox" id="intial_shadows" name="controls" checked value="intial_shadows" class="largerCheckbox">
                                 <label for="intial_shadows">Intial Shadows</label>   
@@ -1006,7 +1019,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
     
   <!--   <script src="//cdn.jsdelivr.net/npm/eruda"></script>
     <script>eruda.init();</script> -->
-
+   
   <script type="module" src="./index.js"></script>
   <script type="module" src="./uiElements.js"></script>    
 </body>
