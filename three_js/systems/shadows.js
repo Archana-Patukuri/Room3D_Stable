@@ -8,10 +8,9 @@ let receiversArrIn,castersArrIn, castersArrNSL1, receiversArrNSL1, castersArrNSL
         
 receiversArrNSL1=NS1Assets.receivers;
 castersArrNSL1=NS1Assets.casters; 
-
 receiversArrIn=intial_Shadow_Assets.receivers;        
 castersArrIn=intial_Shadow_Assets.casters;  
-//let n=nodes[0].length;
+
 let nls2=castersArrNSL1.length,nls3=receiversArrNSL1.length;
 let Is3=receiversArrIn.length;   
 let Is3_2=castersArrIn.length;  
@@ -25,20 +24,13 @@ function shadows(scene,clock,shadowLight) {
         
         //SUN LIGHT
         const Shadows_SunLightOn_fn = async () => {
-          await new Promise(resolve => setTimeout(() => {            
-            delta = clock.getDelta();             
-             /*  for(let i=0;i<n.length;i++){
-                n[i].castShadow=true;
-                n[i].receiveShadow=true;
-              }     */                       
+          await new Promise(resolve => setTimeout(() => {                                                                
                 scene.traverse(function (child) {              
                 if (child.isMesh) {
                   child.castShadow = true; 
                   child.receiveShadow = true;                               
                 }      
-              });                                       
-              localStorage.shadowLight=0
-            // renderer.shadowMap.enabled = true;              
+              });                                                                             
             resolve();
           }, 10));
         }; 
@@ -47,15 +39,10 @@ function shadows(scene,clock,shadowLight) {
            container: container_3d
          });      
          // execute with a loading spinner
-         await spinnedFn();   
-         console.log("shadows sunlight loaded",delta.toPrecision(1),"seconds")      
+         await spinnedFn();                 
        }               
         const Shadows_SunLightOf_fn = async () => {
-          await new Promise(resolve => setTimeout(() => {           
-              /* for(let i=0;i<n.length;i++){
-                n[i].castShadow=false;
-                n[i].receiveShadow=false;
-              } */
+          await new Promise(resolve => setTimeout(() => {                     
               scene.traverse(function (child) {              
                 if (child.isMesh) {
                   child.castShadow = false; 
@@ -71,7 +58,7 @@ function shadows(scene,clock,shadowLight) {
          });      
          // execute with a loading spinner
          await spinnedFn();
-         console.log("shadows sunlight turned off",delta.toPrecision(1),"seconds")
+//         console.log("shadows sunlight turned off",delta.toPrecision(1),"seconds")
        }            
        
     let Shadows_SunLight=document.getElementById("Shadows_SunLight");
@@ -85,8 +72,7 @@ function shadows(scene,clock,shadowLight) {
 
       //NIGHT LIGHT 1
       const Shadows_NightLight1On_fn = async () => {        
-        await new Promise(resolve => setTimeout(() => {  
-          delta = clock.getDelta();        
+        await new Promise(resolve => setTimeout(() => {                 
            for(let j=0;j<n.length;j++){                          
            for(let i = 0; i < nls2; i++) {
             if(n[j].name==castersArrNSL1[i]){
@@ -95,13 +81,10 @@ function shadows(scene,clock,shadowLight) {
           }
           for(let i = 0; i < nls3; i++) {
             if(n[j].name==receiversArrNSL1[i]){
-              n[j].receiveShadow=true;              
-              /* n[j].material.flatShading=true;         
-              n[j].material.needsUpdate=true;     */          
+              n[j].receiveShadow=true;                                  
             }    
           } 
-        }  
-        localStorage.shadowLight=1             
+        }                      
           resolve();
         }, 10));
       }; 
@@ -115,8 +98,7 @@ function shadows(scene,clock,shadowLight) {
      }    
      
      const Shadows_NightLight1Of_fn = async () => {
-      await new Promise(resolve => setTimeout(() => {
-        delta = clock.getDelta();
+      await new Promise(resolve => setTimeout(() => {        
         for(let i = 0; i < nls3; i++) {
           for(let j=0;j<n.length;j++){            
             if(n[j].name==receiversArrNSL1[i]){
@@ -153,9 +135,7 @@ function intial_shadowsOn(){
    }
    for(let i = 0; i < Is3; i++) {
      if(n[j].name==receiversArrIn[i]){
-       n[j].receiveShadow=true;              
-        n[j].material.flatShading=true;         
-       n[j].material.needsUpdate=true;              
+       n[j].receiveShadow=true;                               
      }    
    } 
  }    
@@ -169,7 +149,6 @@ function intial_shadowsOf(){
     }                  
    } 
 }
-
  let intial_shadows=document.getElementById('intial_shadows');
  intial_shadows.addEventListener("change",(e)=>{
   if(e.target.checked){     
@@ -179,6 +158,7 @@ function intial_shadowsOf(){
               
   }
 }) 
+
  if(shadowLight==0){ 
   Shadows_SunLightOn();   
  }else if(shadowLight==1){

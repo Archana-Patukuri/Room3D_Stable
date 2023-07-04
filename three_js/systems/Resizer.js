@@ -7,30 +7,22 @@ const setSize = function (container, camera, renderer, composer) {
 
   //If Android/iPhone, Reduce the Pixel ratio for the performance
   if (/Android|iPhone/i.test(navigator.userAgent)) {
-    val = 0.5;
-    // loadingText.innerHTML = `mobiledevice`;
-  }
+    val = 0.5;    
+  } 
 
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(window.devicePixelRatio * val);
 
   composer.setSize(container.clientWidth, container.clientHeight);
   composer.setPixelRatio(window.devicePixelRatio * val);
-
- // effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight )
+ 
 };
 
 class Resizer {
-  constructor(container, camera, renderer, composer,labelRenderer,postprocessing) {
-    // set initial size
+  constructor(container, camera, renderer, composer,labelRenderer,postprocessing) {    
     setSize(container, camera, renderer, composer);
-
-    window.addEventListener("resize", () => {
-      // set the size again if a resize occurs
-      setSize(container, camera, renderer, composer);
-      /* console.log(container.clientWidth);
-      console.log(container.clientHeight);     */  
-      // perform any custom actions   
+    window.addEventListener("resize", () => {      
+      setSize(container, camera, renderer, composer);      
     });
   }
 }

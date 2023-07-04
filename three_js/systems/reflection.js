@@ -1,20 +1,20 @@
 
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 import {
-    PlaneGeometry,
-    CircleGeometry,
+    PlaneGeometry,    
     Color 
   } from "three";
 import { Reflector } from '../../node_modules/three/examples/jsm/objects/Reflector.js';
 import useSpinner from '../../use-spinner';
 import '../../use-spinner/assets/use-spinner.css';
 let container_3d=document.getElementById("3dcontainer");
-var delta;
-function reflection(scene,renderer,camera,clock,gui) {
-    let groundMirror,verticalMirror,Floor ;
-          
-
-    let geometry = new PlaneGeometry( 3.88, 3.88 );    
+function reflection(scene,clock,gui) {
+    let groundMirror,verticalMirror,Floor ;          
+    let geometry = new PlaneGeometry( 3.88, 3.88 );  
+    Floor = scene.getObjectByName('Floor');    
+    Floor.material.opacity=0.7;   
+    Floor.material.transparent=true;   
+    
     groundMirror = new Reflector( geometry, {
     clipBias: 0.003,
     textureWidth: window.innerWidth * window.devicePixelRatio*0.1,
@@ -25,11 +25,8 @@ function reflection(scene,renderer,camera,clock,gui) {
     groundMirror.position.y = -0.001;
     groundMirror.position.z=0.43;
     groundMirror.position.x=0.08;
-    groundMirror.rotateX( -Math.PI/2 );                 
-   /*  Floor.material.transparent=true;            
-    scene.add( groundMirror );  
- */
-    //let geometry1 = new CircleGeometry( 0.445, 100 );        
+    groundMirror.rotateX( -Math.PI/2 );                         
+
     let geometry1 = new PlaneGeometry( 0.52, 0.7 );        
     verticalMirror = new Reflector(geometry1, {
         clipBias: 0.003,
@@ -44,11 +41,7 @@ function reflection(scene,renderer,camera,clock,gui) {
     verticalMirror.position.z = -1.46; 
     
     const Reflections_Floor_Add_fn = async () => {
-        await new Promise(resolve => setTimeout(() => {
-          delta = clock.getDelta();
-          Floor = scene.getObjectByName('Floor');    
-          Floor.material.opacity=0.7;   
-          Floor.material.transparent=true;            
+        await new Promise(resolve => setTimeout(() => {                            
           scene.add( groundMirror );                                                                                                                                                
           resolve();
         }, 10));
@@ -88,8 +81,7 @@ function reflection(scene,renderer,camera,clock,gui) {
          container: container_3d
        });             
        // execute with a loading spinner
-       await spinnedFn();
-       //console.log("floor reflections loaded",delta.toPrecision(1),"seconds")
+       await spinnedFn();      
      }         
       const Reflections_Floor_Remove_fn = async () => {
         await new Promise(resolve => setTimeout(() => {
@@ -136,19 +128,16 @@ function reflection(scene,renderer,camera,clock,gui) {
     let ReflectionsMirror_C=document.getElementById("ReflectionsMirror_C");   
     ReflectionsMirror_C.addEventListener("change",(e)=>{
         if(e.target.checked){                  
-            ReflectionsMirror_Add();
-            //renderer.render(scene,camera);
+            ReflectionsMirror_Add();            
         }else{             
             ReflectionsMirror_Remove();
         }
-    })
-    //ReflectionsMirror_Add();
+    })    
     Reflections_Floor_Add();  
     let ReflectionsFloor_C=document.getElementById("ReflectionsFloor_C");      
     ReflectionsFloor_C.addEventListener("change",(e)=>{
         if(e.target.checked){                                     
-            Reflections_Floor_Add();             
-            //console.log("reflection clipbias value",clipBias_val)
+            Reflections_Floor_Add();                        
         }else{
             Reflections_Floor_Remove();                                
         }

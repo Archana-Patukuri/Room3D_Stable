@@ -13,14 +13,9 @@ import {shadows} from "./systems/shadows.js";
 import { hdriLoad } from "./components/hdri_loader/hdri_loader.js";
 import { Debug } from "./systems/Debug.js";
 import {
-  Box3,
-  Box3Helper,
-  BoxGeometry,
-  BufferGeometry,
+  Box3, 
   Clock,
-  Group,
-  Line,
-  LineBasicMaterial,
+  Group,  
   Mesh,
   MeshStandardMaterial,
   Raycaster,
@@ -29,11 +24,7 @@ import {
   Vector3,
   AmbientLight,
   Color,
-  DirectionalLight,
-  PlaneGeometry,
-  MathUtils,
-  DirectionalLightHelper,
-  MeshPhysicalMaterial,
+  DirectionalLight,  
   RectAreaLight,  
   RepeatWrapping,
   ShaderMaterial,
@@ -69,7 +60,6 @@ import assets from "./dataBase/assets.json" assert { type: "json" };
 import { Line2 } from "../node_modules/three/examples/jsm/lines/Line2.js";
 import { LineMaterial } from "../node_modules/three/examples/jsm/lines/LineMaterial.js";
 import { LineGeometry } from "../node_modules/three/examples/jsm/lines/LineGeometry.js";
-//import { flattenJSON } from "three/src/animation/animationutils.js";
 import { SubsurfaceScatteringShader } from "three/examples/jsm/shaders/SubsurfaceScatteringShader.js";
 
 import { CSS2DRenderer, CSS2DObject } from '../measurements-files/CSS2DRenderer.js';
@@ -106,9 +96,8 @@ let scene;
 let cameraControls;
 let debug;
 let clock;
-let tableParent, chairParent, blindsParent, plantsParent, lampsParent,mirrorParent,vaseParent,laptopParent,fanParent;
+let plantsParent, lampsParent,mirrorParent,vaseParent,laptopParent,fanParent;
 let composer;
-let loadingText;
 let chairModels, tableModels, blindsModels,lightsModels;
 let cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4
 let gui;   
@@ -120,20 +109,17 @@ let selectedObjects = [];
 let selectableObjects = [];
 
 let transformControl;
-let box, boxhelper, model;
-let outlinePass,effectFXAA;
+let box,outlinePass,effectFXAA;
 
 let chairsUIContainer = document.getElementById("chairTypesUI");
 let tablesUIContainer = document.getElementById("tableTypesUI");
 let blindsUIContainer = document.getElementById("blindsTypesUI");
 let lightsUIContainer = document.getElementById("lightsTypesUI");
 let UIContainer;
-let selectOnClick;
-let postProcess;
 let roomParent;
-let sunLight,sunLightHelper
+let sunLight
 
-let dayLightSettings, nightLightSettings1, nightLightSettings2;
+let dayLightSettings, nightLightSettings1;
 
 let delta;
 
@@ -180,36 +166,15 @@ const stateList = {"HDRI":HDRI,
  "Emissive":Emissive,
  "Cylindrical_Light":Cylindrical_Light};
  
- let gui_ui=document.getElementById("gui_ui");
- if(localStorage.SunLightEle=="undefined"){
-    localStorage.HDRI=true;
-    localStorage.CeilingLight=false
-    localStorage.desktopLight=false
-    localStorage.SunLightEle=true
-    localStorage.mild_ambient_light=false
-    localStorage.Pitch_Dark=false
-    localStorage.Shadows_SunLight=true
-    localStorage.Shadows_NightLight1=false
-    localStorage.Shadows_NightLight2=false
-    localStorage.Emissive=false 
-    localStorage.Cylindrical_Light=false
- }
+ let gui_ui=document.getElementById("gui_ui"); 
  let start,millis;
 start = Date.now();
 console.log("timer started")
+
 class World {
-  constructor() {     
-    // camera.layers.enable(1);
+  constructor() {        
     this.container = container;
     UIContainer = container;
-
-   /*  if ( WebGPU.isAvailable() === false ) {
-
-      document.body.appendChild( WebGPU.getErrorMessage() );
-
-      throw new Error( 'No WebGPU support' );
-
-    } */
 
     labelRenderer.setSize(container.clientWidth, container.clientHeight)
 
@@ -275,9 +240,7 @@ class World {
           console_Else_Fun();                  
         }
       })   
-    box = new Box3();
-    boxhelper = new Box3Helper(box, 0xffff00);
-    chairParent = new Group();
+    box = new Box3();        
 
     fanParent=new Group();
     fanParent.name="selectable";
@@ -325,8 +288,7 @@ class World {
       renderer
     );    
     //for adding Helpers and FPS
-    debug = new Debug();
-    // debug.createHelpers(scene);
+    debug = new Debug();    
 
     //WINDOW RESIZER
     const resizer = new Resizer(container, camera, renderer, composer,labelRenderer);
@@ -341,9 +303,8 @@ class World {
  
   }
   async loadBackground() {
-    const { background1, hdri1 } = await hdriLoad();        
-      scene.environment = hdri1;  
-      // scene.background = new Color(1,1,1);      
+    const { hdri1 } = await hdriLoad();        
+      scene.environment = hdri1;       
   }
   createUI() {
     //created FurnitureTypesUI from JSON data
@@ -379,8 +340,7 @@ class World {
       themesDiv.appendChild(div2);       
        async function input_var_Fun(){
         let myPromise = new Promise(function(resolve) {                                                                 
-          gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );  
-          //reflection(scene,renderer,camera,clock,gui);                  
+          gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );            
           console.log(input)
         });                
         await myPromise;                 
@@ -392,16 +352,13 @@ class World {
         }        
       });            
       if(input.id=="Green Theme"){
-        input.checked=true;         
-       // input_var_Fun();           
+        input.checked=true;                          
       }
       
     }
    
     let fan=roomParent.children[0].children[6]
-    fanParent.add(fan)   
-    //Find BlindsPosition EmptyObject(Added in Blender) from the loadedRoom
-    //BlindsPosition EmptyObject will be used to positon window blinds
+    fanParent.add(fan)      
     for (let i = 0; i < loadedmodel.children.length; i++) {
       if (loadedmodel.children[i].name == "BlindsPosition") {
         let blindsPos = loadedmodel.children[i].position;
@@ -418,10 +375,8 @@ class World {
 //LoadTable
  async loadTableGLTF() {
   delta = clock.getDelta(); 
-  await tableModels.loadModel();
-  //adjust position of the table
-  tableModels.parentGroup.position.set(0, 0, 0.5);
-  //scene.add(tableModels.parentGroup);
+  await tableModels.loadModel();  
+  tableModels.parentGroup.position.set(0, 0, 0.5);  
   selectableObjects.push(tableModels.parentGroup); 
   renderer.render(scene, camera);
   console.log("table loaded",delta.toPrecision(3),"seconds")  
@@ -451,14 +406,12 @@ async loadLightsGLTF() {
 }            
  //LoadVase
  async loadVaseGLTF() {
-  delta = clock.getDelta();
-    
+  delta = clock.getDelta();    
   const { gltfData } = await gltfLoad(assets.Vase[0].URL,renderer); 
   const loadedmodel = gltfData.scene; 
   const vase = loadedmodel; 
   vaseParent.position.set(0,0.03,0)
-  vaseParent.add(vase) 
-  vase.__SPECTOR_Metadata = { name: "vase" };      
+  vaseParent.add(vase)        
   tableModels.parentGroup.add(vaseParent)      
   selectableObjects.push(vaseParent); 
   renderer.render(scene, camera);
@@ -466,8 +419,7 @@ async loadLightsGLTF() {
 }
 //LoadLaptop
 async loadLaptopGLTF() {
-  delta = clock.getDelta();
-  
+  delta = clock.getDelta(); 
   const { gltfData } = await gltfLoad(assets.Laptop[0].URL,renderer); 
   const loadedmodel = gltfData.scene; 
   const laptop = loadedmodel;      
@@ -482,7 +434,6 @@ async loadLaptopGLTF() {
   //LoadBlinds
   async loadBlindsGLTF() {
     delta = clock.getDelta();
-
     await blindsModels.loadModel();
     scene.add(blindsModels.parentGroup);
     selectableObjects.push(blindsModels.parentGroup);   
@@ -491,40 +442,32 @@ async loadLaptopGLTF() {
   }
   //LoadChair
   async loadChairGLTF() {
-    delta = clock.getDelta();
-      
+    delta = clock.getDelta();      
     await chairModels.loadModel();
     //adjust position of the chair
     chairModels.parentGroup.position.set(0, 0, -0.5);
-    scene.add(chairModels.parentGroup);
-    
+    scene.add(chairModels.parentGroup);    
     selectableObjects.push(chairModels.parentGroup);    
     renderer.render(scene, camera);
     console.log("chair loaded",delta.toPrecision(3),"seconds");
   }    
   //LoadPlants
-  async loadPlants() {
- 
+  async loadPlants() { 
     delta = clock.getDelta();        
     const { gltfData } = await gltfLoad(assets.Plants[0].URL,renderer);
     const loadedmodel = gltfData.scene;     
-    const plant1 = loadedmodel;
-    
+    const plant1 = loadedmodel;    
     plantsParent.add(plant1);  
-    scene.add(plantsParent);
-     
+    scene.add(plantsParent);     
     selectableObjects.push(plantsParent);   
     renderer.render(scene, camera);
     console.log("plants loaded",delta.toPrecision(3),"seconds")
   }  
-  async loadCylindricalLight() {  
-      
+  async loadCylindricalLight() {        
     delta = clock.getDelta();
     const { gltfData } = await gltfLoad(assets.Lights_2[0].URL,renderer);
     const loadedmodel = gltfData.scene;
-
     const cylindricalLight1 = loadedmodel;
-
     scene.add(cylindricalLight1);
     selectableObjects.push(cylindricalLight1)
     cylindricalLampSpotLight_1 = scene.getObjectByName(
@@ -533,7 +476,6 @@ async loadLaptopGLTF() {
      cylindricalLampSpotLight_2 = scene.getObjectByName(
       "Cylindrical_spot_light_2"
     );
-
      cylindricalLampSpotLight_3 = scene.getObjectByName(
       "Cylindrical_spot_light_3"
     );
@@ -593,40 +535,28 @@ async loadLaptopGLTF() {
     scene.add(sunLight.target);
     scene.add(sunLight);   
    
-        
+    let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");
+    let fanLight = scene.getObjectByName("fanLight"); 
+    let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
+    let fanLightMesh = scene.getObjectByName("Motor_emissive");           
+    let tableLampTop = scene.getObjectByName("TableStand006");
+    let emissive_Obj=scene.getObjectByName("Mesh_Walls001");  
+    let tableLampMatSubsurface = tableLampTop.material;
+    let texLoader = new TextureLoader();
+    let subTexture = texLoader.load("textures/subSurface.jpg");
     
-    dayLightSettings = function (hdri1) {                   
-     // delta = clock.getDelta();      
-    let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");     
-    let fanLight = scene.getObjectByName("fanLight");    
-  /*   let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
-    let fanLightMesh = scene.getObjectByName("Motor_emissive");
-     */
-      console.log("daylight: daylight settings enabled")   
+    dayLightSettings = function (hdri1) {                                
      
-      scene.background = new Color(0xffffff);
-      //scene.environment = hdri1;          
-     /*  renderer.toneMappingExposure = 0.3;   
-      delta = clock.getDelta();          
-      console.log("daylight: hdri and background updated",delta.toPrecision(3),"seconds")
-      */
-     /*  fanLightMesh.material.emissiveIntensity = 0;
-      cealingLightMesh.material.emissiveIntensity = 0;
- */
+      scene.background = new Color(0xffffff);    
       tableLamp.intensity = 0;
-      fanLight.intensity = 0;
-      
-      
+      fanLight.intensity = 0;            
       cylindricalLampSpotLight_1.intensity = 0;
       cylindricalLampSpotLight_2.intensity = 0;
       cylindricalLampSpotLight_3.intensity = 0;
       cylindricalLampSpotLight_4.intensity = 0;
-     // delta = clock.getDelta();
-      console.log("daylight: turned of all the other lights",delta.toPrecision(3),"seconds")
-      let tableLampTop = scene.getObjectByName("TableStand006");
+    
       tableLampTop.material = tableLampMatNormal;          
       
-
       stateList.CeilingLight.checked=false;
       stateList.desktopLight.checked=false
       stateList.SunLightEle.checked=true;
@@ -637,36 +567,21 @@ async loadLaptopGLTF() {
       stateList.HDRI.checked=true;  
 
                         
-      sunLight.intensity = 30;     
-      // delta = clock.getDelta(); 
-      console.log("daylight: sunlight intensity updated",delta.toPrecision(3),"seconds")
+      sunLight.intensity = 30;          
       fanLight.castShadow=false;   
       tableLamp.castShadow=false;  
-      sunLight.castShadow = true; 
-      // if(shadowLight!=0){
-        shadowLight=0;        
-          shadows(scene,clock,shadowLight); 
-      // }
-    //  renderer.render(scene,camera)
-          
+      sunLight.castShadow = true;  
+      shadowLight=0;        
+      shadows(scene,clock,shadowLight);       
     };    
     let a=0;  
     nightLightSettings1 = function (hdri1) {
                       
       renderer.toneMappingExposure = 0.5;            
-      scene.background = new Color(0x000000);
-               
-      let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");
-      let fanLight = scene.getObjectByName("fanLight"); 
-      let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
-      let fanLightMesh = scene.getObjectByName("Motor_emissive");
-      
+      scene.background = new Color(0x000000);                   
+
       fanLightMesh.material.emissiveIntensity = 2;
       cealingLightMesh.material.emissiveIntensity = 2;
-      let tableLampTop = scene.getObjectByName("TableStand006");
-      
-     
-      let emissive_Obj=scene.getObjectByName("Mesh_Walls001");  
       emissive_Obj.material.emissive=new Color(1, 1, 1);  
      
       stateList.HDRI.checked=true;      
@@ -678,10 +593,9 @@ async loadLaptopGLTF() {
       stateList.Cylindrical_Light.checked=true;  
           
            
-      let tableLampMatSubsurface = tableLampTop.material;
+     
       tableLampTop.material = tableLampMatSubsurface;      
-      let texLoader = new TextureLoader();
-      let subTexture = texLoader.load("textures/subSurface.jpg");
+    
       subTexture.wrapS = RepeatWrapping;
       subTexture.wrapT = RepeatWrapping;
       subTexture.repeat.set(4, 4);
@@ -714,11 +628,7 @@ async loadLaptopGLTF() {
         sunLight.intensity = 0;
       ambientLightSun.intensity = 0;   
       scene.environment = hdri1;      
-      cylindricalLampSpotLight_1 = scene.getObjectByName("Cylindrical_spot_light_1");
-      cylindricalLampSpotLight_2 = scene.getObjectByName("Cylindrical_spot_light_2");
-      cylindricalLampSpotLight_3 = scene.getObjectByName("Cylindrical_spot_light_3");
-      cylindricalLampSpotLight_4 = scene.getObjectByName("Cylindrical_spot_light_4");
-
+    
       cylindricalLampSpotLight_1.intensity = 2;
       cylindricalLampSpotLight_2.intensity = 2;
       cylindricalLampSpotLight_3.intensity = 2;
@@ -728,9 +638,7 @@ async loadLaptopGLTF() {
       cylindricalLampSpotLight_2.distance = 1;
       cylindricalLampSpotLight_3.distance = 1;
       cylindricalLampSpotLight_4.distance = 1;     
-
-    
-         //fanLight.castShadow=true;      
+         
       fanLight.intensity = 3;
 
       tableLamp.intensity = 15;
@@ -738,11 +646,7 @@ async loadLaptopGLTF() {
         shadowLight=1;
         stateList.Shadows_NightLight1.checked=true;
       }
-      shadows(scene,clock,shadowLight);   
-        if(a==0){
-          const millis = Date.now() - start;
-          console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`);
-        }   
+      shadows(scene,clock,shadowLight);          
       a=a+1;     
     };
    
@@ -779,9 +683,7 @@ async loadLaptopGLTF() {
        container: container_3d
      });      
      // execute with a loading spinner
-     await spinnedFn();
-     /* const millis = Date.now() - start;
-     console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`); */
+     await spinnedFn();    
      if(a==1){
       prompt.style.display="block";
      }
@@ -794,38 +696,23 @@ async loadLaptopGLTF() {
     })  
      
     exportScene(scene);
-    reflection(scene,renderer,camera,clock,gui);        
+    reflection(scene,clock,gui);        
     viewPoints(camera);     
-    lightControls(scene,renderer,prompt,sunLight,ambientLightSun,camera,clock,stateList,gui,start);      
+    lightControls(scene,renderer,sunLight,ambientLightSun,clock,stateList,gui,fanLight,tableLamp,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start);      
     
   }
   //CreatePostProcess Effects
-  createPostProcess() {    
-     /*  let emissive_Obj=scene.getObjectByName("Mesh_Walls001");     
-      let Motor_emissive=scene.getObjectByName("Motor_emissive");    
-      let table_emissive=scene.getObjectByName("TableStand006_2");      
-      //emissive_Obj.material.emissive=new Color(1, 1, 1);    
-      Motor_emissive.material.emissive=new Color(0, 0, 0); 
-      table_emissive.material.emissive=new Color(0, 0, 0);
-      scene.traverse(function (child) {            
-        if (child.isLight && child.type!="DirectionalLight") {                                             
-          child.intensity=0;                 
-      }                      
-      });  */
-
+  createPostProcess() {        
     const renderPass = new RenderPass(scene, camera);
     //Disable Render Pass
     // renderPass.enabled = false;
     composer.addPass(renderPass);                       
-let taaRenderPass
+    let taaRenderPass
     const TAA_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         delta = clock.getDelta();
         //TAA pass for Antialiasing
-     taaRenderPass = new TAARenderPass(scene, camera);
-    /*  taaRenderPass.unbiased = true;
-    taaRenderPass.sampleLevel = 0; 
-    composer.addPass(taaRenderPass);  */  
+      taaRenderPass = new TAARenderPass(scene, camera);   
         taaRenderPass.sampleLevel = 1;  
         const param = { TAAEnabled: '1', TAASampleLevel: 0 };
         if ( gui ) gui.destroy();
@@ -893,9 +780,7 @@ let taaRenderPass
       }else{
         TAA_else_Fun()
       }
-    })
-
-   
+    })   
     let FXAA_C=document.getElementById("FXAA_C");
     const FXAA_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
@@ -913,9 +798,7 @@ let taaRenderPass
      // execute with a loading spinner
      await spinnedFn();
      console.log("FXAA enabled",delta.toPrecision(3),"seconds");
-   }    
-   
-   
+   }          
    const FXAA_else_fn = async () => {
     await new Promise(resolve => setTimeout(() => {
       delta = clock.getDelta();
@@ -931,7 +814,6 @@ let taaRenderPass
    await spinnedFn();
    console.log("FXAA disabled",delta.toPrecision(3),"seconds");
  }    
-  
     FXAA_C.addEventListener("click",function(e){
       if(e.target.checked){
         FXAA_Fun()
@@ -940,8 +822,7 @@ let taaRenderPass
       }
     })
 
-    let ssaaRenderPass;
-				 
+    let ssaaRenderPass;				 
     let SSAA_C=document.getElementById("SSAA_C");
     const SSAA_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
@@ -1060,13 +941,9 @@ let taaRenderPass
       }else{
         SMAA_Else_Fun()
       }
-    })
-    
-
-   
+    })     
     let ssaoPass;
     let SSAO_C=document.getElementById("SSAO_C");             
-
     const Ambient_Occlusion_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         delta = clock.getDelta();
@@ -1851,21 +1728,23 @@ let taaRenderPass
       // renderer.info.reset();
       composer.render();
       camera.updateMatrixWorld()       
-      //camera.lookAt( scene.position );
-
       const delta = clock.getDelta();  
       if(chairModels.currentAnimationMixer || tableModels.currentAnimationMixer || blindsModels.currentAnimationMixer){
         chairModels.currentAnimationMixer.update(delta);
         tableModels.currentAnimationMixer.update(delta);
         blindsModels.currentAnimationMixer.update(delta);
       }   
+      
+      /*  scene.traverse(function(child){  
+        if(child.name.slice(0,5)=="Chair"){      
+          child.castShadow=true;           
+        }   
+       })  */
       // console.log(renderer.info.memory);
       labelRenderer.render(scene, camera)          
-
       //DEBUG      
       debug.update(renderer);
-      TWEEN.update()               
-      //console.log(localStorage)
+      TWEEN.update()                     
     });  
        
     //Spinner Remove after starting to render the scene

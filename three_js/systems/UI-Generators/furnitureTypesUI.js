@@ -23,17 +23,17 @@ const furnitureTypesUI = function (
     spinner.role = "status";
 
     if (initialModelID == i) {
-      input.checked = true;
+      input.checked = true;      
     }
 
     input.type = "radio";
     input.value = assetsList[i].URL;
     input.className = "btn-check";
     input.name = category;
-    input.id = assetsList[i].Name;
+    input.id = (assetsList[i].Name);
     input.autocomplete = "off";
     input.addEventListener("click", function (event) {
-      loadModel(event.target.value, i, spinnerContainer);       
+      loadModel(event.target.value, i, spinnerContainer);        
     });
 
     let label = document.createElement("label");
@@ -56,7 +56,7 @@ const furnitureTypesUI = function (
 
     UIContainer.appendChild(input);
     UIContainer.appendChild(label);
-
+   
     let container_3d=document.getElementById("3dcontainer");        
     //On Click Show the Toast(animation buttons and material variations)
     const liveToast = document.getElementById(`${UIContainer.id}Toast`); 
@@ -68,7 +68,7 @@ const furnitureTypesUI = function (
       let lamp_light=scene.getObjectByName("Desktop_Lamp_Light002");  
       laptop.position.set(0,0.1757,0);                 
       let tableTop=scene.getObjectByName("Table_Top")   
-            
+            console.log("..........................")
       if(input.id.slice(0,9)=="Motarized"){                                      
         tableTop.position.set(0.162, 0.800, 0.344)          
         FlowerPot.position.set(-0.4898,1.01,0.301)
@@ -87,15 +87,13 @@ const furnitureTypesUI = function (
         lamp.position.set(1.16,-0.15,0.3)        
         lamp_light.position.set(0.9,1.4,0.2)                                        
       }
-     /* 
-     Table_Automatic_01_v01
-Table_Manual_01_v01
-Table_Small_01_v01
- */
+    
       liveToast.classList.add("show");
       liveToast.getElementsByClassName("furnitureName")[0].innerHTML =assetsList[i].Name; 
-     
-        container_3d.appendChild(spinnerContainer);                                 
+             
+        container_3d.appendChild(spinnerContainer);  
+        let shadowLight=0;      
+        shadows(scene,clock,shadowLight);                                
     });
   }
 };

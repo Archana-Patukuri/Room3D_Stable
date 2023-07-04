@@ -8,9 +8,7 @@ function basicControls(scene,camera,controls,renderer) {
   controls.enableZoom = true;
   controls.enablePan=true;
   controls.enableRotate=true;
-  
- controls.minPolarAngle=controls.maxPolarAngle=1.57079
-
+  controls.minPolarAngle=controls.maxPolarAngle=1.57079
   controls.listenToKeyEvents( window );  
 
   document.addEventListener("keydown", onDocumentKeyDown, false);
@@ -152,7 +150,7 @@ function basicControls(scene,camera,controls,renderer) {
           }
         })     
                
-   controls.maxDistance=10;  
+  controls.maxDistance=10;  
   controls.update();
   
 }

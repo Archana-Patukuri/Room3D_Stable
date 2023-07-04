@@ -39,15 +39,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
       if(i==0){
         input.checked=true;                
       }     
-      
-      /* if(model_name !=val){
-        console.log(model_name)
-        i==0
-        input.id=tablesHeights[model_name][0]                                    
-        input.checked=true;
-        //localStorage.table1=model_name
-      } */
-      //console.log(localStorage.table1)  
+     
       label = document.createElement("label");
       label.className = "form-check-label";
       label.for = tablesHeights[model_name][i];
@@ -222,9 +214,9 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
       input.addEventListener("click", function () {
         input_anim_Fun();   
         ambientLightIntensity(gltfData.animations[i].name);  
-        let clock = new Clock();
+        /* let clock = new Clock();
         let shadowLight=0;      
-        shadows(scene,clock,shadowLight);  
+        shadows(scene,clock,shadowLight);   */
       });
     }
     let animation_label = document.createElement("label");

@@ -2,8 +2,7 @@ import {
   Color,
   Vector3,
   RepeatWrapping,
-  ShaderMaterial,
-  TextureLoader,
+  ShaderMaterial,  
   UniformsUtils, 
   MeshStandardMaterial,  
 } from "three";
@@ -14,10 +13,9 @@ import '../../use-spinner/assets/use-spinner.css';
 let container_3d=document.getElementById("3dcontainer");
 import { SubsurfaceScatteringShader } from "three/examples/jsm/shaders/SubsurfaceScatteringShader.js";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
-import { Pass } from "postprocessing";
 var delta;
 
-async function lightControls(scene,renderer,prompt,sunLight,ambientLight,camera,clock,stateList,gui,start){  
+async function lightControls(scene,renderer,sunLight,ambientLight,clock,stateList,gui,fanLight,Light,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start){  
   const { background1,hdri0, hdri1 } = await hdriLoad();            
 
    let slider_l=document.querySelectorAll(".Slider_range");  
@@ -164,22 +162,15 @@ async function lightControls(scene,renderer,prompt,sunLight,ambientLight,camera,
 const sun_fn = async () => {
   await new Promise(resolve => setTimeout(() => { 
     delta = clock.getDelta();
-       
-    if(!localStorage.sunLight_Intensity || localStorage.saveStateVal=="false"){
-      localStorage.sunLight_Intensity=30; 
-      sunLight.intensity=Number(localStorage.sunLight_Intensity); 
-    }else{
-      sunLight.intensity=Number(localStorage.sunLight_Intensity);       
-    }
-        
+                 
+    sunLight.intensity=30;           
     scene.background = new Color(0xffffff);
-     scene.environment = hdri1;        
+    scene.environment = hdri1;        
     renderer.toneMappingExposure = 0.5;    
     stateList.Pitch_Dark.checked=false;     
     sunLight.castShadow = true;                    
-    slider_SL.oninput = function() {   
-      localStorage.sunLight_Intensity=this.value           
-      sunLight.intensity=Number(localStorage.sunLight_Intensity)                  
+    slider_SL.oninput = function() {         
+      sunLight.intensity=this.value
     }   
     colorPicker_SL.oninput = function() {                                                  
      sunLight.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -239,8 +230,7 @@ const sun_else_fn = async () => {
     delta = clock.getDelta();                                         
     sunLight.intensity=0;
     scene.background = new Color(0x000000);
-    sunLight.castShadow = false;  
-    localStorage.SunLightEle="false"          
+    sunLight.castShadow = false;            
     resolve();
   }, 10));
 }; 
@@ -271,30 +261,16 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
                 renderer.toneMappingExposure = 1;
                 scene.background = new Color(0x0d0d0d);
                 scene.environment = hdri0;      
-                stateList.Pitch_Dark.checked=false;                
-                if(!localStorage.ambientLight_Intensity){                 
-                  localStorage.ambientLight_Intensity=1;                
-                }
-                ambientLight.intensity=Number(localStorage.ambientLight_Intensity);                
-                 
-                scene.add(ambientLight);            
-                  slider_AL.oninput = function() {                              
-                    localStorage.ambientLight_Intensity=this.value
-                    ambientLight.intensity=Number(localStorage.ambientLight_Intensity)                                  
+                stateList.Pitch_Dark.checked=false;                                                                  
+                ambientLight.intensity=1                 
+                scene.add(ambientLight);
+
+                  slider_AL.oninput = function() {                                                  
+                  ambientLight.intensity=this.value
                   }
                   colorPicker_AL.oninput = function() {                                             
                     ambientLight.color.setHex("0x"+this.value.slice(1,7), 1);          
-                  }    
-                  /* if(stateList.desktopLight.checked==false){
-                    let Light=scene.getObjectByName("Desktop_Lamp_Light002")
-                    Light.intensity = 0;  
-                  }                                                                                  
-                  if(stateList.CeilingLight.checked==false){
-                    let fanLight=scene.getObjectByName("fanLight")
-                    fanLight.intensity=0;
-                  } */
-                  
-                  localStorage.mild_ambient_light=true;
+                  }                                                         
                 resolve();
               }, 10));
             }; 
@@ -308,15 +284,11 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
             const ambient_light_Else_fn = async () => {
               await new Promise(resolve => setTimeout(() => {
                 console.log("ambient light disabled")                
-                ambientLight.intensity = 0;
-               // renderer.toneMappingExposure = 0;  
-               /*  scene.background = new Color(0x0d0d0d);
-                scene.environment = hdri1;    */
+                ambientLight.intensity = 0;           
                 if(stateList.SunLightEle.checked==true){
                   scene.environment = hdri1; 
                   renderer.toneMappingExposure = 0.1;
-                }
-                localStorage.mild_ambient_light="false";
+                }                
                 resolve();
               }, 10));
             }; 
@@ -341,44 +313,25 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
       await new Promise(resolve => setTimeout(() => {
         console.log("cylindrical light added")
 
-           
-        let cylindricalLampSpotLight_1 = scene.getObjectByName("Cylindrical_spot_light_1");
-        let cylindricalLampSpotLight_2 = scene.getObjectByName("Cylindrical_spot_light_2");    
-        let cylindricalLampSpotLight_3 = scene.getObjectByName("Cylindrical_spot_light_3");
-        let cylindricalLampSpotLight_4 = scene.getObjectByName("Cylindrical_spot_light_4");        
-
         if(val_cyl!=0){
           renderer.toneMappingExposure = 0.5;
           scene.background = new Color(0x0d0d0d);
           scene.environment = hdri1;       
-        }
-        
-        if(!localStorage.cylindricalLampSpotLight_1_Intensity){
-        localStorage.cylindricalLampSpotLight_1_Intensity=2;          
-        localStorage.cylindricalLampSpotLight_2_Intensity=2;  
-        localStorage.cylindricalLampSpotLight_3_Intensity=2; 
-        localStorage.cylindricalLampSpotLight_4_Intensity=2; 
-        }        
-       
-        cylindricalLampSpotLight_1.intensity=Number(localStorage.cylindricalLampSpotLight_1_Intensity)            
-        cylindricalLampSpotLight_2.intensity=Number(localStorage.cylindricalLampSpotLight_2_Intensity)                      
-        cylindricalLampSpotLight_3.intensity=Number(localStorage.cylindricalLampSpotLight_3_Intensity)                      
-        cylindricalLampSpotLight_4.intensity=Number(localStorage.cylindricalLampSpotLight_4_Intensity)   
+        }              
+        cylindricalLampSpotLight_1.intensity=2
+        cylindricalLampSpotLight_2.intensity=2
+        cylindricalLampSpotLight_3.intensity=2
+        cylindricalLampSpotLight_4.intensity=2
         
         cylindricalLampSpotLight_1.distance = 1;
         cylindricalLampSpotLight_2.distance = 1;
         cylindricalLampSpotLight_3.distance = 1;
-        cylindricalLampSpotLight_4.distance = 1;
-              
-          slider_CWL.oninput = function() { 
-            localStorage.cylindricalLampSpotLight_1_Intensity=this.value;
-            localStorage.cylindricalLampSpotLight_2_Intensity=this.value;
-            localStorage.cylindricalLampSpotLight_3_Intensity=this.value;
-            localStorage.cylindricalLampSpotLight_4_Intensity=this.value;
-            cylindricalLampSpotLight_1.intensity=Number(localStorage.cylindricalLampSpotLight_1_Intensity)            
-            cylindricalLampSpotLight_2.intensity=Number(localStorage.cylindricalLampSpotLight_2_Intensity)                      
-            cylindricalLampSpotLight_3.intensity=Number(localStorage.cylindricalLampSpotLight_3_Intensity)                      
-            cylindricalLampSpotLight_4.intensity=Number(localStorage.cylindricalLampSpotLight_4_Intensity)            
+        cylindricalLampSpotLight_4.distance = 1;              
+          slider_CWL.oninput = function() {            
+            cylindricalLampSpotLight_1.intensity=this.value
+            cylindricalLampSpotLight_2.intensity=this.value
+            cylindricalLampSpotLight_3.intensity=this.value
+            cylindricalLampSpotLight_4.intensity=this.value
             
           }
           colorPicker_CWL.oninput = function() {                                             
@@ -417,11 +370,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
      await spinnedFn();
    }   
    const Cylindrical_Light_Else_fn = async () => {
-    await new Promise(resolve => setTimeout(() => {
-      let cylindricalLampSpotLight_1 = scene.getObjectByName("Cylindrical_spot_light_1");
-        let cylindricalLampSpotLight_2 = scene.getObjectByName("Cylindrical_spot_light_2");    
-        let cylindricalLampSpotLight_3 = scene.getObjectByName("Cylindrical_spot_light_3");
-        let cylindricalLampSpotLight_4 = scene.getObjectByName("Cylindrical_spot_light_4");    
+    await new Promise(resolve => setTimeout(() => {   
       cylindricalLampSpotLight_1.intensity=0;
       cylindricalLampSpotLight_2.intensity=0;
       cylindricalLampSpotLight_3.intensity=0;
@@ -449,26 +398,18 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
       await new Promise(resolve => setTimeout(() => {
         console.log("ceiling light enabled")                                        
                   
-        stateList.Pitch_Dark.checked=false;                               
-        let fanLight=scene.getObjectByName("fanLight")        
-        
-        
+        stateList.Pitch_Dark.checked=false;                                                           
              if(val_ceil!=0){
               fanLight.castShadow=true;
               scene.environment = hdri0; 
               renderer.toneMappingExposure = 1; 
               scene.background = new Color(0x0d0d0d);  
              }                                   
-                  
+                         
+        fanLight.intensity=3
         
-        if(!localStorage.fanLight_Intensity){      
-          localStorage.fanLight_Intensity=3;        
-        }
-        fanLight.intensity=Number(localStorage.fanLight_Intensity);
-        
-        slider_CL.oninput = function() {                  
-        localStorage.fanLight_Intensity=this.value;
-        fanLight.intensity=Number(localStorage.fanLight_Intensity)              
+        slider_CL.oninput = function() {                          
+        fanLight.intensity=this.value
         }  
         colorPicker_CL.oninput = function() {                              
           fanLight.color.setHex("0x"+this.value.slice(1,7), 1);                                                                             
@@ -517,15 +458,13 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    }    
    
    const CeilingLight_Else_fn = async () => {
-    await new Promise(resolve => setTimeout(() => {
-      let fanLight=scene.getObjectByName("fanLight")
+    await new Promise(resolve => setTimeout(() => {     
       fanLight.intensity=0;
       fanLight.castShadow=false;       
       if(stateList.SunLightEle.checked==true){
         scene.environment = hdri1; 
         renderer.toneMappingExposure = 0.1;
-      }
-      localStorage.CeilingLight="false"
+      }      
      console.log("ceiling light disabled")                                                   
       resolve();
     }, 10));
@@ -548,26 +487,18 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
     let val_desk=0
     const desktopLight_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
-        console.log("desktop light enabled") 
-        let Light=scene.getObjectByName("Desktop_Lamp_Light002")                        
+        console.log("desktop light enabled")                               
             
         stateList.Pitch_Dark.checked=false;                                     
         Light.castShadow=true;  
         if(val_desk==0){
-          if(!localStorage.Light_Intensity){
-            localStorage.Light_Intensity=15;        
-          }                       
+          Light.intensity=15;                                 
         }else{
           renderer.toneMappingExposure = 1;
-          if(!localStorage.Light_Intensity){
-            localStorage.Light_Intensity=7;        
-          }  
+          Light.intensity=7;                 
           scene.background = new Color(0x0d0d0d);
-        scene.environment = hdri0;           
- //sss..........
-        let tableLampTop = scene.getObjectByName("TableStand006");
-        let texLoader = new TextureLoader();
-        let subTexture = texLoader.load("textures/subSurface.jpg");
+          scene.environment = hdri0;           
+ //sss..........                        
         subTexture.wrapS = RepeatWrapping;
         subTexture.wrapT = RepeatWrapping;
         subTexture.repeat.set(4, 4);
@@ -595,16 +526,9 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         tableLampTop.material = subMaterial;
  
  //sss.......... 
-        }
-        
-        
-        Light.intensity=Number(localStorage.Light_Intensity);
-
-        
-        slider_DL.oninput = function() {                  
-          localStorage.Light_Intensity=this.value;
-          Light.intensity=Number(localStorage.Light_Intensity);   
-                
+        }                      
+        slider_DL.oninput = function() {                            
+          Light.intensity=this.value                
         }
         colorPicker_DL.oninput = function() {                                             
           Light.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -650,19 +574,15 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
      await spinnedFn();
    }       
    const desktopLight_Else_fn = async () => {
-    await new Promise(resolve => setTimeout(() => {
-      let Light=scene.getObjectByName("Desktop_Lamp_Light002")
+    await new Promise(resolve => setTimeout(() => {      
       Light.intensity = 0;   
-      Light.castShadow=false;  
-      //renderer.toneMappingExposure = 0; 
+      Light.castShadow=false;        
       if(stateList.SunLightEle.checked==true){
         scene.environment = hdri1; 
         renderer.toneMappingExposure = 0.1;
       } 
-      let tableLampMatNormal = new MeshStandardMaterial({ color: 0xff9f4b }); 
-      let tableLampTop = scene.getObjectByName("TableStand006");
-      tableLampTop.material = tableLampMatNormal;  
-      localStorage.desktopLight="false"
+      let tableLampMatNormal = new MeshStandardMaterial({ color: 0xff9f4b });       
+      tableLampTop.material = tableLampMatNormal;        
       console.log("desktop light disabled")  
       resolve();
     }, 10));
@@ -691,18 +611,13 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
       renderer.toneMappingExposure = 1;      
       stateList.Pitch_Dark.checked=false;        
       ambientLight.intensity = 0;        
-      scene.environment = hdri0;      
+      scene.environment = hdri0;                 
       
-      if(!localStorage.floorLamp_Intensity){
-        localStorage.floorLamp_Intensity=5;
-      }
-      
-      floor_lamp_Ele.intensity=Number(localStorage.floorLamp_Intensity);
-      
+      floor_lamp_Ele.intensity=5      
       floor_lamp_Ele.castShadow=true
-      slider_FL.oninput = function() {        
-        localStorage.floorLamp_Intensity=this.value;
-        floor_lamp_Ele.intensity=Number(localStorage.floorLamp_Intensity);                             
+
+      slider_FL.oninput = function() {                
+        floor_lamp_Ele.intensity=this.value
       }  
       colorPicker_FL.oninput = function() {                                             
         floor_lamp_Ele.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -768,22 +683,16 @@ async function floor_lamp_else_Fun() {
          });            
          Point_Light=arr[0]       
          Point_Light1=arr[1]        
-        if(!localStorage.WL1_Intensity){
-          localStorage.WL1_Intensity=2;
-          localStorage.WL2_Intensity=2;
-        }
-        
-        Point_Light.intensity=Number(localStorage.WL1_Intensity);       
-        Point_Light1.intensity=Number(localStorage.WL2_Intensity);
+      
+        Point_Light.intensity=2
+        Point_Light1.intensity=2
 
         Point_Light.castShadow=true;
         Point_Light1.castShadow=true;        
         
-        slider_WL.oninput = function() {        
-          localStorage.WL1_Intensity=this.value;
-          localStorage.WL2_Intensity=this.value;
-          Point_Light.intensity=Number(localStorage.WL1_Intensity);       
-          Point_Light1.intensity=Number(localStorage.WL2_Intensity);                         
+        slider_WL.oninput = function() {          
+          Point_Light.intensity=this.value
+          Point_Light1.intensity=this.value
         }
         colorPicker_WL.oninput = function() {                                             
           Point_Light.color.setHex("0x"+this.value.slice(1,7), 1);          
@@ -900,13 +809,13 @@ async function floor_lamp_else_Fun() {
           Pitch_Dark_Else_Fun();                   
         }      
     })  
+    let emissive_Obj=scene.getObjectByName("Mesh_Walls001"); 
+    let Motor_emissive=scene.getObjectByName("Motor_emissive");        
+    let table_emissive=scene.getObjectByName("TableStand006_2"); 
+    let emissive_Obj_fan=scene.getObjectByName("Motor");  
     const Emissive_fn = async () => {
-      await new Promise(resolve => setTimeout(() => {
-        let emissive_Obj=scene.getObjectByName("Mesh_Walls001");  
-        emissive_Obj.material.emissive=new Color(1, 1, 1);    
-        let Motor_emissive=scene.getObjectByName("Motor_emissive");        
-        let table_emissive=scene.getObjectByName("TableStand006_2");
-              
+      await new Promise(resolve => setTimeout(() => {       
+        emissive_Obj.material.emissive=new Color(1, 1, 1);                    
         Motor_emissive.material.emissive=new Color(1, 1, 1);         
         table_emissive.material.emissive=new Color(1, 1, 1);     
         resolve();
@@ -922,10 +831,6 @@ async function floor_lamp_else_Fun() {
    
    const Emissive_else_fn = async () => {
     await new Promise(resolve => setTimeout(() => {
-    let emissive_Obj=scene.getObjectByName("Mesh_Walls001");   
-    let emissive_Obj_fan=scene.getObjectByName("Motor");  
-    let table_emissive=scene.getObjectByName("TableStand006_2");
-    let Motor_emissive=scene.getObjectByName("Motor_emissive");
       emissive_Obj.material.emissive=new Color(0, 0, 0);
       emissive_Obj_fan.material.emissive=new Color(0, 0, 0);
       table_emissive.material.emissive=new Color(0, 0, 0);     
@@ -953,7 +858,7 @@ async function floor_lamp_else_Fun() {
         delta = clock.getDelta();
 
         if(val_hdri!=0){
-        scene.environment = hdri1;                  
+        scene.environment = hdri1;                         
         }
         slider_HDRI.oninput = function() {          
           renderer.toneMappingExposure=this.value;                     
@@ -969,11 +874,14 @@ async function floor_lamp_else_Fun() {
      // execute with a loading spinner
      await spinnedFn();
      console.log("HDRI loaded",delta.toPrecision(1),"seconds")
+     if(val_hdri==1){
+      const millis = Date.now() - start;
+     console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`); 
+     }
    }    
    const HDRI_Else_fn = async () => {
     await new Promise(resolve => setTimeout(() => {
-      scene.environment = hdri0;
-      localStorage.HDRI="false"
+      scene.environment = hdri0;      
       resolve();
     }, 10));
   }; 
@@ -982,7 +890,7 @@ async function floor_lamp_else_Fun() {
      container: container_3d
    });      
    // execute with a loading spinner
-   await spinnedFn();
+   await spinnedFn();  
   }    
   HDRI_Fun();
 

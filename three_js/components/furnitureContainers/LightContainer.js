@@ -46,17 +46,7 @@ class LightContainer {
         if(lamp_light){
           lamp_light.position.set(0,0,0);                    
         }                                                                  
-    }                 
-  
-      
-      /* let mixer = new AnimationMixer(this.models[i]);
-      this.AnimationUIs[i] = animationUI(
-        gltfData,
-        mixer,
-        this.category,
-        URL);
-      this.animationMixers[i] = mixer; */
-      //Spinner Display none after loading
+    }                     
       this.spinnerDisplay(spinner, "none");
     }
     let model1_wall;       
@@ -82,11 +72,7 @@ class LightContainer {
       this.model.rotation.set(0,-1.5,0)          
       this.parentGroup2.add(model1_wall); 
       this.parentGroup2.add(this.model);               
-    }                  
-       
-     
-  /*  this.selectableObjects.push(this.parentGroup);  */   
-    
+    }                                    
     
   }
 

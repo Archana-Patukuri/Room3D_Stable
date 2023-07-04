@@ -6,7 +6,6 @@ function resetAndHelp(camera){
       });
       await myPromise;  
     }      
-
     reset.addEventListener("click",function(){
       reset_Fun()
     })
@@ -16,7 +15,6 @@ function resetAndHelp(camera){
       });
       await myPromise;  
     }      
-
     let ResetView=document.getElementById("reset");
     ResetView.onclick = function() {
       ResetView_Fun()

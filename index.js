@@ -4,8 +4,7 @@ async function main() {
   const world = new World();
   world.createUI(); 
   world.loadBackground();
-  
-     
+       
   await Promise.all([    
     await world.loadRoomGLTF(),    
     await world.loadTableGLTF(),        

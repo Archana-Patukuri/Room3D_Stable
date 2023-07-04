@@ -1,8 +1,7 @@
 import { furnitureTypesUI } from "../../systems/UI-Generators/furnitureTypesUI";
 import { gltfLoad } from "../gltf_loader/gltfLoad.js";
 import { animationUI } from "../../systems/UI-Generators/animationUI";
-import { AnimationMixer, Group, Scene } from "three";
-import { calculateCenter } from "./calculateCenter";
+import { AnimationMixer, Group } from "three";
 import { setupModel } from "./setupModel";
 
 class FurnitureContainer {
@@ -39,10 +38,8 @@ class FurnitureContainer {
       //Spinner Display block before loading
 
       this.spinnerDisplay(spinner, "block");
-      const { gltfData } = await gltfLoad(URL,this.renderer);
-      
-      let loadedModel = setupModel(gltfData);    
-     
+      const { gltfData } = await gltfLoad(URL,this.renderer);      
+      let loadedModel = setupModel(gltfData);         
       this.models[i] = loadedModel;
          
       let mixer = new AnimationMixer(this.models[i]);
@@ -56,7 +53,7 @@ class FurnitureContainer {
         );
       this.animationMixers[i] = mixer;
       //Spinner Display none after loading
-      this.spinnerDisplay(spinner, "none");
+      this.spinnerDisplay(spinner, "none");    
     }
     //console.log(this.parentGroup)
     if (this.model) {
@@ -67,6 +64,7 @@ class FurnitureContainer {
     this.toastbody.appendChild(this.AnimationUIs[i]);
     this.model = this.models[i];
     this.parentGroup.add(this.model);
+   
   }
 
   spinnerDisplay(spinnerElement, displayStatus) {
