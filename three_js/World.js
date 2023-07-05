@@ -289,6 +289,13 @@ class World {
     );    
     //for adding Helpers and FPS
     debug = new Debug();    
+    
+    ambientLightSun = new AmbientLight();
+    ambientLightSun.color = new Color(0xffffff);
+    ambientLightSun.intensity = 1;
+    scene.add(ambientLightSun);
+    ambientLightSun.name = "ambientLightSun"
+
 
     //WINDOW RESIZER
     const resizer = new Resizer(container, camera, renderer, composer,labelRenderer);
@@ -303,8 +310,8 @@ class World {
  
   }
   async loadBackground() {
-    const { hdri1 } = await hdriLoad();        
-      scene.environment = hdri1;       
+    const { hdri0 } = await hdriLoad();        
+      scene.environment = hdri0;       
   }
   createUI() {
     //created FurnitureTypesUI from JSON data
@@ -498,13 +505,7 @@ async loadLaptopGLTF() {
     renderer.render(scene, camera);    
     console.log("mirror loaded",delta.toPrecision(3),"seconds");
   }   
-  lightPresets() {
-   
-    ambientLightSun = new AmbientLight();
-    ambientLightSun.color = new Color(0xffffff);
-    // ambientLightSun.intensity = 1;
-    scene.add(ambientLightSun);
-    ambientLightSun.name = "ambientLightSun"
+  lightPresets() {      
 
     RectAreaLightUniformsLib.init();
     renderer.toneMappingExposure = 0.5; 
@@ -544,10 +545,10 @@ async loadLaptopGLTF() {
     let tableLampMatSubsurface = tableLampTop.material;
     let texLoader = new TextureLoader();
     let subTexture = texLoader.load("textures/subSurface.jpg");
-    
-    dayLightSettings = function (hdri1) {                                
-     
-      scene.background = new Color(0xffffff);    
+  
+    dayLightSettings = function (hdri1) {            
+      console.time("DayLight Preset time"); 
+      scene.background = new Color(0xffffff);          
       tableLamp.intensity = 0;
       fanLight.intensity = 0;            
       cylindricalLampSpotLight_1.intensity = 0;
@@ -565,18 +566,19 @@ async loadLaptopGLTF() {
       stateList.Emissive.checked=false;
       stateList.Cylindrical_Light.checked=false;
       stateList.HDRI.checked=true;  
-
                         
       sunLight.intensity = 30;          
       fanLight.castShadow=false;   
       tableLamp.castShadow=false;  
       sunLight.castShadow = true;  
       shadowLight=0;        
-      shadows(scene,clock,shadowLight);       
-    };    
+      shadows(scene,clock,shadowLight);  
+      scene.environment = hdri1;      
+    };   
+       
     let a=0;  
-    nightLightSettings1 = function (hdri1) {
-                      
+    nightLightSettings1 = function (hdri0) { 
+      console.time("NightLight Preset time");                
       renderer.toneMappingExposure = 0.5;            
       scene.background = new Color(0x000000);                   
 
@@ -627,7 +629,7 @@ async loadLaptopGLTF() {
       }else{       
         sunLight.intensity = 0;
       ambientLightSun.intensity = 0;   
-      scene.environment = hdri1;      
+      scene.environment = hdri0;      
     
       cylindricalLampSpotLight_1.intensity = 2;
       cylindricalLampSpotLight_2.intensity = 2;
@@ -650,7 +652,6 @@ async loadLaptopGLTF() {
       a=a+1;     
     };
    
-
     const dayLightSettings_fn = async () => {
       const { background0,background1,hdri0, hdri1 } = await hdriLoad();           
       await new Promise(resolve => setTimeout(() => {
@@ -662,8 +663,9 @@ async loadLaptopGLTF() {
       const spinnedFn = useSpinner(dayLightSettings_fn, {
        container: container_3d
      });      
-     // execute with a loading spinner
-     await spinnedFn();
+     // execute with a loading spinner     
+     await spinnedFn(); 
+     console.timeEnd("DayLight Preset time");        
    }       
     let lightsPresetsUI = document.querySelectorAll(".lightPreset");
     lightsPresetsUI[0].addEventListener('change',function(){
@@ -672,9 +674,9 @@ async loadLaptopGLTF() {
       } 
     })
     const NightLight1_fn = async () => {
-      const {background0, background1,hdri0, hdri1 } = await hdriLoad();       
+      const {background0, background1, hdri1,hdri0 } = await hdriLoad();       
       await new Promise(resolve => setTimeout(() => {
-        nightLightSettings1(hdri1);
+        nightLightSettings1(hdri0);
         resolve();
       }, 10));
     }; 
@@ -684,9 +686,11 @@ async loadLaptopGLTF() {
      });      
      // execute with a loading spinner
      await spinnedFn();    
-     if(a==1){
-      prompt.style.display="block";
-     }
+     console.timeEnd("NightLight Preset time"); 
+     if(a==1){      
+      ambientLightSun.intensity = 0;   
+     }     
+     
    }       
       NightLight1_Fun();
     lightsPresetsUI[1].addEventListener('change',function(){
@@ -698,7 +702,7 @@ async loadLaptopGLTF() {
     exportScene(scene);
     reflection(scene,clock,gui);        
     viewPoints(camera);     
-    lightControls(scene,renderer,sunLight,ambientLightSun,clock,stateList,gui,fanLight,tableLamp,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start);      
+    lightControls(scene,renderer,sunLight,ambientLightSun,clock,prompt,stateList,gui,fanLight,tableLamp,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start);      
     
   }
   //CreatePostProcess Effects
@@ -884,7 +888,7 @@ async loadLaptopGLTF() {
      });      
      // execute with a loading spinner
      await spinnedFn();
-     console.log("FXAA disabled",delta.toPrecision(3),"seconds");
+     console.log("SSAA disabled",delta.toPrecision(3),"seconds");
    }             
     SSAA_C.addEventListener("click",function(e){
       if(e.target.checked){

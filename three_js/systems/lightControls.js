@@ -15,7 +15,7 @@ import { SubsurfaceScatteringShader } from "three/examples/jsm/shaders/Subsurfac
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 var delta;
 
-async function lightControls(scene,renderer,sunLight,ambientLight,clock,stateList,gui,fanLight,Light,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start){  
+async function lightControls(scene,renderer,sunLight,ambientLight,clock,prompt,stateList,gui,fanLight,Light,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start){  
   const { background1,hdri0, hdri1 } = await hdriLoad();            
 
    let slider_l=document.querySelectorAll(".Slider_range");  
@@ -161,8 +161,7 @@ async function lightControls(scene,renderer,sunLight,ambientLight,clock,stateLis
 
 const sun_fn = async () => {
   await new Promise(resolve => setTimeout(() => { 
-    delta = clock.getDelta();
-                 
+    delta = clock.getDelta();                 
     sunLight.intensity=30;           
     scene.background = new Color(0xffffff);
     scene.environment = hdri1;        
@@ -257,7 +256,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
 
           const ambient_light_fn = async () => {
               await new Promise(resolve => setTimeout(() => {
-                console.log("ambient light added")
+                console.time("ambient Light On"); 
                 renderer.toneMappingExposure = 1;
                 scene.background = new Color(0x0d0d0d);
                 scene.environment = hdri0;      
@@ -280,10 +279,11 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
              });      
              // execute with a loading spinner
              await spinnedFn();
+             console.timeEnd("ambient Light on"); 
            }        
             const ambient_light_Else_fn = async () => {
               await new Promise(resolve => setTimeout(() => {
-                console.log("ambient light disabled")                
+                console.time("ambient Light Of");                
                 ambientLight.intensity = 0;           
                 if(stateList.SunLightEle.checked==true){
                   scene.environment = hdri1; 
@@ -298,6 +298,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
              });      
              // execute with a loading spinner
              await spinnedFn();
+             console.timeEnd("ambient Light of"); 
            }    
                  
     stateList.mild_ambient_light.addEventListener("change", (e) => {      
@@ -311,7 +312,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
     let val_cyl=0;
     const Cylindrical_Light_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
-        console.log("cylindrical light added")
+        console.time("Cylindrical Light On"); 
 
         if(val_cyl!=0){
           renderer.toneMappingExposure = 0.5;
@@ -353,10 +354,10 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
             cylindricalLampSpotLight_4.decay=this.value;
           } 
           angle_WWL.oninput=function(){
-            cylindricalLampSpotLight_1.decay=this.value;
-            cylindricalLampSpotLight_2.decay=this.value;
-            cylindricalLampSpotLight_3.decay=this.value;
-            cylindricalLampSpotLight_4.decay=this.value;
+            cylindricalLampSpotLight_1.angle=this.value;
+            cylindricalLampSpotLight_2.angle=this.value;
+            cylindricalLampSpotLight_3.angle=this.value;
+            cylindricalLampSpotLight_4.angle=this.value;
           }    
           val_cyl=val_cyl+1;        
         resolve();
@@ -368,9 +369,11 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
      });      
      // execute with a loading spinner
      await spinnedFn();
+     console.timeEnd("Cylindrical Light On"); 
    }   
    const Cylindrical_Light_Else_fn = async () => {
-    await new Promise(resolve => setTimeout(() => {   
+    await new Promise(resolve => setTimeout(() => {  
+      console.timeEnd("Cylindrical Light Of");  
       cylindricalLampSpotLight_1.intensity=0;
       cylindricalLampSpotLight_2.intensity=0;
       cylindricalLampSpotLight_3.intensity=0;
@@ -384,6 +387,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    });      
    // execute with a loading spinner
    await spinnedFn();
+   console.timeEnd("Cylindrical Light Of"); 
  }   
   Cylindrical_Light_Fun();    
     Cylindrical_Light.addEventListener("change", (e) => {      
@@ -396,7 +400,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         let val_ceil=0;
     const CeilingLight_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
-        console.log("ceiling light enabled")                                        
+        console.time("Ceiling Light On");                                        
                   
         stateList.Pitch_Dark.checked=false;                                                           
              if(val_ceil!=0){
@@ -454,18 +458,18 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
      });      
      // execute with a loading spinner
      await spinnedFn();
-     
+     console.timeEnd("Ceiling Light On"); 
    }    
    
    const CeilingLight_Else_fn = async () => {
-    await new Promise(resolve => setTimeout(() => {     
+    await new Promise(resolve => setTimeout(() => { 
+      console.time("Ceiling Light Of");     
       fanLight.intensity=0;
       fanLight.castShadow=false;       
       if(stateList.SunLightEle.checked==true){
         scene.environment = hdri1; 
         renderer.toneMappingExposure = 0.1;
-      }      
-     console.log("ceiling light disabled")                                                   
+      }                                                              
       resolve();
     }, 10));
   }; 
@@ -475,6 +479,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    });      
    // execute with a loading spinner
    await spinnedFn();
+   console.timeEnd("Ceiling Light Of"); 
  }    
   CeilingLight_Fun();         
  stateList.CeilingLight.addEventListener("change",(e)=>{       
@@ -487,7 +492,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
     let val_desk=0
     const desktopLight_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
-        console.log("desktop light enabled")                               
+        console.time("Desktop Light On");                               
             
         stateList.Pitch_Dark.checked=false;                                     
         Light.castShadow=true;  
@@ -572,9 +577,16 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
      });      
      // execute with a loading spinner
      await spinnedFn();
+     console.timeEnd("Desktop Light On"); 
+     if(val_desk==1){
+      prompt.style.display="block";
+      const millis = Date.now() - start;
+      console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`); 
+     }     
    }       
    const desktopLight_Else_fn = async () => {
-    await new Promise(resolve => setTimeout(() => {      
+    await new Promise(resolve => setTimeout(() => {  
+      console.time("Desktop Light Of");     
       Light.intensity = 0;   
       Light.castShadow=false;        
       if(stateList.SunLightEle.checked==true){
@@ -582,8 +594,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
         renderer.toneMappingExposure = 0.1;
       } 
       let tableLampMatNormal = new MeshStandardMaterial({ color: 0xff9f4b });       
-      tableLampTop.material = tableLampMatNormal;        
-      console.log("desktop light disabled")  
+      tableLampTop.material = tableLampMatNormal;               
       resolve();
     }, 10));
   }; 
@@ -593,6 +604,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    });      
    // execute with a loading spinner
    await spinnedFn();
+   console.timeEnd("Desktop Light Of"); 
  }      
  desktopLight_Fun();
  stateList.desktopLight.addEventListener("change",(e)=>{       
@@ -606,7 +618,7 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
 
    const floor_lamp_fn = async () => {
     await new Promise(resolve => setTimeout(() => {
-      console.log("floor lamp enabled")      
+      console.time("Floor Lamp On");      
       let floor_lamp_Ele=scene.getObjectByName("Point");      
       renderer.toneMappingExposure = 1;      
       stateList.Pitch_Dark.checked=false;        
@@ -645,9 +657,11 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
    });      
    // execute with a loading spinner
    await spinnedFn();
+   console.timeEnd("Floor Lamp On"); 
  }      
  const floor_lamp_else_fn = async () => {
   await new Promise(resolve => setTimeout(() => {
+    console.time("Floor Lamp Of"); 
     let floor_lamp_Ele=scene.getObjectByName("Point");     
     floor_lamp_Ele.intensity=0;      
     floor_lamp_Ele.castShadow=false
@@ -660,6 +674,7 @@ async function floor_lamp_else_Fun() {
  });      
  // execute with a loading spinner
  await spinnedFn();
+ console.timeEnd("Floor Lamp Of"); 
 }              
     floor_lamp.addEventListener("change",(e)=>{
       if(e.target.checked){
@@ -670,7 +685,8 @@ async function floor_lamp_else_Fun() {
     })  
     let Point_Light,Point_Light1;
     const wall_lamp_fn = async () => {
-      await new Promise(resolve => setTimeout(() => {        
+      await new Promise(resolve => setTimeout(() => {  
+        console.time("Wall Lamp On");       
         renderer.toneMappingExposure = 1;      
         stateList.Pitch_Dark.checked=false;        
         ambientLight.intensity = 0;        
@@ -727,9 +743,11 @@ async function floor_lamp_else_Fun() {
      });      
      // execute with a loading spinner
      await spinnedFn();
+     console.timeEnd("Wall Lamp On"); 
    }        
     const wall_lamp_Else_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
+        console.time("Wall Lamp Of"); 
         let arr=[]
         scene.traverse(function (child) {            
           if (child.isLight) {             
@@ -755,6 +773,7 @@ async function floor_lamp_else_Fun() {
      });      
      // execute with a loading spinner
      await spinnedFn();
+     console.timeEnd("Wall Lamp Of"); 
    }            
     wall_lamp.addEventListener("change",(e)=>{
       if(e.target.checked){
@@ -765,7 +784,7 @@ async function floor_lamp_else_Fun() {
     })            
     const Pitch_Dark_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
-        console.log("pitch dark enabled")                                     
+        console.time("Pitchdark On");                                     
         renderer.toneMappingExposure = 0;
         scene.background=new Color(0x000000);
         stateList.SunLightEle.checked=false;
@@ -785,13 +804,13 @@ async function floor_lamp_else_Fun() {
      });      
      // execute with a loading spinner
      await spinnedFn();
+     console.timeEnd("Pitchdark On"); 
    }   
    const Pitch_Dark_else_fn = async () => {
     await new Promise(resolve => setTimeout(() => {
-      console.log("pitch dark disabled")                                       
+      console.time("Pitchdark Of");                                      
       renderer.toneMappingExposure = 1;
-      scene.background=new Color(0x0d0d0d);
-      scene.environment = hdri1;  
+      scene.background=new Color(0x0d0d0d);       
       resolve();
     }, 10));
   }; 
@@ -801,6 +820,7 @@ async function floor_lamp_else_Fun() {
    });      
    // execute with a loading spinner
    await spinnedFn();
+   console.timeEnd("Pitchdark Of"); 
  }    
    stateList.Pitch_Dark.addEventListener("change",(e)=>{      
         if(e.target.checked){
@@ -814,7 +834,8 @@ async function floor_lamp_else_Fun() {
     let table_emissive=scene.getObjectByName("TableStand006_2"); 
     let emissive_Obj_fan=scene.getObjectByName("Motor");  
     const Emissive_fn = async () => {
-      await new Promise(resolve => setTimeout(() => {       
+      await new Promise(resolve => setTimeout(() => {  
+        console.time("Emissive On");      
         emissive_Obj.material.emissive=new Color(1, 1, 1);                    
         Motor_emissive.material.emissive=new Color(1, 1, 1);         
         table_emissive.material.emissive=new Color(1, 1, 1);     
@@ -827,10 +848,12 @@ async function floor_lamp_else_Fun() {
      });      
      // execute with a loading spinner
      await spinnedFn();
+     console.timeEnd("Emissive On"); 
    }    
    
    const Emissive_else_fn = async () => {
     await new Promise(resolve => setTimeout(() => {
+      console.time("Emissive Of"); 
       emissive_Obj.material.emissive=new Color(0, 0, 0);
       emissive_Obj_fan.material.emissive=new Color(0, 0, 0);
       table_emissive.material.emissive=new Color(0, 0, 0);     
@@ -844,6 +867,7 @@ async function floor_lamp_else_Fun() {
    });      
    // execute with a loading spinner
    await spinnedFn();
+   console.timeEnd("Emissive Of"); 
   }    
     Emissive.addEventListener("change", (e) => {    
       if (e.target.checked) {            
@@ -851,19 +875,13 @@ async function floor_lamp_else_Fun() {
       }else{           
         Emissive_else_Fun()       
       }
-    }) 
-    let val_hdri=0;
+    })     
     const HDRI_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         delta = clock.getDelta();
-
-        if(val_hdri!=0){
-        scene.environment = hdri1;                         
-        }
         slider_HDRI.oninput = function() {          
           renderer.toneMappingExposure=this.value;                     
-        }  
-        val_hdri=val_hdri+1  
+        }          
         resolve();
       }, 10));
     }; 
@@ -873,14 +891,11 @@ async function floor_lamp_else_Fun() {
      });      
      // execute with a loading spinner
      await spinnedFn();
-     console.log("HDRI loaded",delta.toPrecision(1),"seconds")
-     if(val_hdri==1){
-      const millis = Date.now() - start;
-     console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`); 
-     }
+     console.log("HDRI loaded",delta.toPrecision(1),"seconds")    
    }    
    const HDRI_Else_fn = async () => {
     await new Promise(resolve => setTimeout(() => {
+      console.time("HDRI Else time")
       scene.environment = hdri0;      
       resolve();
     }, 10));
@@ -890,9 +905,9 @@ async function floor_lamp_else_Fun() {
      container: container_3d
    });      
    // execute with a loading spinner
-   await spinnedFn();  
-  }    
-  HDRI_Fun();
+   await spinnedFn();    
+   console.timeEnd("HDRI Else time"); 
+  }      
 
   stateList.HDRI.addEventListener("change",(e)=>{
     if(e.target.checked){

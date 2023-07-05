@@ -31,7 +31,7 @@
       
   "Tables": [
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/models/Tables/Table_Automatic_01_v01.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Tables/table_01/Table_Automatic_01_v01_Draco.glb",
       "Name": "Manual Ergonomic Table",
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/tables/Table_Automatic_01_v01.webp"
     },
@@ -48,7 +48,7 @@
   ],   
   "Chairs": [
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/models/Chairs/Chair_01_v01.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Chairs/chair_01/Chair_01_v01.glb",
       "Name": "Bucket Seat Chair",
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/chairs/Chair_01_v01.webp"
     },

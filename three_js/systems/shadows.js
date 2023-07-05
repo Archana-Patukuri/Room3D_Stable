@@ -93,8 +93,7 @@ function shadows(scene,clock,shadowLight) {
          container: container_3d
        });      
        // execute with a loading spinner
-       await spinnedFn();
-       console.log("shadows nightlight1 turned on",delta.toPrecision(1),"seconds")
+       await spinnedFn();       
      }    
      
      const Shadows_NightLight1Of_fn = async () => {
@@ -114,8 +113,7 @@ function shadows(scene,clock,shadowLight) {
        container: container_3d
      });      
      // execute with a loading spinner
-     await spinnedFn();
-     console.log("shadows nightlight1 turned off",delta.toPrecision(1),"seconds")
+     await spinnedFn();     
    }    
    let Shadows_NightLight1=document.getElementById("Shadows_NightLight1");
     Shadows_NightLight1.addEventListener("change",(e)=>{
