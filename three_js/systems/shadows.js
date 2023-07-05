@@ -115,28 +115,28 @@ function shadows(scene,clock,shadowLight) {
      // execute with a loading spinner
      await spinnedFn();     
    }    
-   let Shadows_NightLight1=document.getElementById("Shadows_NightLight1");
-    Shadows_NightLight1.addEventListener("change",(e)=>{
-      if(e.target.checked){     
-        Shadows_NightLight1On();
-      }else{                         
-        Shadows_NightLight1Of();                  
-      }
-  })         
+   
   
 function intial_shadowsOn(){  
+  scene.traverse(function (child) {              
+    if (child.isMesh) {
+      child.castShadow = false; 
+      child.receiveShadow = false;                               
+    }      
+  });  
   for(let j=0;j<n.length;j++){                          
     for(let i = 0; i < Is3_2; i++) {
      if(n[j].name==castersArrIn[i]){
-       n[j].castShadow=true;              
+       n[j].castShadow=true;             
      }
    }
    for(let i = 0; i < Is3; i++) {
      if(n[j].name==receiversArrIn[i]){
        n[j].receiveShadow=true;                               
-     }    
+     } 
    } 
- }    
+ }   
+ console.log("intial shadows") 
 }
 function intial_shadowsOf(){
   for(let i = 0; i < Is3_2; i++) {
@@ -156,12 +156,19 @@ function intial_shadowsOf(){
               
   }
 }) 
-
+ let Shadows_NightLight1=document.getElementById("Shadows_NightLight1");
+Shadows_NightLight1.addEventListener("change",(e)=>{
+  if(e.target.checked){     
+    Shadows_NightLight1On();    
+  }else{                         
+    Shadows_NightLight1Of();                      
+  }
+})        
  if(shadowLight==0){ 
   Shadows_SunLightOn();   
  }else if(shadowLight==1){
   Shadows_NightLight1On();  
- }else{  
+ } else{    
   intial_shadowsOn(); 
  }
 }

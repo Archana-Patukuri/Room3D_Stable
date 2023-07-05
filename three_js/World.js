@@ -89,7 +89,7 @@ labelRenderer.domElement.style.pointerEvents = 'none'
 container.appendChild(labelRenderer.domElement); 
 
 let ambientLightSun
-let shadowLight=4;
+let shadowLight=3;
 let camera;
 let renderer;
 let scene;
@@ -623,8 +623,8 @@ async loadLaptopGLTF() {
       });
 
       tableLampTop.material = subMaterial;
-      if(a==0){        
-        shadowLight=3;
+      shadowLight=3;
+      if(a==0){                
         stateList.Shadows_NightLight1.checked=false;
       }else{       
         sunLight.intensity = 0;
@@ -644,11 +644,10 @@ async loadLaptopGLTF() {
       fanLight.intensity = 3;
 
       tableLamp.intensity = 15;
-      tableLamp.castShadow=true;
-        shadowLight=1;
+      tableLamp.castShadow=true;        
         stateList.Shadows_NightLight1.checked=true;
       }
-      shadows(scene,clock,shadowLight);          
+      shadows(scene,clock,shadowLight);       
       a=a+1;     
     };
    
