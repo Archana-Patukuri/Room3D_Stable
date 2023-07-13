@@ -273,20 +273,21 @@ closenavBtn.onclick= function() {
    })
    toast_button[5].addEventListener("click",function(){   
     toastTypes[5].classList.add("show");       
-   })   
-        
-  let more=document.getElementById("more");
-  let less=document.getElementById("less");
-  let MoreControls=document.getElementById("MoreControls")
-  more.addEventListener("click",function(){
-    MoreControls.style.display="block";
-    less.style.display="block";
-    more.style.display="none";
-  })
-  less.addEventListener("click",function(){
-    MoreControls.style.display="none";
-    more.style.display="block";
-    less.style.display="none";
-  })
+   })           
+            
+
+   let more=document.getElementById("more");      
+   let MoreControlsToast=document.getElementById("MoreControlsToast");
+let toast_close_button=document.getElementById("toast_close_button")
+
+   more.addEventListener("click",function(){
+     MoreControlsToast.style.display="block";   
+   })
+   toast_close_button.addEventListener("click",function(){
+    MoreControlsToast.style.display="none"; 
+   })
   
+   
+  
+
 

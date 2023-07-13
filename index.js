@@ -1,4 +1,3 @@
-//import { World } from "https://d1asmhoz5zfmcr.cloudfront.net/three_js/World.js";
 import { World } from "./three_js/World.js";
 async function main() {  
   const world = new World();

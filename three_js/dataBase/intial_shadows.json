@@ -1,15 +1,12 @@
 {
 	"receivers": [		
 		"Floor",
-		"Table_Top_Mesh",
-		"Back_Wall",
+		"Table_Top_Mesh",		
 		"Left_Wall",
-		"Front_Wall",
-		"Right_Wall",
-		"Cealing"		
+		"Front_Wall",				
+		"Skrit"		
 	],
-	"casters": [									
-				
+	"casters": [													
 		"Table_Top_Mesh",
 		"Node_Legs"	,
 		"Node_Tyres",

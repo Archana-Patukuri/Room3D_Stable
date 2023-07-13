@@ -69,7 +69,7 @@ import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUnifo
 import useSpinner from '../use-spinner';
 import '../use-spinner/assets/use-spinner.css';
 import eruda from "eruda";
-
+import WebGPU from 'three/addons/capabilities/WebGPU.js';
 // import WebGPU from 'three/addons/capabilities/WebGPU.js';
 
 
@@ -176,18 +176,19 @@ class World {
     this.container = container;
     UIContainer = container;
 
+
     labelRenderer.setSize(container.clientWidth, container.clientHeight)
 
     scene = createScene();
     renderer = createRenderer();
-    renderer.info.autoReset = false;
+     renderer.info.autoReset = false;
     composer = createEffectComposer(renderer);          
 
     camera = createCamera(); 
     scene.add(camera);    
     camera.layers.enable(0);
     camera.layers.enable(2);
-     
+       
    renderer.domElement.addEventListener( 'pointermove', (e) => {
     prompt.style.display="none";
   });   
@@ -312,6 +313,7 @@ class World {
   async loadBackground() {
     const { hdri0 } = await hdriLoad();        
       scene.environment = hdri0;       
+      scene.background = new Color(0xffffff);
   }
   createUI() {
     //created FurnitureTypesUI from JSON data
@@ -348,7 +350,7 @@ class World {
        async function input_var_Fun(){
         let myPromise = new Promise(function(resolve) {                                                                 
           gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );            
-          console.log(input)
+          reflection(scene,clock,gui);                  
         });                
         await myPromise;                 
       }                   
@@ -508,7 +510,7 @@ async loadLaptopGLTF() {
   lightPresets() {      
 
     RectAreaLightUniformsLib.init();
-    renderer.toneMappingExposure = 0.5; 
+    renderer.toneMappingExposure = 1; 
 
     let rectAreaLights = [];
     for (let i = 0; i < 4; i++) {
@@ -533,22 +535,25 @@ async loadLaptopGLTF() {
 
     sunLight.position.set(-3, 2, 0);
     sunLight.target.position.set(1.5, 0, 0);
+    sunLight.shadow.mapSize.width = 2048; 
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.camera.near = 0.1; 
+    sunLight.shadow.camera.far = 1000;
+    sunLight.shadow.autoUpdate = true;
+    sunLight.shadow.camera.updateProjectionMatrix();
     scene.add(sunLight.target);
     scene.add(sunLight);   
    
     let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");
-    let fanLight = scene.getObjectByName("fanLight"); 
-    let cealingLightMesh = scene.getObjectByName("Mesh_Walls001_1");
-    let fanLightMesh = scene.getObjectByName("Motor_emissive");           
-    let tableLampTop = scene.getObjectByName("TableStand006");
-    let emissive_Obj=scene.getObjectByName("Mesh_Walls001");  
+    let fanLight = scene.getObjectByName("fanLight");    
+    let tableLampTop = scene.getObjectByName("TableStand006");    
     let tableLampMatSubsurface = tableLampTop.material;
     let texLoader = new TextureLoader();
     let subTexture = texLoader.load("textures/subSurface.jpg");
   
     dayLightSettings = function (hdri1) {            
       console.time("DayLight Preset time"); 
-      scene.background = new Color(0xffffff);          
+      // scene.background = new Color(0xffffff);          
       tableLamp.intensity = 0;
       fanLight.intensity = 0;            
       cylindricalLampSpotLight_1.intensity = 0;
@@ -579,21 +584,21 @@ async loadLaptopGLTF() {
     let a=0;  
     nightLightSettings1 = function (hdri0) { 
       console.time("NightLight Preset time");                
-      renderer.toneMappingExposure = 0.5;            
-      scene.background = new Color(0x000000);                   
+      renderer.toneMappingExposure = 1;            
+      // scene.background = new Color(0x000000);                   
 
-      fanLightMesh.material.emissiveIntensity = 2;
+      /* fanLightMesh.material.emissiveIntensity = 2;
       cealingLightMesh.material.emissiveIntensity = 2;
-      emissive_Obj.material.emissive=new Color(1, 1, 1);  
+      emissive_Obj.material.emissive=new Color(1, 1, 1);   */
      
-      stateList.HDRI.checked=true;      
+      /* stateList.HDRI.checked=false;      
       stateList.CeilingLight.checked=true;
       stateList.desktopLight.checked=true
       stateList.SunLightEle.checked=false;
       stateList.Shadows_SunLight.checked=false;            
       stateList.Emissive.checked=true;
       stateList.Cylindrical_Light.checked=true;  
-          
+           */
            
      
       tableLampTop.material = tableLampMatSubsurface;      
@@ -652,7 +657,7 @@ async loadLaptopGLTF() {
     };
    
     const dayLightSettings_fn = async () => {
-      const { background0,background1,hdri0, hdri1 } = await hdriLoad();           
+      const { hdri1 } = await hdriLoad();           
       await new Promise(resolve => setTimeout(() => {
         dayLightSettings(hdri1);
         resolve();
@@ -673,7 +678,7 @@ async loadLaptopGLTF() {
       } 
     })
     const NightLight1_fn = async () => {
-      const {background0, background1, hdri1,hdri0 } = await hdriLoad();       
+      const {hdri0 } = await hdriLoad();       
       await new Promise(resolve => setTimeout(() => {
         nightLightSettings1(hdri0);
         resolve();
@@ -715,7 +720,7 @@ async loadLaptopGLTF() {
       await new Promise(resolve => setTimeout(() => {
         delta = clock.getDelta();
         //TAA pass for Antialiasing
-      taaRenderPass = new TAARenderPass(scene, camera);   
+        taaRenderPass = new TAARenderPass(scene, camera);   
         taaRenderPass.sampleLevel = 1;  
         const param = { TAAEnabled: '1', TAASampleLevel: 0 };
         if ( gui ) gui.destroy();
@@ -995,11 +1000,12 @@ async loadLaptopGLTF() {
       }
     })
 
-    let saoPass = new SAOPass( scene, camera, false, true );                 
+    let saoPass
     let SAO_C=document.getElementById("SAO_C");
     const Ambient_Occlusion_sao_fn = async () => {
       await new Promise(resolve => setTimeout(() => {  
-        delta = clock.getDelta();     
+        delta = clock.getDelta();    
+        saoPass = new SAOPass( scene, camera, false, true );                  
         composer.addPass( saoPass ); 
         if ( gui ) gui.destroy();
         gui = new GUI();
@@ -1071,7 +1077,7 @@ async loadLaptopGLTF() {
       } );
       // groundReflector.material.depthWrite = false;
       groundReflector.rotation.x = - Math.PI / 2;
-       groundReflector.position.y = -0.01;
+      groundReflector.position.y = -0.01;
       groundReflector.position.z=0.43;
       groundReflector.position.x=0.08; 
 
@@ -1496,8 +1502,9 @@ async loadLaptopGLTF() {
               node.material.normalMap.dispose();
               }           
             }
-          })   
-          scene.remove(selectedObjects[0].children[0]); 
+          })             
+          scene.remove(selectedObjects[0]); 
+          
         }else{
           console.log("select an object to delete")
         }                                                                                  
@@ -1728,21 +1735,16 @@ async loadLaptopGLTF() {
   start() {
     renderer.setAnimationLoop(function () {
       cameraControls.update();
-      // renderer.info.reset();
-      composer.render();
+       renderer.info.reset();
+       composer.render();
+      //renderer.render(scene, camera);
       camera.updateMatrixWorld()       
       const delta = clock.getDelta();  
       if(chairModels.currentAnimationMixer || tableModels.currentAnimationMixer || blindsModels.currentAnimationMixer){
         chairModels.currentAnimationMixer.update(delta);
         tableModels.currentAnimationMixer.update(delta);
         blindsModels.currentAnimationMixer.update(delta);
-      }   
-      
-      /*  scene.traverse(function(child){  
-        if(child.name.slice(0,5)=="Chair"){      
-          child.castShadow=true;           
-        }   
-       })  */
+      }             
       // console.log(renderer.info.memory);
       labelRenderer.render(scene, camera)          
       //DEBUG      
