@@ -194,6 +194,8 @@ const sun_fn = async () => {
     fanLight.castShadow = false;
     Light.castShadow = false;    
 
+    stateList.Emissive.checked=true; 
+
     sunLight.castShadow = true; 
     slider_SL.oninput = function() {         
       sunLight.intensity=this.value
@@ -267,7 +269,8 @@ DayLight1.addEventListener("change",(e)=>{
               await new Promise(resolve => setTimeout(() => {
                 console.time("ambient Light On"); 
                 renderer.toneMappingExposure = 1;                                   
-                                                                                 
+                stateList.Emissive.checked=true; 
+
                 ambientLight.intensity=1                 
                 scene.add(ambientLight);
                 fanLight.intensity=0;
@@ -309,7 +312,7 @@ DayLight1.addEventListener("change",(e)=>{
     const Cylindrical_Light_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         console.time("Cylindrical Light On"); 
-
+        stateList.Emissive.checked=true; 
         if(val_cyl!=0){          
           renderer.toneMappingExposure = 1; 
           sunLight.castShadow = false;
@@ -404,6 +407,7 @@ DayLight1.addEventListener("change",(e)=>{
               Light.castShadow = false;
               fanLight.castShadow=true;              
               renderer.toneMappingExposure = 1;  
+              stateList.Emissive.checked=true; 
 
               fanLight.intensity=8   
               ambientLight.intensity = 0; 
@@ -498,6 +502,7 @@ DayLight1.addEventListener("change",(e)=>{
           renderer.toneMappingExposure = 1;
           sunLight.castShadow = false;
           fanLight.castShadow = false;
+          stateList.Emissive.checked=true; 
 
           fanLight.intensity=0;
           ambientLight.intensity = 0; 
