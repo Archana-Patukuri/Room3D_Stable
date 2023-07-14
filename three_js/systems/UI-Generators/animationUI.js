@@ -1,7 +1,6 @@
 import { Clock, LoopOnce, Vector3,AmbientLight,Color,DirectionalLightHelper } from "three";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
 import tablesHeights from "../../dataBase/tablesHeights.json" assert { type: "json" };
-import { shadows } from "../shadows";
 function animationUI(gltfData, mixer, category, URL,scene,renderer) {  
 
   let animationClips = [];
@@ -213,10 +212,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
 
       input.addEventListener("click", function () {
         input_anim_Fun();   
-        ambientLightIntensity(gltfData.animations[i].name);  
-        /* let clock = new Clock();
-        let shadowLight=0;      
-        shadows(scene,clock,shadowLight);   */
+        // ambientLightIntensity(gltfData.animations[i].name);         
       });
     }
     let animation_label = document.createElement("label");

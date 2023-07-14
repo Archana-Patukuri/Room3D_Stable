@@ -1,4 +1,4 @@
-import { shadows } from "../shadows";
+// import { shadows } from "../shadows";
 import { Clock } from "three";
 const furnitureTypesUI = function (
   assetsList,
@@ -67,8 +67,7 @@ const furnitureTypesUI = function (
       let laptop=scene.getObjectByName("Laptop_Selectable");
       let lamp_light=scene.getObjectByName("Desktop_Lamp_Light002");  
       laptop.position.set(0,0.1757,0);                 
-      let tableTop=scene.getObjectByName("Table_Top")   
-            console.log("..........................")
+      let tableTop=scene.getObjectByName("Table_Top")               
       if(input.id.slice(0,9)=="Motarized"){                                      
         tableTop.position.set(0.162, 0.800, 0.344)          
         FlowerPot.position.set(-0.4898,1.01,0.301)
@@ -92,8 +91,8 @@ const furnitureTypesUI = function (
       liveToast.getElementsByClassName("furnitureName")[0].innerHTML =assetsList[i].Name; 
              
         container_3d.appendChild(spinnerContainer);  
-        let shadowLight=0;      
-        shadows(scene,clock,shadowLight);                                
+       /*  let shadowLight=0;      
+        shadows(scene,clock,shadowLight);     */                            
     });
   }
 };
