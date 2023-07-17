@@ -70,31 +70,6 @@ const furnitureTypesUI = function (
     const liveToast = document.getElementById(`${UIContainer.id}Toast`); 
     
     input.addEventListener("click", function () {      
-     /*  let lamp=scene.getObjectByName("Lamp0_Selectable");
-      let FlowerPot=scene.getObjectByName("FlowerPot"); 
-      let laptop=scene.getObjectByName("Laptop_Selectable");
-      let lamp_light=scene.getObjectByName("Desktop_Lamp_Light002");  
-      laptop.position.set(0,0.1757,0);                 
-      let tableTop=scene.getObjectByName("Table_Top")               
-      if(input.id.slice(0,9)=="Motarized"){                                      
-        tableTop.position.set(0.162, 0.800, 0.344)          
-        FlowerPot.position.set(-0.4898,1.01,0.301)
-        lamp.position.set(1.16595,-0.2,0.5)        
-        lamp_light.position.set(0.9,1.3,0.3)                                   
-      }
-      if(input.id.slice(0,5)=="Small"){                               
-        FlowerPot.position.set(-0.3,1,0.1)        
-        lamp.position.set(0.75,-0.185,0.2)
-        lamp_light.position.set(0.38,1.3,0);                   
-        tableTop.position.set(0.162, 0.80, 0.33)               
-      }      
-      if(input.id.slice(0,6)=="Manual"){        
-        tableTop.position.set(0, 0, 0)        
-        FlowerPot.position.set(-0.4898,1.05,0.301)
-        lamp.position.set(1.16,-0.15,0.3)        
-        lamp_light.position.set(0.9,1.4,0.2)                                        
-      }
-     */
       liveToast.classList.add("show");
       liveToast.getElementsByClassName("furnitureName")[0].innerHTML =assetsList[i].Name; 
              
