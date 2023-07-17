@@ -223,36 +223,33 @@ Generate photo-realistic images via VisCommerce 3DCloud
             <ul class="nav nav-pills d-flex justify-content-around mt-2" id="myTab" role="tablist">
               <li class="nav-item">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" style="width:90px" class="px-2 py-0 active buttons buttonC" id="chair-tab"
-                    data-bs-toggle="tab" data-bs-target="#chair" aria-controls="chair"
-                    aria-selected="true">Chair</button>
+                  <button type="button" style="width:90px" class="px-2 py-0 active buttons buttonC furnitureToggleButton " id="chair-tab"
+                   >Chair</button>
                 </div>
               </li>
               <li class="nav-item">
                 <div class="btn-group mx-1" role="group" aria-label="Basic example">
-                  <button type="button" style="width:90px" class="px-2 py-0 buttons buttonC" id="table-tab"
-                    data-bs-toggle="tab" data-bs-target="#table" aria-controls="table"
-                    aria-selected="false">Table</button>
+                  <button type="button" style="width:90px" class="px-2 py-0 buttons buttonC furnitureToggleButton" id="table-tab"
+                    >Table</button>
                 </div>
               </li>
               <li class="nav-item">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" style="width:100px" class="px-2 py-0 buttons buttonC" id="windowBlinds-tab"
-                    data-bs-toggle="tab" data-bs-target="#windowBlinds" aria-controls="windowBlinds"
-                    aria-selected="false">Shades</button>
+                  <button type="button" style="width:100px" class="px-2 py-0 buttons buttonC furnitureToggleButton" id="windowBlinds-tab"
+                    >Shades</button>
                 </div>
               </li>            
             </ul>
           </div>          
           <div class="row mx-auto">
             <div class="tab-content d-flex justify-content-center">
-              <div class="tab-pane fade show active position-relative" id="chair">               
+              <div class="tab-pane furnitureUIContainer active show fade position-relative" id="chair">               
                 <!-- toast -->
                 <div class="d-flex justify-content-center" id="chairTypesUI">
                   <!-- Chair-furniture-types-UI -->                 
                 </div>               
               </div>
-              <div class="tab-pane fade position-relative" id="table">                
+              <div class="tab-pane furnitureUIContainer fade position-relative" id="table">                
                 <!-- toast -->
                 <div class="d-flex justify-content-center" id="tableTypesUI">
                   <!-- Table-furniture-types-UI -->
@@ -262,7 +259,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                   
                 </div>                
               </div>
-              <div class="tab-pane fade position-relative" id="windowBlinds">               
+              <div class="tab-pane furnitureUIContainer fade position-relative" id="windowBlinds">               
                 <!-- toast -->
                 <div class="d-flex justify-content-center" id="blindsTypesUI">
                   <!-- blinds-furniture-types-UI -->
@@ -324,7 +321,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             <label for="CeilingLight1">Ceiling Light</label>
                           </div>
                             <div class="slidecontainer" style="margin-left: 22px;">                          
-                              <input type="range" min="0" max="10" value="3" step="0.1" class="slider Slider_range1">
+                              <input type="range" min="0" max="100" value="50" step="1" class="slider Slider_range1">
                             </div>
                             <div class="colorPickerContainer" style="margin-left: 6px;">                          
                               <input type="color" class="colorPicker1" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
@@ -433,15 +430,15 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             <input type="radio" id="CeilingLight" name="lights" checked value="CeilingLight" class="largerCheckbox lightTypes">
                             <label for="CeilingLight">Ceiling Light</label>
                           </div>
-                            <div class="slidecontainer" style="margin-left: 5px;">                          
-                              <input type="range" min="0" max="10" value="8" step="0.1" class="slider Slider_range">
+                            <div class="slidecontainer" style="margin-left: 8px;">                          
+                              <input type="range" min="0" max="100" value="50" step="1" class="slider Slider_range">
                             </div>
                             <div class="colorPickerContainer" style="margin-left: 6px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
+                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
                             </div> 
                             <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">  
   
-                            <input type="number" id="distance_CL" value="4" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
+                            <input type="number" id="distance_CL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
                             <input type="number" id="decay_CL" value="1" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
                           </div>  
                           
@@ -450,18 +447,18 @@ Generate photo-realistic images via VisCommerce 3DCloud
                               <input type="radio" id="TableLamp" name="lights" value="TableLamp" class="largerCheckbox lightTypes">
                               <label for="TableLamp">Desktop Light</label>                            
                           </div>
-                            <div class="slidecontainer" style="margin-left: 0px;">                          
+                            <div class="slidecontainer" style="margin-left: 4px;">                          
                               <input type="range" min="0" max="10" value="7" step="0.1" class="slider Slider_range">
                             </div>
                             <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
+                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
                             </div>   
                             <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">
                             
                             <input type="number" id="distance_DL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
                             <input type="number" id="decay_DL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                          </div>                         
-  
+                          </div>                                                    
+
                           <div style="display: none;" id="FloorLamp" >
                           <div class="d-flex">                          
                             <div class="d-flex flex-row">                         
@@ -472,7 +469,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                               <input type="range" min="0" max="10" value="5" step="0.1" class="slider Slider_range">
                             </div>
                             <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
+                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
                             </div> 
                             <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left:5px;">                            
   
@@ -490,7 +487,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range">
                           </div>
                           <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                            <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
+                            <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
                           </div> 
                           <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">  
   
@@ -498,16 +495,35 @@ Generate photo-realistic images via VisCommerce 3DCloud
                           <input type="number" id="decay_WL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
                         </div>  
                       </div>
+
+                      <div class="d-flex">
+                        <div class="d-flex flex-row">
+                          <input type="radio" name="lights" value="Cylindrical_Light" checked id="Cylindrical_Light" class="largerCheckbox">
+                          <label for="Cylindrical_Light" style="font-size: 9px;">Wall Washer Light</label>                      
+                      </div>
+                        <div class="slidecontainer" >                          
+                          <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range">
+                        </div>
+                        <div class="colorPickerContainer" style="margin-left: 4px;">                          
+                          <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
+                        </div> 
+                         <input type="checkbox" name="helper" style="margin-left: 5px;" class="largerCheckbox helpers_controls" >  
+
+                         <input type="number" id="distance_WWL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
+                      <input type="number" id="decay_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
+                      <!-- <input type="number" id="angle_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;"> -->
+                      </div>   
+
                           <div class="d-flex">
                             <div class="d-flex flex-row">
                               <input type="radio" id="DayLight" name="lights" value="DayLight" class="largerCheckbox lightTypes">
                               <label for="DayLight">Sun Light</label>                      
                           </div>
-                            <div class="slidecontainer" style="margin-left: 13px;">                          
+                            <div class="slidecontainer" style="margin-left: 22px;">                          
                               <input type="range" min="0" max="50" value="30" step="0.1" class="slider Slider_range">
                             </div>
-                            <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
+                            <div class="colorPickerContainer" style="margin-left: 7px;">                          
+                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
                             </div> 
                             <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">  
                           </div>  
@@ -516,31 +532,15 @@ Generate photo-realistic images via VisCommerce 3DCloud
                               <input type="radio" name="lights" value="mild_ambient_light" class="largerCheckbox" id="mild_ambient_light">
                               <label for="mild_ambient_light">Ambient Light</label>                                
                           </div>
-                            <div class="slidecontainer" style="margin-left: 0px;">                          
+                            <div class="slidecontainer" style="margin-left: 4px;">                          
                               <input type="range" min="0" max="5" value="1" step="0.1" style="width: 87px;" class="slider Slider_range">
                             </div>
-                            <div class="colorPickerContainer" style="margin-left: 1px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
+                            <div class="colorPickerContainer" style="margin-left: 7px;">                          
+                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
                             </div>   
                           </div> 
 
-                          <div class="d-flex">
-                            <div class="d-flex flex-row">
-                              <input type="radio" name="lights" value="Cylindrical_Light" checked id="Cylindrical_Light" class="largerCheckbox">
-                              <label for="Cylindrical_Light">Wall Washer Light</label>                      
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 0px;">                          
-                              <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 7px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
-                            </div> 
-                             <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 10px;">  
-  
-                             <input type="number" id="distance_WWL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                          <input type="number" id="decay_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                          <!-- <input type="number" id="angle_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;"> -->
-                          </div>                                                                                                        
+                                                                                                                            
   
                          <div id="MoreControls">
                           <div class="d-flex">                          
@@ -586,7 +586,8 @@ Generate photo-realistic images via VisCommerce 3DCloud
                                     <div class="d-flex flex-row pb-1"> 
                                     <input type="checkbox" id="SAO_C" name="Preferences" value="SAO_C" class="largerCheckbox">
                                 <label for="SAO_C">SAO</label> 
-                                </div>       
+                                </div>  
+                                <a href="#" id="backControls" class="border:none">Back</a>       
                             </div>
                             <div style="margin-left: 20px;margin-top: 20px;">                             
                             <div class="d-flex flex-row pb-1"> 
@@ -625,6 +626,8 @@ Generate photo-realistic images via VisCommerce 3DCloud
                                       <input type="checkbox" id="ssr_ui" name="Preferences" value="ssr_ui" class="largerCheckbox">
                                       <label for="ssr_ui">SSR</label>
                                       </div>
+
+                                         
                               <!-- <input type="checkbox" id="godRays" name="Preferences" value="godRays" class="largerCheckbox">
                               <label for="godRays">Volumetric Effect</label>        -->                                
   
@@ -942,19 +945,14 @@ Generate photo-realistic images via VisCommerce 3DCloud
 
             <div class="d-flex justify-content-center" style="font-size: 12px;" id="controlsUI">
               
-              <div>
-                <p>click on sumbit before render</p>
-                <button id="Export"  class="buttons" style="background-color: #FF5A50;color: #FFFFFF;">Submit</button>
+              <div>                                
                 <form name = "passdata" action="http://127.0.0.1:5000/send_email"  method="Post">
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                  </div>
-                  <!-- <div >
-                    <button id="Export" class="buttons buttonC">Submit</button>                         
-                  </div> -->
-                  
-                  <button type="submit" id="RenderButton" class="buttons" style="background-color: #FF5A50;color: #FFFFFF;">Render</button>
+                  </div>                  
+                  <p  class="buttons" style="background-color: #FF5A50;color: #FFFFFF;padding-top: 4px;" id="Export">Submit</p>
+                  <button type="submit" id="RenderButton" class="buttons" style="display: none;background-color: #FF5A50;color: #FFFFFF;">Render</button>
                 </form>
               </div>
             </div>

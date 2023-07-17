@@ -276,7 +276,8 @@ closenavBtn.onclick= function() {
    })           
             
 
-   let more=document.getElementById("more");      
+   let more=document.getElementById("more");   
+   let backControls=document.getElementById("backControls");
    let MoreControlsToast=document.getElementById("MoreControlsToast");
 let toast_close_button=document.getElementById("toast_close_button")
 
@@ -284,6 +285,10 @@ let toast_close_button=document.getElementById("toast_close_button")
      MoreControlsToast.style.display="block";   
    })
    toast_close_button.addEventListener("click",function(){
+    MoreControlsToast.style.display="none"; 
+   })
+
+   backControls.addEventListener("click",function(){
     MoreControlsToast.style.display="none"; 
    })
   

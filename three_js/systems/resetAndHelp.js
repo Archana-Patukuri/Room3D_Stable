@@ -11,7 +11,7 @@ function resetAndHelp(camera){
     })
     async function ResetView_Fun(){
       let myPromise = new Promise(function(resolve) {        
-        camera.position.set(0.479,2.165,4.633);                  
+        camera.position.set(0.01,1.5,4.7);                  
       });
       await myPromise;  
     }      

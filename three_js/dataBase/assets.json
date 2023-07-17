@@ -1,13 +1,13 @@
 {
   "Room": [
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Room/Room_Variants.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Room/Room_Variants_draco_spot.glb",
       "Name": "Room"
     }    
   ],
   "Plants": [
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/IndoorPlants/floor/indoor_plant_v01_opt_Draco.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/IndoorPlants/floor/indoor_plant_v01_opt.glb",
       "Name": "Plant 01"
     }
   ],
@@ -31,17 +31,17 @@
       
   "Tables": [
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Tables/table_01/Table_Automatic_01_v01_Draco.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Tables/Table_Automatic_01_v01_Draco.glb",
       "Name": "Manual Ergonomic Table",
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/tables/Table_Automatic_01_v01.webp"
     },
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Tables/table_02/Table_Manual_01_v01_Draco.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Tables/Table_Manual_01_v01_Draco.glb",
       "Name": "Motarized Ergonomic Table",
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/tables/Table_Manual_01_v01.webp"
     },
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Tables/table_03/Table_Small_01_v01_Draco.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Tables/Table_Small_01_v01_Draco.glb",
       "Name": "Small Ergonomic Table",
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/tables/Table_Small_01_v01.webp"
     }
@@ -86,7 +86,7 @@
   ],
   "Lights": [  
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/TableLamps/Desk_Lamp_draco.glb",
+      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/TableLamps/Desk_Lamp.glb",
       "Name": "Desktop Light",
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/lights/Table_Lamp_01_v01.webp"
     },     

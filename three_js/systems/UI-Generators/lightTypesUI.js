@@ -59,7 +59,7 @@ const lightTypesUI = function (
     input.addEventListener("click", function () {
      //liveToast.classList.add("show");
       //liveToast.getElementsByClassName("furnitureName")[0].innerHTML =
-        assetsList[i].Name;      
+        // assetsList[i].Name;      
         container_3d.appendChild(spinnerContainer);   
      
     });

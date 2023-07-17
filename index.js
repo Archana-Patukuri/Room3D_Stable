@@ -5,9 +5,7 @@ async function main() {
   world.loadBackground();       
   await Promise.all([    
     await world.loadRoomGLTF(),    
-    await world.loadTableGLTF(),        
-    await world.loadVaseGLTF(),
-    await world.loadLaptopGLTF(),        
+    await world.loadTableGLTF(),                 
     await world.loadLightsGLTF(),        
     await world.loadChairGLTF(),    
     await world.loadBlindsGLTF(),

@@ -2,6 +2,7 @@ import { furnitureTypesUI } from "../../systems/UI-Generators/furnitureTypesUI";
 import { gltfLoad } from "../gltf_loader/gltfLoad.js";
 import { animationUI } from "../../systems/UI-Generators/animationUI";
 import { AnimationMixer, Group } from "three";
+import { calculateCenter } from "./calculateCenter";
 import { setupModel } from "./setupModel";
 
 class FurnitureContainer {

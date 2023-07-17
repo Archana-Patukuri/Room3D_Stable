@@ -1,17 +1,11 @@
 import {
-  Color,
-  Vector3,
-  RepeatWrapping,
-  ShaderMaterial,  
-  UniformsUtils, 
-  MeshStandardMaterial,  
+  Color, 
 } from "three";
 import * as THREE from 'three';
 import { hdriLoad } from "../components/hdri_loader/hdri_loader.js";
 import useSpinner from '../../use-spinner';
 import '../../use-spinner/assets/use-spinner.css';
 let container_3d=document.getElementById("3dcontainer");
-import { SubsurfaceScatteringShader } from "three/examples/jsm/shaders/SubsurfaceScatteringShader.js";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 var delta;
 
@@ -23,9 +17,9 @@ async function lightControls(scene,renderer,sunLight,ambientLight,clock,prompt,s
    let slider_DL=slider_l[1]
    let slider_FL=slider_l[2]
    let slider_WL=slider_l[3]
-   let slider_SL=slider_l[4]
-   let slider_CWL=slider_l[6]
-   let slider_AL=slider_l[5]
+   let slider_CWL=slider_l[4]
+   let slider_SL=slider_l[5]   
+   let slider_AL=slider_l[6]
    let slider_HDRI=slider_l[7]
 
    let slider_1=document.querySelectorAll(".Slider_range1");
@@ -41,17 +35,18 @@ async function lightControls(scene,renderer,sunLight,ambientLight,clock,prompt,s
    let helpers_DL=helpers_controls[1];
    let helpers_FL=helpers_controls[2];
    let helpers_WL=helpers_controls[3];
-   let helpers_SL=helpers_controls[4];
-   let helpers_CWL=helpers_controls[5];
+   let helpers_CWL=helpers_controls[4];
+   let helpers_SL=helpers_controls[5];
+   
 
    let colorPicker=document.querySelectorAll(".colorPicker");    
    let colorPicker_CL=colorPicker[0]
    let colorPicker_DL=colorPicker[1]
    let colorPicker_FL=colorPicker[2]
    let colorPicker_WL=colorPicker[3]
-   let colorPicker_SL=colorPicker[4]
-   let colorPicker_CWL=colorPicker[6]
-   let colorPicker_AL=colorPicker[5]    
+   let colorPicker_CWL=colorPicker[4]
+   let colorPicker_SL=colorPicker[5]   
+   let colorPicker_AL=colorPicker[6]    
 
    let colorPicker1=document.querySelectorAll(".colorPicker1");    
    let colorPicker_CL1=colorPicker1[0]
@@ -180,7 +175,9 @@ async function lightControls(scene,renderer,sunLight,ambientLight,clock,prompt,s
 const sun_fn = async () => {
   await new Promise(resolve => setTimeout(() => { 
     delta = clock.getDelta(); 
-
+    scene.environment=hdri1;
+    stateList.HDRI.checked=true;
+    scene.background = new Color(0xffffff);          
     sunLight.intensity=30;     
     fanLight.intensity=0;
     ambientLight.intensity = 0; 
@@ -190,9 +187,7 @@ const sun_fn = async () => {
     cylindricalLampSpotLight_3.intensity=0;
     cylindricalLampSpotLight_4.intensity=0;     
 
-    renderer.toneMappingExposure = 1;    
-    fanLight.castShadow = false;
-    Light.castShadow = false;    
+    renderer.toneMappingExposure = 0.3;        
 
     stateList.Emissive.checked=true; 
 
@@ -263,14 +258,16 @@ stateList.SunLightEle.addEventListener("change",(e)=>{
 DayLight1.addEventListener("change",(e)=>{                               
   if(e.target.checked){                       
     SunLight_Fun()                                                   
-  }                                     
+  }                                   
 }) 
           const ambient_light_fn = async () => {
               await new Promise(resolve => setTimeout(() => {
                 console.time("ambient Light On"); 
                 renderer.toneMappingExposure = 1;                                   
                 stateList.Emissive.checked=true; 
-
+                stateList.HDRI.checked=false;                
+                scene.environment=hdri0;
+                scene.background = new Color(0xffffff);          
                 ambientLight.intensity=1                 
                 scene.add(ambientLight);
                 fanLight.intensity=0;
@@ -279,11 +276,7 @@ DayLight1.addEventListener("change",(e)=>{
                 cylindricalLampSpotLight_1.intensity=0;
                 cylindricalLampSpotLight_2.intensity=0;
                 cylindricalLampSpotLight_3.intensity=0;
-                cylindricalLampSpotLight_4.intensity=0;
-
-                sunLight.castShadow = false;
-                fanLight.castShadow = false;
-                Light.castShadow = false;
+                cylindricalLampSpotLight_4.intensity=0;               
 
                   slider_AL.oninput = function() {                                                  
                   ambientLight.intensity=this.value
@@ -314,14 +307,13 @@ DayLight1.addEventListener("change",(e)=>{
         console.time("Cylindrical Light On"); 
         stateList.Emissive.checked=true; 
         if(val_cyl!=0){          
-          renderer.toneMappingExposure = 1; 
-          sunLight.castShadow = false;
-          fanLight.castShadow = false;
-          Light.castShadow = false;
+          renderer.toneMappingExposure = 0.3;           
           fanLight.intensity=0;
-          ambientLight.intensity = 0.2; 
+          ambientLight.intensity = 0; 
           Light.intensity=0; 
-          sunLight.intensity=0;                         
+          sunLight.intensity=0; 
+          stateList.HDRI.checked=true;                
+          scene.environment=hdri1;                                
         }              
         
 
@@ -402,23 +394,25 @@ DayLight1.addEventListener("change",(e)=>{
       await new Promise(resolve => setTimeout(() => {
         console.time("Ceiling Light On");                                        
                                                                                      
-             if(val_ceil!=0){
-              sunLight.castShadow = false;
-              Light.castShadow = false;
+             if(val_ceil!=0){             
               fanLight.castShadow=true;              
-              renderer.toneMappingExposure = 1;  
+              renderer.toneMappingExposure = 0.2;  
               stateList.Emissive.checked=true; 
 
-              fanLight.intensity=8   
+              fanLight.intensity=50   
               ambientLight.intensity = 0; 
               Light.intensity=0; 
               sunLight.intensity=0;  
               cylindricalLampSpotLight_1.intensity=0;
               cylindricalLampSpotLight_2.intensity=0;
               cylindricalLampSpotLight_3.intensity=0;
-              cylindricalLampSpotLight_4.intensity=0;         
+              cylindricalLampSpotLight_4.intensity=0; 
+              
+              stateList.HDRI.checked=true;                              
+              scene.environment=hdri1;
+              scene.background = new Color(0x000000);                   
              } else{
-              fanLight.intensity=3
+              fanLight.intensity=10
              }                                  
                          
         
@@ -499,10 +493,12 @@ DayLight1.addEventListener("change",(e)=>{
         if(val_desk==0){
           Light.intensity=15;                                 
         }else{
-          renderer.toneMappingExposure = 1;
-          sunLight.castShadow = false;
-          fanLight.castShadow = false;
+          renderer.toneMappingExposure = 1;        
           stateList.Emissive.checked=true; 
+
+          stateList.HDRI.checked=false;                
+          scene.environment=hdri0;
+          scene.background = new Color(0x000000);                   
 
           fanLight.intensity=0;
           ambientLight.intensity = 0; 
@@ -512,34 +508,7 @@ DayLight1.addEventListener("change",(e)=>{
           cylindricalLampSpotLight_3.intensity=0;
           cylindricalLampSpotLight_4.intensity=0; 
           Light.intensity=7;                                               
- //sss..........                        
-        subTexture.wrapS = RepeatWrapping;
-        subTexture.wrapT = RepeatWrapping;
-        subTexture.repeat.set(4, 4);
-
-        const shader = SubsurfaceScatteringShader;
-        const uniforms = UniformsUtils.clone(shader.uniforms);
-        uniforms["diffuse"].value = new Vector3(0.8, 0.3, 0.2);
-        uniforms["shininess"].value = 10;
-
-        uniforms["thicknessMap"].value = subTexture;
-        uniforms["thicknessColor"].value = new Vector3(0.1, 0, 0);
-        uniforms["thicknessDistortion"].value = 0.1;
-        uniforms["thicknessAmbient"].value = 0.4;
-        uniforms["thicknessAttenuation"].value = 0.7;
-        uniforms["thicknessPower"].value = 10.0;
-        uniforms["thicknessScale"].value = 1;
-
-        var subMaterial = new ShaderMaterial({
-          uniforms: uniforms,
-          vertexShader: shader.vertexShader,
-          fragmentShader: shader.fragmentShader,
-          lights: true,
-        });
-
-        tableLampTop.material = subMaterial;
  
- //sss.......... 
         }                      
         slider_DL.oninput = function() {                            
           Light.intensity=this.value                
@@ -628,11 +597,7 @@ DayLight1.addEventListener("change",(e)=>{
       cylindricalLampSpotLight_1.intensity=0;
       cylindricalLampSpotLight_2.intensity=0;
       cylindricalLampSpotLight_3.intensity=0;
-      cylindricalLampSpotLight_4.intensity=0;
-
-      sunLight.castShadow = false;
-      fanLight.castShadow = false;
-      Light.castShadow = false;
+      cylindricalLampSpotLight_4.intensity=0;      
 
       slider_FL.oninput = function() {                
         floor_lamp_Ele.intensity=this.value
@@ -713,11 +678,7 @@ async function floor_lamp_else_Fun() {
         cylindricalLampSpotLight_1.intensity=0;
         cylindricalLampSpotLight_2.intensity=0;
         cylindricalLampSpotLight_3.intensity=0;
-        cylindricalLampSpotLight_4.intensity=0;
-  
-        sunLight.castShadow = false;
-        fanLight.castShadow = false;
-        Light.castShadow = false;
+        cylindricalLampSpotLight_4.intensity=0;         
 
         let arr=[];
         scene.traverse(function (child) {            
@@ -827,9 +788,11 @@ async function floor_lamp_else_Fun() {
     const Pitch_Dark_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         console.time("Pitchdark On");                                     
-        renderer.toneMappingExposure = 0;                       
+        renderer.toneMappingExposure = 0;  
+        scene.background = new Color(0x000000);                                        
         stateList.Emissive.checked=false;          
-        
+        stateList.HDRI.checked=false;                
+        scene.environment=hdri0;
         sunLight.intensity=0;  
         ambientLight.intensity=0;  
         cylindricalLampSpotLight_1.intensity=0;

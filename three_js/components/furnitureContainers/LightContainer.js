@@ -4,7 +4,7 @@ import { AnimationMixer,
   Group,
  } from "three";
 import { setupModel } from "./setupModel";
-
+let lamp_val=0
 class LightContainer {
   constructor(assetsList, lightsTypesUI, category, initialModelID,selectableObjects,scene,renderer) {
     this.assetsList = assetsList;
@@ -39,25 +39,22 @@ class LightContainer {
       
       let loadedModel = setupModel(gltfData);                 
       this.models[i] = loadedModel;
-
-      if (i==0) {                  
-        loadedModel.position.set(0.04,0.03,-0.1);
-        let lamp_light=this.scene.getObjectByName("Desktop_Lamp_Light002"); 
-        if(lamp_light){
-          lamp_light.position.set(0,0,0);                    
-        }                                                                  
-    }                     
+      
       this.spinnerDisplay(spinner, "none");
     }
     let model1_wall;       
     this.model = this.models[i];
     
     let FloorLamp=document.getElementById("FloorLamp");
-    let WallLamp=document.getElementById("WallLamp");  
-    
-    if(this.models[i].children[0].name.slice(0,5)=="Lamp0"){         
-      this.parentGroup1.add(this.model);          
-      this.selectableObjects.push(this.parentGroup1)                  
+    let WallLamp=document.getElementById("WallLamp");      
+    if(this.models[i].children[0].name.slice(0,5)=="Lamp0"){      
+      if(lamp_val>0){         
+      this.parentGroup1.add(this.model);  
+      this.scene.add(this.parentGroup1)   
+      this.models[i].children[0].position.set(0.04,0.03,-0.1);      
+      this.selectableObjects.push(this.parentGroup1)       
+    }
+    lamp_val=lamp_val+1                 
     }  
     if(this.models[i].children[0].name.slice(0,5)=="Lamp1"){
       FloorLamp.style.display="block";  

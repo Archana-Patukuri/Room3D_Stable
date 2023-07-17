@@ -57,6 +57,8 @@ function exportScene(scene) {
 
         // Export the scene with the provided email
         exportSceneFun(scene, emailWithoutDomain);
+        exportButton.style.display="none"
+        renderButton.style.display="block"
     });
 
     function exportSceneFun(scene, email) {

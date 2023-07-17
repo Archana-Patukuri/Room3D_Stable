@@ -16,7 +16,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
   let div1 = document.createElement("div");
   div1.className = "d-flex gap-2";               
 
-  if (category == "tables") {
+   if (category == "tables") {
     let tweens = [];   
     
     let tableTopPos = gltfData.scene.getObjectByName("Table_Top").position;          
@@ -42,109 +42,25 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
       label = document.createElement("label");
       label.className = "form-check-label";
       label.for = tablesHeights[model_name][i];
-      label.innerHTML = "Level" + i;
-      async function input_Fun(){
-        let myPromise = new Promise(function(resolve) {
-          tweens[i].start();   
-          let vase_tween,lamp_tween,laptop_tween; 
-          let vase=scene.getObjectByName("FlowerPot");                              
-          let lamp=scene.getObjectByName("Lamp0_Selectable");                              
-          let laptop=scene.getObjectByName("Laptop_Selectable"); 
-          let lamp_opos,vase_opos,laptop_ops;
-          
-          if(modelName.slice(0,11)=="Table_Small"){                            
-            lamp_opos=[0.75,-0.185,0.2];
-            vase_opos=[-0.3,1,0.1];                     
-            laptop_ops=[0,0.1757,0];
-          }else if(modelName.slice(0,12)=="Table_Manual"){
-            lamp_opos=[1.16595,-0.2,0.5];
-             vase_opos=[-0.4898,1.01,0.301];                     
-             laptop_ops=[0,0.1757,0];               
-          }
-          else{      
-            lamp_opos=[1.16,-0.15,0.3];
-             vase_opos=[-0.4898,1.05,0.301];                     
-             laptop_ops=[0,0.1757,0];            
-          }
-          if(i==0){            
-             vase_tween=new TWEEN.Tween(vase.position).to({
-              x:vase_opos[0],
-              y:vase_opos[1],
-              z:vase_opos[2]
-            },1200);
-            lamp_tween=new TWEEN.Tween(lamp.position).to({
-              x:lamp_opos[0],
-              y:lamp_opos[1],
-              z:lamp_opos[2]
-            },1200);
-            laptop_tween=new TWEEN.Tween(laptop.position).to({
-              x:laptop_ops[0],
-              y:laptop_ops[1],
-              z:laptop_ops[2]
-            },1200);
-            }
-            if(i==1){            
-             vase_tween=new TWEEN.Tween(vase.position).to({
-              x:vase_opos[0],
-              y:vase_opos[1]+0.15,
-              z:vase_opos[2]
-            },1200);
-            lamp_tween=new TWEEN.Tween(lamp.position).to({
-              x:lamp_opos[0],
-              y:lamp_opos[1]+0.15,
-              z:lamp_opos[2]
-            },1200);
-            laptop_tween=new TWEEN.Tween(laptop.position).to({
-              x:laptop_ops[0],
-              y:laptop_ops[1]+0.15,
-              z:laptop_ops[2]
-            },1200);
-            }
-            if(i==2){            
-               vase_tween=new TWEEN.Tween(vase.position).to({
-                x:vase_opos[0],
-                y:vase_opos[1]+0.3,
-                z:vase_opos[2]
-              },1200);
-              lamp_tween=new TWEEN.Tween(lamp.position).to({
-                x:lamp_opos[0],
-                y:lamp_opos[1]+0.3,
-                z:lamp_opos[2]
-              },1200);
-              laptop_tween=new TWEEN.Tween(laptop.position).to({
-                x:laptop_ops[0],
-                y:laptop_ops[1]+0.35,
-                z:laptop_ops[2]
-              },1200);
-            }
-         
-            vase_tween.easing(TWEEN.Easing.Sinusoidal.InOut);  
-            vase_tween.start(); 
-            lamp_tween.easing(TWEEN.Easing.Sinusoidal.InOut);  
-            lamp_tween.start();   
-            laptop_tween.easing(TWEEN.Easing.Sinusoidal.InOut);  
-            laptop_tween.start(); 
+      label.innerHTML = "Level" + i;  
 
-           
-        });
-        await myPromise;  
-      } 
-
-      input.addEventListener("click", function () {
-        input_Fun();        
+      input.addEventListener("click", function () {        
+        tweens[i].start();              
       });
       
       form.appendChild(input);
       form.appendChild(label);
       div1.appendChild(form);
       mainDiv.appendChild(div1);
+
+      
+      
     }
-    // console.log(tweens);
-    // tweens[1].start();
-  }  
+     
+  }   
   
   //Animations UI
-  if (category != "tables") {
+  
     for (let i = 0; i < gltfData.animations.length; i++) {
       form = document.createElement("div");
       form.className = "form-check";
@@ -171,10 +87,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
       animationClips[i].setLoop(LoopOnce);
       animationClips[i].blendMode = 1;
       animationClips[i].clampWhenFinished = true;                 
-
-      /* if(animationClips[i]._clip.name=="Half Open"){        
-        animationClips[i].play();                
-      } */
+      
       let lightPreset=document.querySelectorAll(".lightPreset");      
       lightPreset[0].addEventListener('change',function(){
       if (this.value == "DayLightPreset") {
@@ -183,9 +96,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
         }  
       } 
     })
-     /*  if (lightPreset[0].value ==  "DayLightPreset" && lightPreset[0].checked==true) {
-        console.log(animationClips[i])        
-      } */
+    
       async function input_anim_Fun(){
         let myPromise = new Promise(function(resolve) {
           mixer.stopAllAction();
@@ -220,7 +131,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
     animation_label.className="Animations"
     mainDiv.appendChild(animation_label);
     mainDiv.appendChild(div1);
-  }
+  
 
   //Material Variants UI
   let div2 = document.createElement("div");

@@ -12,6 +12,13 @@ import {shadows} from "./systems/shadows.js";
 
 import { hdriLoad } from "./components/hdri_loader/hdri_loader.js";
 import { Debug } from "./systems/Debug.js";
+
+/* import { Log4js } from "log4js";
+
+var logger = log4js.getLogger();
+logger.level = "debug";
+logger.debug("Some debug messages"); */
+
 import {
   Box3, 
   Clock,
@@ -25,11 +32,8 @@ import {
   AmbientLight,
   Color,
   DirectionalLight,  
-  RectAreaLight,  
-  RepeatWrapping,
-  ShaderMaterial,
-  TextureLoader,
-  UniformsUtils, 
+  RectAreaLight,   
+  TextureLoader,  
 } from "three";
 import * as THREE from 'three';
 import { createEffectComposer } from "./systems/effectComposer.js";
@@ -60,7 +64,6 @@ import assets from "./dataBase/assets.json" assert { type: "json" };
 import { Line2 } from "../node_modules/three/examples/jsm/lines/Line2.js";
 import { LineMaterial } from "../node_modules/three/examples/jsm/lines/LineMaterial.js";
 import { LineGeometry } from "../node_modules/three/examples/jsm/lines/LineGeometry.js";
-import { SubsurfaceScatteringShader } from "three/examples/jsm/shaders/SubsurfaceScatteringShader.js";
 
 import { CSS2DRenderer, CSS2DObject } from '../measurements-files/CSS2DRenderer.js';
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
@@ -69,9 +72,6 @@ import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUnifo
 import useSpinner from '../use-spinner';
 import '../use-spinner/assets/use-spinner.css';
 import eruda from "eruda";
-import WebGPU from 'three/addons/capabilities/WebGPU.js';
-// import WebGPU from 'three/addons/capabilities/WebGPU.js';
-
 
 let container_3d=document.getElementById("3dcontainer");
 let lineId = 0 
@@ -313,7 +313,7 @@ class World {
   async loadBackground() {
     const { hdri0 } = await hdriLoad();        
       scene.environment = hdri0;       
-      scene.background = new Color(0xffffff);
+      scene.background = new Color(0x000000); 
   }
   createUI() {
     //created FurnitureTypesUI from JSON data
@@ -381,12 +381,12 @@ class World {
     renderer.render(scene, camera);    
     console.log("room loaded",delta.toPrecision(3),"seconds")    
   }    
-//LoadTable
- async loadTableGLTF() {
-  delta = clock.getDelta(); 
+async loadTableGLTF() {
+  delta = clock.getDelta();                                                                                                                                               
   await tableModels.loadModel();  
   tableModels.parentGroup.position.set(0, 0, 0.5);  
-  selectableObjects.push(tableModels.parentGroup); 
+  selectableObjects.push(tableModels.parentGroup);
+  scene.add(tableModels.parentGroup) 
   renderer.render(scene, camera);
   console.log("table loaded",delta.toPrecision(3),"seconds")  
 }
@@ -395,12 +395,7 @@ async loadLightsGLTF() {
   delta = clock.getDelta(); 
     
   await lightsModels.loadModel();  
-               
-  if(lightsModels.assetsList[0].Name=="Desktop Light"){
-    scene.add(lightsModels.parentGroup1)
-    tableModels.parentGroup.add(lightsModels.parentGroup1)
-    selectableObjects.push(lightsModels.parentGroup1);      
-  }
+                
   if(lightsModels.assetsList[1].Name=="Floor Light"){  
     scene.add(lightsModels.parentGroup)  
     selectableObjects.push(lightsModels.parentGroup);      
@@ -413,32 +408,6 @@ async loadLightsGLTF() {
   renderer.render(scene, camera); 
   console.log("table lamp loaded",delta.toPrecision(3),"seconds")
 }            
- //LoadVase
- async loadVaseGLTF() {
-  delta = clock.getDelta();    
-  const { gltfData } = await gltfLoad(assets.Vase[0].URL,renderer); 
-  const loadedmodel = gltfData.scene; 
-  const vase = loadedmodel; 
-  vaseParent.position.set(0,0.03,0)
-  vaseParent.add(vase)        
-  tableModels.parentGroup.add(vaseParent)      
-  selectableObjects.push(vaseParent); 
-  renderer.render(scene, camera);
-  console.log("vase loaded",delta.toPrecision(3),"seconds")
-}
-//LoadLaptop
-async loadLaptopGLTF() {
-  delta = clock.getDelta(); 
-  const { gltfData } = await gltfLoad(assets.Laptop[0].URL,renderer); 
-  const loadedmodel = gltfData.scene; 
-  const laptop = loadedmodel;      
-  laptopParent.add(laptop)  
-  tableModels.parentGroup.add(laptopParent)
-  scene.add(tableModels.parentGroup);      
-  selectableObjects.push(laptopParent); 
-  renderer.render(scene, camera);
-  console.log("laptop compressed loaded",delta.toPrecision(3),"seconds")
-}
 
   //LoadBlinds
   async loadBlindsGLTF() {
@@ -544,16 +513,15 @@ async loadLaptopGLTF() {
     scene.add(sunLight.target);
     scene.add(sunLight);   
    
-    let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");
+    let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");    
     let fanLight = scene.getObjectByName("fanLight");    
-    let tableLampTop = scene.getObjectByName("TableStand006");    
-    let tableLampMatSubsurface = tableLampTop.material;
+    let tableLampTop = scene.getObjectByName("TableStand006");        
     let texLoader = new TextureLoader();
     let subTexture = texLoader.load("textures/subSurface.jpg");
   
     dayLightSettings = function (hdri1) {            
       console.time("DayLight Preset time"); 
-      // scene.background = new Color(0xffffff);          
+       scene.background = new Color(0xffffff);          
       tableLamp.intensity = 0;
       fanLight.intensity = 0;            
       cylindricalLampSpotLight_1.intensity = 0;
@@ -578,64 +546,32 @@ async loadLaptopGLTF() {
       sunLight.castShadow = true;  
       shadowLight=0;        
       shadows(scene,clock,shadowLight);  
-      scene.environment = hdri1;      
+      scene.environment = hdri1;  
+      renderer.toneMappingExposure=0.2;    
     };   
        
     let a=0;  
     nightLightSettings1 = function (hdri0) { 
       console.time("NightLight Preset time");                
-      renderer.toneMappingExposure = 1;            
-      // scene.background = new Color(0x000000);                   
-
-      /* fanLightMesh.material.emissiveIntensity = 2;
-      cealingLightMesh.material.emissiveIntensity = 2;
-      emissive_Obj.material.emissive=new Color(1, 1, 1);   */
+      renderer.toneMappingExposure = 1;                                     
      
-      /* stateList.HDRI.checked=false;      
+       stateList.HDRI.checked=false;      
       stateList.CeilingLight.checked=true;
       stateList.desktopLight.checked=true
       stateList.SunLightEle.checked=false;
       stateList.Shadows_SunLight.checked=false;            
       stateList.Emissive.checked=true;
       stateList.Cylindrical_Light.checked=true;  
-           */
-           
-     
-      tableLampTop.material = tableLampMatSubsurface;      
-    
-      subTexture.wrapS = RepeatWrapping;
-      subTexture.wrapT = RepeatWrapping;
-      subTexture.repeat.set(4, 4);
-
-      const shader = SubsurfaceScatteringShader;
-      const uniforms = UniformsUtils.clone(shader.uniforms);
-      uniforms["diffuse"].value = new Vector3(0.8, 0.3, 0.2);
-      uniforms["shininess"].value = 10;
-
-      uniforms["thicknessMap"].value = subTexture;
-      uniforms["thicknessColor"].value = new Vector3(0.1, 0, 0);
-      uniforms["thicknessDistortion"].value = 0.1;
-      uniforms["thicknessAmbient"].value = 0.4;
-      uniforms["thicknessAttenuation"].value = 0.7;
-      uniforms["thicknessPower"].value = 10.0;
-      uniforms["thicknessScale"].value = 1;
-
-      var subMaterial = new ShaderMaterial({
-        uniforms: uniforms,
-        vertexShader: shader.vertexShader,
-        fragmentShader: shader.fragmentShader,
-        lights: true,
-      });
-
-      tableLampTop.material = subMaterial;
-      shadowLight=3;
+                           
+     shadowLight=3;
       if(a==0){                
         stateList.Shadows_NightLight1.checked=false;
       }else{       
         sunLight.intensity = 0;
       ambientLightSun.intensity = 0;   
       scene.environment = hdri0;      
-    
+      scene.background = new Color(0x000000); 
+
       cylindricalLampSpotLight_1.intensity = 2;
       cylindricalLampSpotLight_2.intensity = 2;
       cylindricalLampSpotLight_3.intensity = 2;
@@ -713,7 +649,7 @@ async loadLaptopGLTF() {
   createPostProcess() {        
     const renderPass = new RenderPass(scene, camera);
     //Disable Render Pass
-    // renderPass.enabled = false;
+    // renderPass.enabled = false;         
     composer.addPass(renderPass);                       
     let taaRenderPass
     const TAA_fn = async () => {
