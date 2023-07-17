@@ -488,11 +488,11 @@ DayLight1.addEventListener("change",(e)=>{
     const desktopLight_fn = async () => {
       await new Promise(resolve => setTimeout(() => {
         console.time("Desktop Light On");                               
-                                                        
+        Light=scene.getObjectByName("Desktop_Lamp_Light002")                                                 
         Light.castShadow=true;  
         if(val_desk==0){
-          Light.intensity=15;                                 
-        }else{
+          Light.intensity=15;                                           
+        }else{        
           renderer.toneMappingExposure = 1;        
           stateList.Emissive.checked=true; 
 
@@ -507,7 +507,7 @@ DayLight1.addEventListener("change",(e)=>{
           cylindricalLampSpotLight_2.intensity=0;
           cylindricalLampSpotLight_3.intensity=0;
           cylindricalLampSpotLight_4.intensity=0; 
-          Light.intensity=7;                                               
+          Light.intensity=10;                                               
  
         }                      
         slider_DL.oninput = function() {                            
