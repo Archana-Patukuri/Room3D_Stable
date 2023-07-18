@@ -327,7 +327,8 @@ class World {
     delta = clock.getDelta();        
     let { gltfData } = await gltfLoad(assets.Room[0].URL,renderer);
     let loadedmodel = gltfData.scene;        
-    roomParent.add(loadedmodel);    
+    roomParent.add(loadedmodel); 
+    
    let themesDiv=document.getElementById("themesDiv");      
     for (let i = 0; i < gltfData.userData.variants.length; i++) {
       let div2 = document.createElement("div");
@@ -338,7 +339,7 @@ class World {
       input.className = "form-check-input largerCheckbox";      
       input.name=gltfData.userData.variants[i].name;      
       input.id = gltfData.userData.variants[i]; 
-      
+
       let label = document.createElement("label");
       label.className = "mt-1";
       label.setAttribute("for", gltfData.userData.variants[i]);
@@ -348,16 +349,16 @@ class World {
       div2.appendChild(label);
       themesDiv.appendChild(div2);       
        async function input_var_Fun(){
-        let myPromise = new Promise(function(resolve) {                                                                 
-          gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );            
+        let myPromise = new Promise(function(resolve) {                                                                        
+          gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );
+          // console.log(gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] ))            
           reflection(scene,clock,gui);                  
         });                
         await myPromise;                 
       }                   
       input.addEventListener("click", function (e) {  
-        if(e.target.checked){                      
+        if(e.target.checked){                             
           input_var_Fun(); 
-                       
         }        
       });            
       if(input.id=="Green Theme"){
@@ -374,9 +375,9 @@ class World {
         blindsModels.parentGroup.position.copy(blindsPos);
       }
     }    
-    roomParent.add(fanParent)
-    scene.add(roomParent); 
+    roomParent.add(fanParent)     
     scene.add(fanParent)    
+    scene.add(roomParent);  
     selectableObjects.push(fanParent);                       
     renderer.render(scene, camera);    
     console.log("room loaded",delta.toPrecision(3),"seconds")    

@@ -15,7 +15,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
 
   let div1 = document.createElement("div");
   div1.className = "d-flex gap-2";               
-
+ //Animations UI
    if (category == "tables") {
     let tweens = [];   
     
@@ -57,10 +57,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
       
     }
      
-  }   
-  
-  //Animations UI
-  
+  }else{   
     for (let i = 0; i < gltfData.animations.length; i++) {
       form = document.createElement("div");
       form.className = "form-check";
@@ -131,7 +128,7 @@ function animationUI(gltfData, mixer, category, URL,scene,renderer) {
     animation_label.className="Animations"
     mainDiv.appendChild(animation_label);
     mainDiv.appendChild(div1);
-  
+  }
 
   //Material Variants UI
   let div2 = document.createElement("div");
