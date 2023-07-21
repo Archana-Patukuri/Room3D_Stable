@@ -20,13 +20,10 @@ function exportScene(scene) {
         if (email === "") {
             console.log("Email is required");
             return;
-        }
-
-        // Remove the word after @ from the email address
-        const emailWithoutDomain = email.split("@")[0];
+        }   
 
         // Export the scene with the provided email
-        exportSceneFun(scene, emailWithoutDomain);
+        exportSceneFun(scene, email);
         /* exportButton.style.display = "none"
         renderButton.style.display = "block" */
     });
