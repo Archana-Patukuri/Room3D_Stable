@@ -24,8 +24,7 @@ function exportScene(scene) {
 
         // Export the scene with the provided email
         exportSceneFun(scene, email);
-        /* exportButton.style.display = "none"
-        renderButton.style.display = "block" */
+        alert("Started rendering, check email after some time")       
     });
 
     function exportSceneFun(scene, email) {
