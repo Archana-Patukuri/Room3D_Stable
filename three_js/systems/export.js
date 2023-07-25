@@ -21,10 +21,12 @@ function exportScene(scene) {
             console.log("Email is required");
             return;
         }   
-
+        // alert("Started rendering, check email after some time")
         // Export the scene with the provided email
-        exportSceneFun(scene, email);
-        alert("Started rendering, check email after some time")       
+        exportSceneFun(scene, email); 
+        /* let renderUI=document.getElementById("renderUI")
+        email=""     
+        renderUI.style.display="none" */
     });
 
     function exportSceneFun(scene, email) {
@@ -52,7 +54,7 @@ function exportScene(scene) {
                     // Send the GLB data to the server using Axios
                     axios.post(`${flaskURL}/upload_glb`, formData)
                         .then(function (response) {
-                            console.log(response.data);
+                            console.log(response.data);                            
                         })
                         .catch(function (error) {
                             console.log("An error happened while uploading GLB");
@@ -68,6 +70,7 @@ function exportScene(scene) {
             },
             options
         );
+        // return 1
     }
 }
 

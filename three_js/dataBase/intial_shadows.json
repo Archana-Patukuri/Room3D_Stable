@@ -1,4 +1,7 @@
 {
+	"lights":[		
+		"fanLight"
+	],
 	"receivers": [		
 		"Floor",
 		"Table_Top_Mesh",		

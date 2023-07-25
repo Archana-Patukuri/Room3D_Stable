@@ -10,9 +10,10 @@ import { basicControls } from "./systems/basicControls.js";
 import { resetAndHelp } from "./systems/resetAndHelp.js";
 import {shadows} from "./systems/shadows.js";
 
-import { hdriLoad } from "./components/hdri_loader/hdri_loader.js";
+import  hdriLoad  from "./components/hdri_loader/hdri_loader.js";
 import { Debug } from "./systems/Debug.js";
 
+import LightStore from './store/lightStore';
 /* import { Log4js } from "log4js";
 
 var logger = log4js.getLogger();
@@ -180,7 +181,11 @@ class World {
     labelRenderer.setSize(container.clientWidth, container.clientHeight)
 
     scene = createScene();
-    renderer = createRenderer();
+
+    this.lightState = new LightStore(scene);
+    renderer = createRenderer(this.lightState);
+
+    // renderer = createRenderer();
      renderer.info.autoReset = false;
     composer = createEffectComposer(renderer);          
 
@@ -292,8 +297,7 @@ class World {
     debug = new Debug();    
     
     ambientLightSun = new AmbientLight();
-    ambientLightSun.color = new Color(0xffffff);
-    ambientLightSun.intensity = 1;
+    ambientLightSun.color = new Color(0xffffff);    
     scene.add(ambientLightSun);
     ambientLightSun.name = "ambientLightSun"
 
@@ -497,9 +501,7 @@ async loadLightsGLTF() {
     rectAreaLights[2].rotateY(Math.PI / 2);
 
     rectAreaLights[3].position.set(-1.41, 2.97, 0.45);
-    rectAreaLights[3].rotateY(-Math.PI / 2);    
-
-    let tableLampMatNormal = new MeshStandardMaterial({ color: 0xff9f4b });     
+    rectAreaLights[3].rotateY(-Math.PI / 2);           
         
     sunLight = new DirectionalLight(0xffffff);
 
@@ -515,10 +517,7 @@ async loadLightsGLTF() {
     scene.add(sunLight);   
    
     let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");    
-    let fanLight = scene.getObjectByName("fanLight");    
-    let tableLampTop = scene.getObjectByName("TableStand006");        
-    let texLoader = new TextureLoader();
-    let subTexture = texLoader.load("textures/subSurface.jpg");
+    let fanLight = scene.getObjectByName("fanLight");                       
   
     dayLightSettings = function (hdri1) {            
       console.time("DayLight Preset time"); 
@@ -528,9 +527,7 @@ async loadLightsGLTF() {
       cylindricalLampSpotLight_1.intensity = 0;
       cylindricalLampSpotLight_2.intensity = 0;
       cylindricalLampSpotLight_3.intensity = 0;
-      cylindricalLampSpotLight_4.intensity = 0;
-    
-      tableLampTop.material = tableLampMatNormal;          
+      cylindricalLampSpotLight_4.intensity = 0;                   
       
       stateList.CeilingLight.checked=false;
       stateList.desktopLight.checked=false
@@ -542,33 +539,28 @@ async loadLightsGLTF() {
       stateList.HDRI.checked=true;  
                         
       sunLight.intensity = 30;          
-      fanLight.castShadow=false;   
-      tableLamp.castShadow=false;  
-      sunLight.castShadow = true;  
+     /*  fanLight.castShadow=false;   
+      tableLamp.castShadow=false;   */
+      // sunLight.castShadow = true;  
       shadowLight=0;        
       shadows(scene,clock,shadowLight);  
       scene.environment = hdri1;  
       renderer.toneMappingExposure=0.2;    
     };   
-       
-    let a=0;  
+            let a=0;
     nightLightSettings1 = function (hdri0) { 
       console.time("NightLight Preset time");                
       renderer.toneMappingExposure = 1;                                     
      
-       stateList.HDRI.checked=false;      
+      /* stateList.HDRI.checked=false;      
       stateList.CeilingLight.checked=true;
       stateList.desktopLight.checked=true
       stateList.SunLightEle.checked=false;
       stateList.Shadows_SunLight.checked=false;            
       stateList.Emissive.checked=true;
-      stateList.Cylindrical_Light.checked=true;  
-                           
-     shadowLight=3;
-      if(a==0){                
-        stateList.Shadows_NightLight1.checked=false;
-      }else{       
-        sunLight.intensity = 0;
+      stateList.Cylindrical_Light.checked=true;                     */                      
+          
+      sunLight.intensity = 0;
       ambientLightSun.intensity = 0;   
       scene.environment = hdri0;      
       scene.background = new Color(0x000000); 
@@ -583,14 +575,21 @@ async loadLightsGLTF() {
       cylindricalLampSpotLight_3.distance = 1;
       cylindricalLampSpotLight_4.distance = 1;     
          
-      fanLight.intensity = 3;
+      fanLight.intensity = 50;
 
       tableLamp.intensity = 15;
-      tableLamp.castShadow=true;        
-        stateList.Shadows_NightLight1.checked=true;
+      /* tableLamp.castShadow=true;        
+      fanLight.castShadow=true; */
+      stateList.Shadows_NightLight1.checked=true;
+      if(a==0){
+        shadowLight=3;
+        shadows(scene,clock,shadowLight);
+      }else{
+        shadowLight=1;
+        shadows(scene,clock,shadowLight);
       }
-      shadows(scene,clock,shadowLight);       
-      a=a+1;     
+     
+      a=a+1               
     };
    
     const dayLightSettings_fn = async () => {
@@ -627,10 +626,7 @@ async loadLightsGLTF() {
      });      
      // execute with a loading spinner
      await spinnedFn();    
-     console.timeEnd("NightLight Preset time"); 
-     if(a==1){      
-      ambientLightSun.intensity = 0;   
-     }     
+     console.timeEnd("NightLight Preset time");        
      
    }       
       NightLight1_Fun();
@@ -643,8 +639,23 @@ async loadLightsGLTF() {
     exportScene(scene);
     reflection(scene,clock,gui);        
     viewPoints(camera);     
-    lightControls(scene,renderer,sunLight,ambientLightSun,clock,prompt,stateList,gui,fanLight,tableLamp,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start);      
-    
+    // lightControls(scene,renderer,sunLight,ambientLightSun,clock,prompt,stateList,gui,fanLight,tableLamp,tableLampTop,texLoader,subTexture,cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4,start);      
+
+    lightControls(
+      scene,
+      renderer,
+      prompt,
+      sunLight,
+      ambientLightSun,
+      camera,
+      clock,
+      stateList,
+      gui,
+      this.lightState,
+      fanLight,
+      [cylindricalLampSpotLight_1,cylindricalLampSpotLight_2,cylindricalLampSpotLight_3,cylindricalLampSpotLight_4],
+    );
+
   }
   //CreatePostProcess Effects
   createPostProcess() {        

@@ -1,4 +1,8 @@
 {
+	"lights":[
+		"Desktop_Lamp_Light002",
+		"fanLight"
+	],
 	"receivers": [
 		"Back_Wall",
 		"Left_Wall",

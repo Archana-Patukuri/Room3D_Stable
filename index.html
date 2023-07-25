@@ -298,113 +298,28 @@ Generate photo-realistic images via VisCommerce 3DCloud
           <div class="tab-content d-flex">
               
               <div class="tab-pane fade show active position-relative" >
-                <!-- controls -->
-              <div class="toast top-0 position-absolute toastTypes" id="controlsTab" style="z-index: 100;top:22%;max-width: 700px;"
-                  data-bs-autohide="false">
-                  <div class="toast-header">
-                    <strong class="me-auto">Controls</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                  </div>
-                  <div class="toast-body d-flex justify-content-start gap-2" style="background-color: white;">                  
-                    <div class="d-flex justify-content-center" style="font-size: 10px;" id="controlsUI">
-                      <div>
-                      <div class="d-flex flex-row">      
-                        <input type="radio" id="Pitch_Dark1" name="lights1" value="Pitch_Dark1" class="largerCheckbox lightTypes1">
-                        <label for="Pitch_Dark1">Pitch Dark</label>
-                      </div>           
-                        <label style="color: #FF5A50;font-family: 'Roboto'; margin-right: 0px; margin-left: 100px;">Intensity</label>
-                        <label style="color: #FF5A50;font-family: 'Roboto'; margin-left: 50px;">Color </label>                                                                                                                                                                                                                      
 
-                          <div class="d-flex">
-                            <div class="d-flex flex-row ml-0">
-                            <input type="radio" id="CeilingLight1" name="lights1" checked value="CeilingLight1" class="largerCheckbox lightTypes1">
-                            <label for="CeilingLight1">Ceiling Light</label>
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 22px;">                          
-                              <input type="range" min="0" max="100" value="50" step="1" class="slider Slider_range1">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 6px;">                          
-                              <input type="color" class="colorPicker1" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
-                            </div> 
-                          </div>  
-                          
-                          <div class="d-flex">
-                            <div class="d-flex flex-row">
-                              <input type="radio" id="TableLamp1" name="lights1" value="TableLamp1" class="largerCheckbox lightTypes1">
-                              <label for="TableLamp1">Desktop Light</label>                            
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 17px;">                          
-                              <input type="range" min="0" max="10" value="7" step="0.1" class="slider Slider_range1">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker1" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
-                            </div>   
-                            </div>                         
-
-                          <div style="display: none;" id="FloorLamp" >
-                          <div class="d-flex">                          
-                            <div class="d-flex flex-row">                         
-                                <input type="radio" name="lights1" value="floor_lamp1" class="largerCheckbox lightTypes1" id="floor_lamp1">
-                                <label for="floor_lamp1">Floor Lamp</label>
-                              </div>                        
-                            <div class="slidecontainer" style="margin-left: 12px;">                          
-                              <input type="range" min="0" max="10" value="5" step="0.1" class="slider Slider_range1">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker1" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
-                            </div> 
-                          </div> 
-                        </div>
-                          <div style="display: none;" id="WallLamp">
-                          <div class="d-flex">                          
-                            <div class="d-flex flex-row">                         
-                              <input type="radio" name="lights1" value="wall_lamp1" class="largerCheckbox lightTypes1" id="wall_lamp1">
-                              <label for="wall_lamp1">Wall Lamp</label>
-                              </div>                      
-                          <div class="slidecontainer" style="margin-left: 16px;">                          
-                            <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range1">
-                          </div>
-                          <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                            <input type="color" class="colorPicker1" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
-                          </div> 
-                          </div>  
-                      </div>
-                          <div class="d-flex">
-                            <div class="d-flex flex-row">
-                              <input type="radio" id="DayLight1" name="lights1" value="DayLight" class="largerCheckbox lightTypes1">
-                              <label for="DayLight1">Sun Light</label>                      
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 38px;">                          
-                              <input type="range" min="0" max="50" value="30" step="0.1" class="slider Slider_range1">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker1" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;">                          
-                            </div> 
-                            </div>                        
-
-                          <div class="d-flex">
-                            <div class="d-flex flex-row">
-                              <input type="radio" name="lights1" value="Cylindrical_Light1" checked id="Cylindrical_Light1" class="largerCheckbox lightTypes1">
-                              <label for="Cylindrical_Light1">Wall Washer Light</label>                      
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 1px;">                          
-                              <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range1">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker1" id="CWL_colorPicker" name="colorPicker1" value="#FFFFFF" style="border:none;height: 20px;">                          
-                            </div> 
-                            </div>  
-                                                  
-                          
-
-                        <a href="#" id="more" class="border:none">More</a>                                                           
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div> 
-             
-                <!--more controls toast -->
+                <div class="toast top-0 position-absolute toastTypes" id="controlsTab" style="z-index: 100;top:22%;max-width: 700px;"
+                data-bs-autohide="false">
+                <div class="toast-header">
+                  <strong class="me-auto">Controls</strong>
+                  <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body d-flex justify-content-start gap-2" style="background-color: white;">
+                  <div class="d-flex justify-content-center" style="font-size: 10px; width: 100%;" id="controlsUI">
+                    <div class="controlsContainer" style="width: 100%;">
+                      <div class="initialControlsContainer" style="width: 100%; margin-right: 20px;">
+                        <div style="width: 100%; display: flex; justify-content: end; gap: 20px;">
+                          <span style="margin-right: 25px;">Intensity</span>
+                          <span style="margin-right: 25px;">Color</span>                          
+                        </div>                        
+                      </div>                      
+                    </div>                                        
+                  </div>                                                                            
+                  </div>  
+                  <a href="#" id="more" class="border:none">More</a>  
+                </div>               
+                    <!--more controls toast -->
                 <div class="toast top-0 position-absolute" id="MoreControlsToast" style="z-index: 100;top:22%;max-width: 700px;"
                   data-bs-autohide="false">
                   <div class="toast-header">
@@ -414,17 +329,29 @@ Generate photo-realistic images via VisCommerce 3DCloud
                   <div class="toast-body d-flex justify-content-start gap-2" style="background-color: white;">                  
                     <div class="d-flex justify-content-center" style="font-size: 10px;" id="controlsUI">
                       <div>
-                      <div class="d-flex flex-row">      
+                    <!--   <div class="d-flex flex-row">      
                         <input type="radio" id="Pitch_Dark" name="lights" value="Pitch_Dark" class="largerCheckbox lightTypes">
                         <label for="Pitch_Dark">Pitch Dark</label>
-                      </div>           
-                        <label style="color: #FF5A50;font-family: 'Roboto'; margin-right: 0px; margin-left: 100px;">Intensity</label>
+                      </div>    -->        
+                      <div class="controlsContainer" style="width: 100%;">
+                        <div class="initialControlsContainer1" style="width: 100%; margin-right: 20px;">
+                          <div style="width: 100%; display: flex;gap:5px">
+                            <span style="margin-left: 110px;">Intensity</span>
+                            <span style="margin-left: 22px;">Color</span>
+                            <span style="margin-left: 3px;">Helper</span>
+                            <span style="margin-left: 2px;">Distance</span>
+                            <span>Decay</span>
+                          </div>                        
+                        </div>                      
+                      </div>    
+                        
+                     <!--  <label style="color: #FF5A50;font-family: 'Roboto'; margin-right: 0px; margin-left: 100px;">Intensity</label>
                         <label style="color: #FF5A50;font-family: 'Roboto'; margin-left: 50px;">Color </label>                                                                                                                                                                                                 
                         <label style="color: #FF5A50;font-family: 'Roboto';margin-left: 10px;">Helper</label> 
   
                         <label style="color: #FF5A50;font-family: 'Roboto'; margin-left: 2px;">Distance</label> 
-                        <label style="color: #FF5A50;font-family: 'Roboto'; ">Decay</label> 
-  
+                        <label style="color: #FF5A50;font-family: 'Roboto'; ">Decay</label>  -->
+  <!-- 
                           <div class="d-flex">
                             <div class="d-flex flex-row ml-0">
                             <input type="radio" id="CeilingLight" name="lights" checked value="CeilingLight" class="largerCheckbox lightTypes">
@@ -510,8 +437,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                          <input type="checkbox" name="helper" style="margin-left: 5px;" class="largerCheckbox helpers_controls" >  
 
                          <input type="number" id="distance_WWL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                      <input type="number" id="decay_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                      <!-- <input type="number" id="angle_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;"> -->
+                      <input type="number" id="decay_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">                     
                       </div>   
 
                           <div class="d-flex">
@@ -540,7 +466,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             </div>   
                           </div> 
 
-                                                                                                                            
+   -->                                                                                                                          
   
                          <div id="MoreControls">
                           <div class="d-flex">                          
@@ -640,7 +566,8 @@ Generate photo-realistic images via VisCommerce 3DCloud
                   </div>
                 </div>
 
-              </div>
+            </div>
+
   
                                   
             <div class="tab-pane fade show active position-relative">
@@ -935,7 +862,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
 
            <!-- toast render-->
          <div class="tab-pane fade show active position-relative">
-          <div class="toast top-0 position-absolute toastTypes" style="z-index: 100;top:22%;max-width: 300px;"
+          <div class="toast top-0 position-absolute toastTypes" id="renderUI" style="z-index: 100;top:22%;max-width: 300px;"
           data-bs-autohide="false">
           <div class="toast-header">
             <strong class="me-auto">Render</strong>
@@ -950,8 +877,9 @@ Generate photo-realistic images via VisCommerce 3DCloud
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                  </div>                  
-                  <p  class="buttons" style="background-color: #FF5A50;color: #FFFFFF;padding-top: 4px;" id="Export">Render</p>                 
+                  </div> 
+                   <p  class="buttons" style="background-color: #FF5A50;color: #FFFFFF;padding-top: 4px;" id="Export">Render</p> 
+                 
                 </form>
               </div>
             </div>
@@ -971,18 +899,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
           <div class="toast-body d-flex justify-content-start gap-2" style="background-color: white;">                  
             <div class="d-flex justify-content-center" style="font-size: 12px;" id="controlsUI">             
               <div class="p-2 d-flex flex-column" id="themesDiv"> 
-               <!--  <div class="d-flex flex-row">
-                  <input type="radio" id="roomLook1" name="presetr" checked class="largerCheckbox" value="roomLook1">
-                  <label for="roomLook1">Green Theme</label>
-                </div>   
-                <div class="d-flex flex-row mt-1">    
-                  <input type="radio" id="roomLook2" name="presetr" class="largerCheckbox" value="roomLook2">
-                  <label for="roomLook2">Red Theme</label>
-                </div>
-                <div class="d-flex flex-row mt-1">
-                  <input type="radio" id="roomLook3" name="presetr" class="largerCheckbox" value="roomLook3">
-                  <label for="roomLook3">Blue Theme</label> 
-                </div>   -->
+              
             </div>
             </div>       
           </div>
@@ -995,18 +912,15 @@ Generate photo-realistic images via VisCommerce 3DCloud
               <div id="buttonR">
                 <button class="buttons buttonC toast_button">Render</button>                         
               </div>
-              <!-- <div id="Export">
-                <button class="buttons buttonC">Submit</button>                         
-              </div> -->
+             
               <div id="Themes">
                 <button class="buttons buttonC toast_button">Themes</button>                         
               </div>
             </div>
 
+            
             <div class="d-flex flex-row justify-content-around mt-2">  
-              <!--  <div>   
-                <button class="buttons buttonC toast_button">Save State</button>                                                                             
-              </div>  -->
+             
 
               <div class="measurementsHC">                 
                   <input type="checkbox" class="btn-check" name="setOneBtns" id="measurementsTool" autocomplete="off">
