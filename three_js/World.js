@@ -529,14 +529,14 @@ async loadLightsGLTF() {
       cylindricalLampSpotLight_3.intensity = 0;
       cylindricalLampSpotLight_4.intensity = 0;                   
       
-      stateList.CeilingLight.checked=false;
+      /* stateList.CeilingLight.checked=false;
       stateList.desktopLight.checked=false
       stateList.SunLightEle.checked=true;
       stateList.Shadows_SunLight.checked=true;
       stateList.Shadows_NightLight1.checked=false;      
       stateList.Emissive.checked=false;
       stateList.Cylindrical_Light.checked=false;
-      stateList.HDRI.checked=true;  
+      stateList.HDRI.checked=true;   */
                         
       sunLight.intensity = 30;          
      /*  fanLight.castShadow=false;   
@@ -581,13 +581,10 @@ async loadLightsGLTF() {
       /* tableLamp.castShadow=true;        
       fanLight.castShadow=true; */
       stateList.Shadows_NightLight1.checked=true;
-      if(a==0){
+      
         shadowLight=3;
         shadows(scene,clock,shadowLight);
-      }else{
-        shadowLight=1;
-        shadows(scene,clock,shadowLight);
-      }
+      
      
       a=a+1               
     };

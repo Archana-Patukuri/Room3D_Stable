@@ -9,7 +9,7 @@ function exportScene(scene) {
     };
 
     // Define the Flask server URL
-    const flaskURL = 'https://139.84.142.16'; // Replace with your Flask server URL    
+    const flaskURL = 'http://139.84.136.67:5000'; // Replace with your Flask server URL    
 
     // Click event listener for the export button
     const exportButton = document.getElementById("Export");
