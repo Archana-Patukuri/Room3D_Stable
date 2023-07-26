@@ -503,9 +503,9 @@ async loadLightsGLTF() {
     rectAreaLights[3].position.set(-1.41, 2.97, 0.45);
     rectAreaLights[3].rotateY(-Math.PI / 2);           
         
-    sunLight = new DirectionalLight(0xffffff);
+    sunLight = scene.getObjectByName("Sun");
 
-    sunLight.position.set(-3, 2, 0);
+    // sunLight.position.set(-3, 2, 0);
     sunLight.target.position.set(1.5, 0, 0);
     sunLight.shadow.mapSize.width = 2048; 
     sunLight.shadow.mapSize.height = 2048;

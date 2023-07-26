@@ -21,9 +21,10 @@ function exportScene(scene) {
             console.log("Email is required");
             return;
         }   
-        // alert("Started rendering, check email after some time")
+        
         // Export the scene with the provided email
         exportSceneFun(scene, email); 
+        alert("Started rendering, check email after some time")
         /* let renderUI=document.getElementById("renderUI")
         email=""     
         renderUI.style.display="none" */

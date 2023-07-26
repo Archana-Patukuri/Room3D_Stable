@@ -90,17 +90,7 @@ async function lightControls(
       color: '#ffffff',
       intensity: 1,
       light: ambientLight,
-    },    
-    {
-      id: 'hdri',
-      innerText: 'HDRI',
-      helper: null,
-      distance: null,
-      decay: null,
-      color: null,
-      intensity: 0.5,
-      light: null,
-    },
+    },        
   ];
 
   const htmlArray = LightControlsArray.map((item) =>
@@ -115,7 +105,7 @@ async function lightControls(
           }" name="lights" style="transform:scale(1.5)" class="lightActiveCheckbox" />
           ${item.innerText}
         </label>
-      </div>
+      </div>      
       ${
         item.intensity
           ? `
@@ -203,16 +193,13 @@ async function lightControls(
 )
 
 );
-  // console.log(htmlArray);
 
-  const controlsContianer = document.querySelector('.initialControlsContainer');
-
-  htmlArray.forEach((item) => {    
-    controlsContianer.appendChild(item);
-  });
-
+  const controlsContianer = document.querySelector('.initialControlsContainer');  
+  let l=(htmlArray.length)-1
+  for(let i=0;i<l;i++){
+    controlsContianer.appendChild(htmlArray[i]);
+  }
   const controlsContianer1 = document.querySelector('.initialControlsContainer1');
-
   htmlArray1.forEach((item) => {    
     controlsContianer1.appendChild(item);
   });
@@ -238,10 +225,11 @@ async function lightControls(
             } else {
               item.light.intensity = 0;
             }
-            renderer.toneMappingExposure = 0.1;
-            renderer.needsUpdate = true;
+           
+            // renderer.needsUpdate = true;
             // console.log(item.light);
           }
+          renderer.toneMappingExposure = 0;
         });
 
         return;
@@ -263,18 +251,14 @@ async function lightControls(
           lightToChange.intensity = e.target.checked
             ? lightToChangeData.intensity
             : 0;                                       
-        }
-        scene.environment=hdri0
-      }
-      if(lightToChangeData.id=="hdri"){
-        scene.environment=hdri1        
-      }  
+        }       
+        renderer.toneMappingExposure = 1;
+      }     
       // console.log(lightToChange);
       // console.log(LightControlsArray);
       console.timeEnd('toggler Checkbox');
     });
   });
-
   intensitySliderArray.forEach((slider) => {
     slider.addEventListener('input', (e) => {      
       const lightToChangeData = LightControlsArray.find(
@@ -298,8 +282,7 @@ async function lightControls(
       
     });    
     
-  });
-  
+  });  
   colorPickerArray.forEach((colorPicker) => {
     colorPicker.addEventListener('input', (e) => {      
       const lightToChangeData = LightControlsArray.find(
@@ -386,6 +369,32 @@ async function lightControls(
       }
     });
   });
+
+  stateList.HDRI.addEventListener("change",(e)=>{
+    if(e.target.checked){
+      scene.environment = hdri1;  
+    }else{
+      scene.environment = hdri0;  
+    }
+  })   
+  let emissive_Obj=scene.getObjectByName("Mesh_Walls001"); 
+  let Motor_emissive=scene.getObjectByName("Motor_emissive");        
+  let table_emissive=scene.getObjectByName("TableStand006_2"); 
+  let emissive_Obj_fan=scene.getObjectByName("Motor");    
+
+  stateList.Emissive.addEventListener("change", (e) => {    
+    if (e.target.checked) {            
+       emissive_Obj.material.emissive=new Color(1, 1, 1);                    
+        Motor_emissive.material.emissive=new Color(1, 1, 1);         
+        table_emissive.material.emissive=new Color(1, 1, 1);             
+    }else{           
+      emissive_Obj.material.emissive=new Color(0, 0, 0);
+      emissive_Obj_fan.material.emissive=new Color(0, 0, 0);
+      table_emissive.material.emissive=new Color(0, 0, 0);     
+      Motor_emissive.material.emissive=new Color(0, 0, 0); 
+           
+    }
+  })   
 
 }
 export { lightControls };

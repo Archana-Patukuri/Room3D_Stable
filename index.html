@@ -328,11 +328,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
                   </div>
                   <div class="toast-body d-flex justify-content-start gap-2" style="background-color: white;">                  
                     <div class="d-flex justify-content-center" style="font-size: 10px;" id="controlsUI">
-                      <div>
-                    <!--   <div class="d-flex flex-row">      
-                        <input type="radio" id="Pitch_Dark" name="lights" value="Pitch_Dark" class="largerCheckbox lightTypes">
-                        <label for="Pitch_Dark">Pitch Dark</label>
-                      </div>    -->        
+                      <div>                         
                       <div class="controlsContainer" style="width: 100%;">
                         <div class="initialControlsContainer1" style="width: 100%; margin-right: 20px;">
                           <div style="width: 100%; display: flex;gap:5px">
@@ -343,134 +339,10 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             <span>Decay</span>
                           </div>                        
                         </div>                      
-                      </div>    
-                        
-                     <!--  <label style="color: #FF5A50;font-family: 'Roboto'; margin-right: 0px; margin-left: 100px;">Intensity</label>
-                        <label style="color: #FF5A50;font-family: 'Roboto'; margin-left: 50px;">Color </label>                                                                                                                                                                                                 
-                        <label style="color: #FF5A50;font-family: 'Roboto';margin-left: 10px;">Helper</label> 
-  
-                        <label style="color: #FF5A50;font-family: 'Roboto'; margin-left: 2px;">Distance</label> 
-                        <label style="color: #FF5A50;font-family: 'Roboto'; ">Decay</label>  -->
-  <!-- 
-                          <div class="d-flex">
-                            <div class="d-flex flex-row ml-0">
-                            <input type="radio" id="CeilingLight" name="lights" checked value="CeilingLight" class="largerCheckbox lightTypes">
-                            <label for="CeilingLight">Ceiling Light</label>
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 8px;">                          
-                              <input type="range" min="0" max="100" value="50" step="1" class="slider Slider_range">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 6px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
-                            </div> 
-                            <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">  
-  
-                            <input type="number" id="distance_CL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                            <input type="number" id="decay_CL" value="1" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                          </div>  
-                          
-                          <div class="d-flex">
-                            <div class="d-flex flex-row">
-                              <input type="radio" id="TableLamp" name="lights" value="TableLamp" class="largerCheckbox lightTypes">
-                              <label for="TableLamp">Desktop Light</label>                            
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 4px;">                          
-                              <input type="range" min="0" max="10" value="7" step="0.1" class="slider Slider_range">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
-                            </div>   
-                            <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">
-                            
-                            <input type="number" id="distance_DL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                            <input type="number" id="decay_DL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                          </div>                                                    
-
-                          <div style="display: none;" id="FloorLamp" >
-                          <div class="d-flex">                          
-                            <div class="d-flex flex-row">                         
-                                <input type="radio" name="lights" value="floor_lamp" class="largerCheckbox lightTypes" id="floor_lamp">
-                                <label for="floor_lamp">Floor Lamp</label>
-                               </div>                        
-                            <div class="slidecontainer" style="margin-left: 12px;">                          
-                              <input type="range" min="0" max="10" value="5" step="0.1" class="slider Slider_range">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
-                            </div> 
-                            <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left:5px;">                            
-  
-                            <input type="number" id="distance_FL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                            <input type="number" id="decay_FL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                          </div> 
-                        </div>
-                          <div style="display: none;" id="WallLamp">
-                          <div class="d-flex">                          
-                            <div class="d-flex flex-row">                         
-                              <input type="radio" name="lights" value="wall_lamp" class="largerCheckbox lightTypes" id="wall_lamp">
-                              <label for="wall_lamp">Wall Lamp</label>
-                              </div>                      
-                          <div class="slidecontainer" style="margin-left: 16px;">                          
-                            <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range">
-                          </div>
-                          <div class="colorPickerContainer" style="margin-left: 5px;">                          
-                            <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
-                          </div> 
-                          <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">  
-  
-                          <input type="number" id="distance_WL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                          <input type="number" id="decay_WL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                        </div>  
-                      </div>
-
-                      <div class="d-flex">
-                        <div class="d-flex flex-row">
-                          <input type="radio" name="lights" value="Cylindrical_Light" checked id="Cylindrical_Light" class="largerCheckbox">
-                          <label for="Cylindrical_Light" style="font-size: 9px;">Wall Washer Light</label>                      
-                      </div>
-                        <div class="slidecontainer" >                          
-                          <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range">
-                        </div>
-                        <div class="colorPickerContainer" style="margin-left: 4px;">                          
-                          <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
-                        </div> 
-                         <input type="checkbox" name="helper" style="margin-left: 5px;" class="largerCheckbox helpers_controls" >  
-
-                         <input type="number" id="distance_WWL" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
-                      <input type="number" id="decay_WWL" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">                     
-                      </div>   
-
-                          <div class="d-flex">
-                            <div class="d-flex flex-row">
-                              <input type="radio" id="DayLight" name="lights" value="DayLight" class="largerCheckbox lightTypes">
-                              <label for="DayLight">Sun Light</label>                      
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 22px;">                          
-                              <input type="range" min="0" max="50" value="30" step="0.1" class="slider Slider_range">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 7px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
-                            </div> 
-                            <input type="checkbox" name="helper" class="largerCheckbox helpers_controls" style="margin-left: 5px;">  
-                          </div>  
-                          <div class="d-flex">
-                            <div class="d-flex flex-row">
-                              <input type="radio" name="lights" value="mild_ambient_light" class="largerCheckbox" id="mild_ambient_light">
-                              <label for="mild_ambient_light">Ambient Light</label>                                
-                          </div>
-                            <div class="slidecontainer" style="margin-left: 4px;">                          
-                              <input type="range" min="0" max="5" value="1" step="0.1" style="width: 87px;" class="slider Slider_range">
-                            </div>
-                            <div class="colorPickerContainer" style="margin-left: 7px;">                          
-                              <input type="color" class="colorPicker" name="colorPicker" value="#FFFFFF" style="border:none;height: 20px;width: 40px;">                          
-                            </div>   
-                          </div> 
-
-   -->                                                                                                                          
-  
+                      </div>                                              
                          <div id="MoreControls">
                           <div class="d-flex">                          
-                            <div>             
+                            <div>                                           
                               <label style="color: #FF5A50;font-family: 'Roboto'; margin-right: 0px; margin-left: 50px;">Tone Mapping Exposure</label>
                             <div class="d-flex">
                               <div class="d-flex flex-row pb-1">                           
