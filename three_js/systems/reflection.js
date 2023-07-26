@@ -42,7 +42,8 @@ function reflection(scene,clock,gui) {
     
     const Reflections_Floor_Add_fn = async () => {
         await new Promise(resolve => setTimeout(() => {                            
-          scene.add( groundMirror );                                                                                                                                                
+          scene.add( groundMirror );
+          Floor.material.transparent=true;                                                                                                                                                 
           resolve();
         }, 10));
       };       
@@ -74,6 +75,8 @@ function reflection(scene,clock,gui) {
             groundMirror.getRenderTarget().samples=params.samples;
           } );     
                                                                          
+        }else{
+          gui.hide();
         }
       })
       async function Reflections_Floor_Add() {                                      
@@ -97,7 +100,8 @@ function reflection(scene,clock,gui) {
        });      
        // execute with a loading spinner
        await spinnedFn();
-     }       
+     }    
+
       const ReflectionsMirror_Add_fn = async () => {
         await new Promise(resolve => setTimeout(() => {
             scene.add( verticalMirror );   

@@ -14,11 +14,6 @@ import  hdriLoad  from "./components/hdri_loader/hdri_loader.js";
 import { Debug } from "./systems/Debug.js";
 
 import LightStore from './store/lightStore';
-/* import { Log4js } from "log4js";
-
-var logger = log4js.getLogger();
-logger.level = "debug";
-logger.debug("Some debug messages"); */
 
 import {
   Box3, 
@@ -144,28 +139,9 @@ if (/Android|iPhone/i.test(navigator.userAgent)) {
   mobile = true;
 }
 let HDRI=document.getElementById("HDRI");
-let lightTypes=document.querySelectorAll(".lightTypes");
-let CeilingLight=lightTypes[1]
-let desktopLight=lightTypes[2]
-let SunLightEle=lightTypes[5]
-let mild_ambient_light=document.getElementById("mild_ambient_light")
-let Pitch_Dark=lightTypes[0]
-let Shadows_SunLight=document.getElementById("Shadows_SunLight");
-let Shadows_NightLight1=document.getElementById("Shadows_NightLight1");
-let Shadows_NightLight2=document.getElementById("Shadows_NightLight2");
 let Emissive=document.getElementById("Emissive");
-let Cylindrical_Light=document.getElementById("Cylindrical_Light");
 const stateList = {"HDRI":HDRI,
- "CeilingLight":CeilingLight,
- "desktopLight":desktopLight,
- "SunLightEle":SunLightEle,
- "mild_ambient_light":mild_ambient_light,
- "Pitch_Dark":Pitch_Dark, 
- "Shadows_SunLight":Shadows_SunLight,
- "Shadows_NightLight1":Shadows_NightLight1,
- "Shadows_NightLight2":Shadows_NightLight2,
- "Emissive":Emissive,
- "Cylindrical_Light":Cylindrical_Light};
+ "Emissive":Emissive };
  
  let gui_ui=document.getElementById("gui_ui"); 
  let start,millis;
@@ -354,8 +330,7 @@ class World {
       themesDiv.appendChild(div2);       
        async function input_var_Fun(){
         let myPromise = new Promise(function(resolve) {                                                                        
-          gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );
-          // console.log(gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] ))            
+          gltfData.functions.selectVariant(gltfData.scene,gltfData.userData.variants[i] );         
           reflection(scene,clock,gui);                  
         });                
         await myPromise;                 
@@ -527,21 +502,10 @@ async loadLightsGLTF() {
       cylindricalLampSpotLight_1.intensity = 0;
       cylindricalLampSpotLight_2.intensity = 0;
       cylindricalLampSpotLight_3.intensity = 0;
-      cylindricalLampSpotLight_4.intensity = 0;                   
-      
-      /* stateList.CeilingLight.checked=false;
-      stateList.desktopLight.checked=false
-      stateList.SunLightEle.checked=true;
-      stateList.Shadows_SunLight.checked=true;
-      stateList.Shadows_NightLight1.checked=false;      
-      stateList.Emissive.checked=false;
-      stateList.Cylindrical_Light.checked=false;
-      stateList.HDRI.checked=true;   */
+      cylindricalLampSpotLight_4.intensity = 0;                         
                         
       sunLight.intensity = 30;          
-     /*  fanLight.castShadow=false;   
-      tableLamp.castShadow=false;   */
-      // sunLight.castShadow = true;  
+    
       shadowLight=0;        
       shadows(scene,clock,shadowLight);  
       scene.environment = hdri1;  
@@ -551,15 +515,7 @@ async loadLightsGLTF() {
     nightLightSettings1 = function (hdri0) { 
       console.time("NightLight Preset time");                
       renderer.toneMappingExposure = 1;                                     
-     
-      /* stateList.HDRI.checked=false;      
-      stateList.CeilingLight.checked=true;
-      stateList.desktopLight.checked=true
-      stateList.SunLightEle.checked=false;
-      stateList.Shadows_SunLight.checked=false;            
-      stateList.Emissive.checked=true;
-      stateList.Cylindrical_Light.checked=true;                     */                      
-          
+         
       sunLight.intensity = 0;
       ambientLightSun.intensity = 0;   
       scene.environment = hdri0;      
@@ -577,10 +533,7 @@ async loadLightsGLTF() {
          
       fanLight.intensity = 50;
 
-      tableLamp.intensity = 15;
-      /* tableLamp.castShadow=true;        
-      fanLight.castShadow=true; */
-      stateList.Shadows_NightLight1.checked=true;
+      tableLamp.intensity = 15;            
       
         shadowLight=3;
         shadows(scene,clock,shadowLight);
@@ -624,7 +577,12 @@ async loadLightsGLTF() {
      // execute with a loading spinner
      await spinnedFn();    
      console.timeEnd("NightLight Preset time");        
+     if(a==1){
+      prompt.style.display="block";
+      const millis = Date.now() - start;
+      console.log(`total loading time = ${Math.floor(millis / 1000)} seconds`); 
      
+     }
    }       
       NightLight1_Fun();
     lightsPresetsUI[1].addEventListener('change',function(){
@@ -1043,7 +1001,7 @@ async loadLightsGLTF() {
       } );
 
      
-    /*   if(gui)gui.destroy();
+       if(gui)gui.destroy();
       gui = new GUI( );
       gui.add( params, 'enableSSR' ).name( 'Enable SSR' );
       gui.add( params, 'groundReflector' ).onChange( () => {
@@ -1107,7 +1065,7 @@ async loadLightsGLTF() {
       folder.add( ssrPass, 'blur' );
       // folder.open()
       // gui.close()
-     */  composer.addPass( ssrPass );
+       composer.addPass( ssrPass );
       scene.add( groundReflector );
 
       millis = Date.now() - start;        
@@ -1120,6 +1078,13 @@ async loadLightsGLTF() {
           SSR_fun()
         }else{
           composer.removePass( ssrPass );
+         if(gui) gui.hide();
+        }
+      })
+      gui_ui.addEventListener("click",function(e){        
+        if(e.target.checked){
+          if(gui) gui.show();
+        }else{           
          if(gui) gui.hide();
         }
       })
