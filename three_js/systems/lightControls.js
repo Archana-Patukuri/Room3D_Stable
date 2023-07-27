@@ -147,7 +147,7 @@ async function lightControls(
     ${
       item.intensity
         ? `
-        <div class="slidecontainer">
+        <div classm="slidecontainer">
         <input type="range" data-type="${item.id}" min="0" max="10" value="3" step="0.1"
         class="slider Slider_range intensity_slider" style="width:70px"/>
         </div>
@@ -393,6 +393,131 @@ async function lightControls(
       table_emissive.material.emissive=new Color(0, 0, 0);     
       Motor_emissive.material.emissive=new Color(0, 0, 0); 
            
+    }
+  }) 
+  
+  
+  let floor_lamp=document.getElementById("floor_lamp");
+  let wall_lamp=document.getElementById("wall_lamp"); 
+let slidecontainer=document.querySelectorAll(".slider_class");
+let colorPickerContainer=document.querySelectorAll(".colorPicker1")
+let distance=document.querySelectorAll(".distance");
+let decay=document.querySelectorAll(".decay")
+let helper_FW=document.querySelectorAll(".helper_FW");
+
+let slider_FL=slidecontainer[0],colorPicker_FL=colorPickerContainer[0],distance_FL=distance[0],decay_FL=decay[0],helpers_FL=helper_FW[0]
+let slider_WL=slidecontainer[1],colorPicker_WL=colorPickerContainer[1],distance_WL=distance[1],decay_WL=decay[1],helpers_WL=helper_FW[1]
+
+  floor_lamp.addEventListener("change",(e)=>{
+    if(e.target.checked){
+      let floor_lamp_Ele=scene.getObjectByName("Point");      
+      renderer.toneMappingExposure = 1;                  
+                                       
+      floor_lamp_Ele.intensity=5      
+      floor_lamp_Ele.castShadow=true     
+
+      slider_FL.oninput = function() {                
+        floor_lamp_Ele.intensity=this.value
+      }  
+      colorPicker_FL.oninput = function() {                                             
+        floor_lamp_Ele.color.setHex("0x"+this.value.slice(1,7), 1);          
+      }   
+      const pointLightHelper_FL = new THREE.PointLightHelper( floor_lamp_Ele, 1 ,0x000000 );
+      helpers_FL.addEventListener("change",(e)=>{
+        if(e.target.checked){        
+          scene.add( pointLightHelper_FL );  
+        }else{
+          scene.remove( pointLightHelper_FL ); 
+        }
+      })
+      distance_FL.oninput = function() {   
+        floor_lamp_Ele.distance=this.value;                
+      }   
+      decay_FL.oninput=function(){
+        floor_lamp_Ele.decay=this.value;
+      }    
+    
+    }else{
+      let floor_lamp_Ele=scene.getObjectByName("Point");     
+      floor_lamp_Ele.intensity=0;      
+      floor_lamp_Ele.castShadow=false            
+    }
+  })  
+  let Point_Light,Point_Light1;
+  wall_lamp.addEventListener("change",(e)=>{
+    if(e.target.checked){
+      renderer.toneMappingExposure = 1;                          
+
+      let arr=[];
+      scene.traverse(function (child) {            
+        if (child.isLight && child.name=="Point_Light") {                                      
+            arr.push(child);                                                           
+       }    
+       });            
+       Point_Light=arr[0]       
+       Point_Light1=arr[1]        
+    
+      Point_Light.intensity=2
+      Point_Light1.intensity=2
+
+      Point_Light.castShadow=true;
+      Point_Light1.castShadow=true;        
+      
+      slider_WL.oninput = function() {          
+        Point_Light.intensity=this.value
+        Point_Light1.intensity=this.value
+      }
+      colorPicker_WL.oninput = function() {                                             
+        Point_Light.color.setHex("0x"+this.value.slice(1,7), 1);          
+        Point_Light1.color.setHex("0x"+this.value.slice(1,7), 1);          
+      }  
+      distance_WL.oninput = function() {   
+        Point_Light.distance=this.value;                
+        Point_Light1.distance=this.value;
+      }   
+      decay_WL.oninput=function(){
+        Point_Light.decay=this.value;
+        Point_Light1.decay=this.value;
+      }    
+
+      slider_WL.oninput = function() {          
+        Point_Light.intensity=this.value
+        Point_Light1.intensity=this.value
+      }
+      colorPicker_WL.oninput = function() {                                             
+        Point_Light.color.setHex("0x"+this.value.slice(1,7), 1);          
+        Point_Light1.color.setHex("0x"+this.value.slice(1,7), 1);          
+      }  
+      const pointLightHelper_WL = new THREE.PointLightHelper( Point_Light, 1 );
+      const pointLightHelper_WL1 = new THREE.PointLightHelper( Point_Light1, 1 );
+      helpers_WL.addEventListener("change",(e)=>{
+        if(e.target.checked){        
+          scene.add( pointLightHelper_WL );  
+          scene.add( pointLightHelper_WL1 ); 
+        }else{
+          scene.remove( pointLightHelper_WL ); 
+          scene.remove( pointLightHelper_WL1 ); 
+        }
+      }) 
+                               
+    }else{
+      let arr=[]
+      scene.traverse(function (child) {            
+        if (child.isLight) {             
+          if(child.name=="Point_Light"){              
+            arr.push(child);
+          }                                               
+       }    
+       });   
+       Point_Light=arr[0]       
+       Point_Light1=arr[1]
+       Point_Light.castShadow=false;
+       Point_Light1.castShadow=false;
+      Point_Light.intensity=0;       
+      Point_Light1.intensity=0;          
+      let wallLamp_emissive=scene.getObjectByName("Mesh011_1");
+      wallLamp_emissive.material.emissive=new Color(0,0,0);
+                
     }
   })   
 

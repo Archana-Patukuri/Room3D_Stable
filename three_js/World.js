@@ -14,7 +14,7 @@ import  hdriLoad  from "./components/hdri_loader/hdri_loader.js";
 import { Debug } from "./systems/Debug.js";
 
 import LightStore from './store/lightStore';
-
+let godRaysEffect
 import {
   Box3, 
   Clock,
@@ -479,17 +479,12 @@ async loadLightsGLTF() {
     rectAreaLights[3].rotateY(-Math.PI / 2);           
         
     sunLight = scene.getObjectByName("Sun");
-
-    // sunLight.position.set(-3, 2, 0);
-    sunLight.target.position.set(1.5, 0, 0);
     sunLight.shadow.mapSize.width = 2048; 
     sunLight.shadow.mapSize.height = 2048;
     sunLight.shadow.camera.near = 0.1; 
     sunLight.shadow.camera.far = 1000;
     sunLight.shadow.autoUpdate = true;
-    sunLight.shadow.camera.updateProjectionMatrix();
-    scene.add(sunLight.target);
-    scene.add(sunLight);   
+    sunLight.shadow.camera.updateProjectionMatrix();   
    
     let tableLamp = scene.getObjectByName("Desktop_Lamp_Light002");    
     let fanLight = scene.getObjectByName("fanLight");                       
@@ -1088,6 +1083,7 @@ async loadLightsGLTF() {
          if(gui) gui.hide();
         }
       })
+      
      //GammaCorrectionShader for the Colour fixing
     const copyPass2 = new ShaderPass(GammaCorrectionShader);    
     composer.addPass(copyPass2); 
@@ -1643,10 +1639,12 @@ async loadLightsGLTF() {
   }  
 
   start() {
-    renderer.setAnimationLoop(function () {
+    renderer.setAnimationLoop(function () {      
+
       cameraControls.update();
        renderer.info.reset();
        composer.render();
+       
       //renderer.render(scene, camera);
       camera.updateMatrixWorld()       
       const delta = clock.getDelta();  

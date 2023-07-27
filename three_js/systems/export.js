@@ -7,9 +7,17 @@ function exportScene(scene) {
         binary: true,
         maxTextureSize: 4096,
     };
-
+    let renderUI=document.getElementById("renderUI")
+    let renderUI_button=document.getElementById("renderUI_button")
+    let closeRender=document.getElementById("closeRender");
+    closeRender.addEventListener("click",function(){
+        renderUI.style.display="none" 
+    })
+    renderUI_button.addEventListener("click",function(){
+        renderUI.style.display="block" 
+    })
     // Define the Flask server URL
-    const flaskURL = 'http://139.84.136.67:5000'; // Replace with your Flask server URL    
+    const flaskURL = 'http://139.84.134.162:5000'; // Replace with your Flask server URL    
 
     // Click event listener for the export button
     const exportButton = document.getElementById("Export");
@@ -23,11 +31,14 @@ function exportScene(scene) {
         }   
         
         // Export the scene with the provided email
-        exportSceneFun(scene, email); 
+       let val= exportSceneFun(scene, email); 
         alert("Started rendering, check email after some time")
-        /* let renderUI=document.getElementById("renderUI")
-        email=""     
-        renderUI.style.display="none" */
+         
+         if(val){
+            renderUI.style.display="none" 
+         }
+        // email=""     
+        
     });
 
     function exportSceneFun(scene, email) {
@@ -71,7 +82,8 @@ function exportScene(scene) {
             },
             options
         );
-        // return 1
+         return 1
+        
     }
 }
 

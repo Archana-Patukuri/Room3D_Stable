@@ -29,7 +29,7 @@
       }
     }
   </script>
-  <script type="module" crossorigin src="/assets/index-6df21e8c.js"></script>
+  <script type="module" crossorigin src="/assets/index-a2468e6c.js"></script>
   <link rel="stylesheet" href="/assets/index-067fee9b.css">
 </head>
 
@@ -340,8 +340,48 @@ Generate photo-realistic images via VisCommerce 3DCloud
                             <span style="margin-left: 3px;">Helper</span>
                             <span style="margin-left: 2px;">Distance</span>
                             <span>Decay</span>
-                          </div>                        
-                        </div>                      
+                          </div>                                                                                 
+
+
+                        </div>    
+                        
+                        <div style="display: none;" id="FloorLamp" >
+                          <div class="d-flex">                          
+                            <div class="d-flex flex-row">                         
+                                <input type="checkbox" name="lights" value="floor_lamp" class="largerCheckbox lightTypes" id="floor_lamp">
+                                <label for="floor_lamp">Floor Lamp</label>
+                               </div>                        
+                            <div class="slidecontainer1" style="margin-left: 12px;">                          
+                              <input type="range" min="0" max="10" value="5" step="0.1" class="slider Slider_range slider_class" style="width:70px">
+                            </div>
+                            <div class="colorPickerContainer1" style="margin-left: 5px;">                          
+                              <input type="color" class="colorPicker1" name="colorPicker1" value="#FFFFFF" style="border:none;height: 20px;width:30px">                          
+                            </div> 
+                            <input type="checkbox" name="helper" class="largerCheckbox helper_FW" style="margin-left:5px;">                            
+  
+                            <input type="number" class="distance" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
+                            <input type="number" class="decay" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
+                          </div> 
+                        </div>
+                          <div style="display: none;" id="WallLamp">
+                          <div class="d-flex">                          
+                            <div class="d-flex flex-row">                         
+                              <input type="checkbox" name="lights" value="wall_lamp" class="largerCheckbox lightTypes" id="wall_lamp">
+                              <label for="wall_lamp">Wall Lamp</label>
+                              </div>                      
+                          <div class="slidecontainer1" style="margin-left: 16px;">                          
+                            <input type="range" min="0" max="5" value="2" step="0.1" class="slider Slider_range slider_class" style="width:70px">
+                          </div>
+                          <div class="colorPickerContainer1" style="margin-left: 5px;">                          
+                            <input type="color" class="colorPicker1" name="colorPicker1" value="#FFFFFF" style="border:none;height: 20px;width:30px">                          
+                          </div> 
+                          <input type="checkbox" name="helper" class="largerCheckbox helper_FW" style="margin-left: 5px;">  
+  
+                          <input type="number" class="distance" value="0" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
+                          <input type="number" class="decay" value="2" min="0" max="10" step="0.1" style="margin-left: 5px;width: 30px;height: 20px;">
+                        </div>  
+                      </div>
+
                       </div>                                              
                          <div id="MoreControls">
                           <div class="d-flex">                          
@@ -733,7 +773,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
           data-bs-autohide="false">
           <div class="toast-header">
             <strong class="me-auto">Render</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            <button type="button" class="btn-close" id="closeRender" data-bs-dismiss="toast"></button>
           </div>
           <div class="toast-body d-flex justify-content-center gap-2" style="background-color: white;">                  
 
@@ -777,7 +817,7 @@ Generate photo-realistic images via VisCommerce 3DCloud
           <div class="item-card navigationBtn" id="Advanced">
             <div class="d-flex flex-row justify-content-around">              
               <div id="buttonR">
-                <button class="buttons buttonC toast_button">Render</button>                         
+                <button class="buttons buttonC toast_button" id="renderUI_button">Render</button>                         
               </div>
              
               <div id="Themes">
