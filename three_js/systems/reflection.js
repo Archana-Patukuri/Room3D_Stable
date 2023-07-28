@@ -17,8 +17,8 @@ function reflection(scene,clock,gui) {
     
     groundMirror = new Reflector( geometry, {
     clipBias: 0.003,
-    textureWidth: window.innerWidth * window.devicePixelRatio*0.1,
-    textureHeight: window.innerHeight * window.devicePixelRatio*0.1,
+    textureWidth: window.innerWidth * window.devicePixelRatio*0.5,
+    textureHeight: window.innerHeight * window.devicePixelRatio*0.5,
     color: 0x888888,
     multisample:4,
     } );           

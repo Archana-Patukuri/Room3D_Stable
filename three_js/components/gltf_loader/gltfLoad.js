@@ -9,20 +9,14 @@ import GLTFMaterialsVariantsExtension from "three-gltf-extensions/loaders/KHR_ma
 // import { KTX2Loader } from '../../../node_modules/three/examples/jsm/loaders/KTX2Loader.js';
 
 
-async function gltfLoad(modelURL,renderer) {
-  
+async function gltfLoad(modelURL) {  
 
   const loader = new GLTFLoader(manager);
   
   //Draco Loader
   const dracoLoader = new DRACOLoader(manager);
   dracoLoader.setDecoderPath("decoder/draco/");
-  loader.setDRACOLoader(dracoLoader);
-  
- /*  const ktx2Loader = new KTX2Loader(manager)
-            .setTranscoderPath( 'decoder/basis/' )
-            .detectSupport( renderer );
-  loader.setKTX2Loader( ktx2Loader );    */    
+  loader.setDRACOLoader(dracoLoader);  
   
   //MeshGPU Instancing
   loader.register((parser) => new GLTFMeshGpuInstancingExtension(parser));
@@ -30,8 +24,7 @@ async function gltfLoad(modelURL,renderer) {
   loader.register((parser) => new GLTFMaterialsVariantsExtension(parser));
   //Draco Loader
 
-  const gltfData = await loader.loadAsync(`${modelURL}`);    
-  //console.log("ktx2.....",modelURL)
+  const gltfData = await loader.loadAsync(`${modelURL}`);      
   
   return { gltfData };
 }

@@ -16,7 +16,7 @@ let nls1=lightsArrNS1.length, nls2=castersArrNSL1.length,nls3=receiversArrNSL1.l
 let Is3_1=lightsArrIn.length
 let Is3=receiversArrIn.length;   
 let Is3_2=castersArrIn.length;  
-function shadows(scene,clock,shadowLight) {              
+function shadows(scene,shadowLight) {              
        let n=[]
         scene.traverse(function (child) {              
           if (child.isMesh || child.isLight) {                        
@@ -79,7 +79,13 @@ function shadows(scene,clock,shadowLight) {
 
       //NIGHT LIGHT 1
       const Shadows_NightLight1On_fn = async () => {        
-        await new Promise(resolve => setTimeout(() => {                 
+        await new Promise(resolve => setTimeout(() => { 
+          scene.traverse(function (child) {              
+            if (child.isMesh) {
+              child.castShadow = false; 
+              child.receiveShadow = false;                                   
+            }      
+          });                  
            for(let j=0;j<n.length;j++){  
             for(let i = 0; i < nls1; i++) {
               if(n[j].name==lightsArrNS1[i]){
@@ -130,13 +136,7 @@ function shadows(scene,clock,shadowLight) {
    }    
    
   
-function intial_shadowsOn(){  
-  scene.traverse(function (child) {              
-    if (child.isMesh) {
-      child.castShadow = false; 
-      child.receiveShadow = false;                                   
-    }      
-  });  
+function intial_shadowsOn(){   
   for(let j=0;j<n.length;j++){      
     for(let i = 0; i < Is3_1; i++) {
       if(n[j].name==lightsArrIn[i]){
@@ -156,24 +156,6 @@ function intial_shadowsOn(){
  }   
  console.log("intial shadows") 
 }
-function intial_shadowsOf(){
-  for(let j=0;j<n.length;j++){      
-    for(let i = 0; i < Is3_1; i++) {
-      if(n[j].name==lightsArrIn[i]){
-        n[j].castShadow=false;                   
-      }
-    }    
-  }
-}
- let intial_shadows=document.getElementById('intial_shadows');
- intial_shadows.addEventListener("change",(e)=>{
-  if(e.target.checked){     
-    intial_shadowsOn();   
-  }else{                         
-    intial_shadowsOf();
-              
-  }
-}) 
  let Shadows_NightLight1=document.getElementById("Shadows_NightLight1");
 Shadows_NightLight1.addEventListener("change",(e)=>{
   if(e.target.checked){     

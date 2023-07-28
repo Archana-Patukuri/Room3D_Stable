@@ -4,10 +4,7 @@
 	],
 	"receivers": [		
 		"Floor",
-		"Table_Top_Mesh",		
-		"Left_Wall",
-		"Front_Wall",				
-		"Skrit"		
+		"Table_Top_Mesh"		
 	],
 	"casters": [													
 		"Table_Top_Mesh",
@@ -20,6 +17,11 @@
 		"Laptop_Selectable",	
 		"Lamp_Selectable",				
 		"Flower",
-		"Pot"		
+		"Pot",
+		"Node_Handle01",
+		"Node_Handle02",
+		"Mesh_Backrest",
+		"InnerCushion",
+		"OuterWireframeCushion"
 	]
 }

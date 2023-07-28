@@ -1,7 +1,7 @@
 {
   "Room": [
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Room/Room_Variants_new.glb",
+      "URL": "/compressed_models/Room/Room_Variants_new1.glb",
       "Name": "Room"
     }    
   ],
@@ -53,7 +53,7 @@
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/chairs/Chair_01_v01.webp"
     },
     {
-      "URL": "https://d1asmhoz5zfmcr.cloudfront.net/compressed_models/Chairs/Chair_02_v01.glb",
+      "URL": "/compressed_models/Chairs/chair_02/Chair_02_v01.glb",
       "Name": "Basic Ergonomic Chair",
       "thumbnail": "https://d1asmhoz5zfmcr.cloudfront.net/thumbnails/chairs/Chair_02_v01.webp"
     },

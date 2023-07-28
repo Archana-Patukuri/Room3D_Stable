@@ -48,7 +48,7 @@ async function lightControls(
       distance: 4,
       decay: 2,
       color: '#ffffff',
-      intensity: 50,
+      intensity: 30,
       light: ceilingLight,
     },
     {
@@ -100,7 +100,7 @@ async function lightControls(
         <label for="${
           item.id
         }" style="display:flex; align-items:center; gap:5px" >
-          <input type="checkbox" width="24px" height="24px" data-type="${
+          <input type="radio" width="24px" height="24px" data-type="${
             item.id
           }" name="lights" style="transform:scale(1.5)" class="lightActiveCheckbox" />
           ${item.innerText}
@@ -138,7 +138,7 @@ async function lightControls(
       <label for="${
         item.id
       }" style="display:flex; align-items:center;gap:5px" >
-        <input type="checkbox" width="24px" height="24px" data-type="${
+        <input type="radio" width="24px" height="24px" data-type="${
           item.id
         }" name="lights" style="transform:scale(1.5)" class="lightActiveCheckbox" />
         ${item.innerText}
@@ -211,39 +211,41 @@ async function lightControls(
   let decayArray=document.querySelectorAll(".decay_class")
   let helpersArray=document.querySelectorAll(".helpers_controls");
 
+  let emissive_Obj=scene.getObjectByName("Mesh_Walls001"); 
+  let Motor_emissive=scene.getObjectByName("Motor_emissive");        
+  let table_emissive=scene.getObjectByName("TableStand006_2"); 
+  let emissive_Obj_fan=scene.getObjectByName("Motor");    
+
   checkboxArray.forEach((checkbox) => {
     checkbox.addEventListener('change', (e) => {
-      // console.time('toggler Checkbox');
-      // console.log(e.target.dataset.type);
-      if (e.target.dataset.type === 'pitchDark') {
-        LightControlsArray.forEach((item) => {
-          if (item.light) {
-            if (item.light.length) {
-              item.light.forEach((light) => {
-                light.intensity = 0;
-              });
-            } else {
-              item.light.intensity = 0;
-            }
-           
-            // renderer.needsUpdate = true;
-            // console.log(item.light);
-          }
-          renderer.toneMappingExposure = 0;
-        });
-
-        return;
+      if (e.target.dataset.type === 'pitchDark') {       
+          renderer.toneMappingExposure = 0.2; 
+          emissive_Obj.material.emissive=new Color(0, 0, 0);
+          emissive_Obj_fan.material.emissive=new Color(0, 0, 0);
+          table_emissive.material.emissive=new Color(0, 0, 0);     
+          Motor_emissive.material.emissive=new Color(0, 0, 0);                
       }
+      
 
+      LightControlsArray.forEach((item) => {
+          if (item.light) {
+           if (item.light.length) {
+             item.light.forEach((light) => {
+               light.intensity = 0;
+             });
+           } else {
+             item.light.intensity = 0;
+           }         
+         }          
+       });
+      
       const lightToChangeData = LightControlsArray.find(
         (i) => i.id === e.target.dataset.type
       );
        
       const lightToChange = lightToChangeData.light;
-      if (lightToChangeData.intensity && lightToChange) {
-        // console.log(lightToChange);
-        if (lightToChange.length) {
-          // console.log('here');          
+      if (lightToChangeData.intensity && lightToChange) {        
+        if (lightToChange.length) {                   
           lightToChange.forEach((item) => {
             item.intensity = e.target.checked ? lightToChangeData.intensity : 0;            
           });
@@ -251,11 +253,12 @@ async function lightControls(
           lightToChange.intensity = e.target.checked
             ? lightToChangeData.intensity
             : 0;                                       
-        }       
+        }  
+        emissive_Obj.material.emissive=new Color(1, 1, 1);                    
+      Motor_emissive.material.emissive=new Color(1, 1, 1);         
+      table_emissive.material.emissive=new Color(1, 1, 1);     
         renderer.toneMappingExposure = 1;
       }     
-      // console.log(lightToChange);
-      // console.log(LightControlsArray);
       console.timeEnd('toggler Checkbox');
     });
   });
@@ -370,17 +373,8 @@ async function lightControls(
     });
   });
 
-  stateList.HDRI.addEventListener("change",(e)=>{
-    if(e.target.checked){
-      scene.environment = hdri1;  
-    }else{
-      scene.environment = hdri0;  
-    }
-  })   
-  let emissive_Obj=scene.getObjectByName("Mesh_Walls001"); 
-  let Motor_emissive=scene.getObjectByName("Motor_emissive");        
-  let table_emissive=scene.getObjectByName("TableStand006_2"); 
-  let emissive_Obj_fan=scene.getObjectByName("Motor");    
+  
+  
 
   stateList.Emissive.addEventListener("change", (e) => {    
     if (e.target.checked) {            
@@ -389,8 +383,7 @@ async function lightControls(
         table_emissive.material.emissive=new Color(1, 1, 1);             
     }else{           
       emissive_Obj.material.emissive=new Color(0, 0, 0);
-      emissive_Obj_fan.material.emissive=new Color(0, 0, 0);
-      table_emissive.material.emissive=new Color(0, 0, 0);     
+      emissive_Obj_fan.material.emissive=new Color(0, 0, 0);      
       Motor_emissive.material.emissive=new Color(0, 0, 0); 
            
     }
@@ -405,8 +398,20 @@ let distance=document.querySelectorAll(".distance");
 let decay=document.querySelectorAll(".decay")
 let helper_FW=document.querySelectorAll(".helper_FW");
 
+let slider_HL=slidecontainer[2]
 let slider_FL=slidecontainer[0],colorPicker_FL=colorPickerContainer[0],distance_FL=distance[0],decay_FL=decay[0],helpers_FL=helper_FW[0]
 let slider_WL=slidecontainer[1],colorPicker_WL=colorPickerContainer[1],distance_WL=distance[1],decay_WL=decay[1],helpers_WL=helper_FW[1]
+
+stateList.HDRI.addEventListener("change",(e)=>{
+  if(e.target.checked){
+    scene.environment = hdri1;  
+    slider_HL.oninput = function() {                
+      renderer.toneMappingExposure=this.value
+    }  
+  }else{
+    scene.environment = hdri0;  
+  }
+})   
 
   floor_lamp.addEventListener("change",(e)=>{
     if(e.target.checked){

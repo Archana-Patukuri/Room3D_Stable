@@ -35,7 +35,9 @@ class LightContainer {
       //Spinner Display block before loading
 
       this.spinnerDisplay(spinner, "block");
-      const { gltfData } = await gltfLoad(URL,this.renderer);
+
+      let modelURL = await fetch(URL); 
+      const { gltfData } = await gltfLoad(modelURL.url);    
       
       let loadedModel = setupModel(gltfData);                 
       this.models[i] = loadedModel;

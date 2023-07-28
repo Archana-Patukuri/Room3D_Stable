@@ -4,6 +4,7 @@ import { animationUI } from "../../systems/UI-Generators/animationUI";
 import { AnimationMixer, Group } from "three";
 import { calculateCenter } from "./calculateCenter";
 import { setupModel } from "./setupModel";
+// import { shadows } from "../../systems/shadows";
 
 class FurnitureContainer {
   constructor(assetsList, furnitureTypesUI, category, initialModelID,scene,renderer) {
@@ -39,10 +40,14 @@ class FurnitureContainer {
       //Spinner Display block before loading
 
       this.spinnerDisplay(spinner, "block");
-      const { gltfData } = await gltfLoad(URL,this.renderer);      
+      let modelURL = await fetch(URL); 
+      const { gltfData } = await gltfLoad(modelURL.url);      
       let loadedModel = setupModel(gltfData);         
       this.models[i] = loadedModel;
-         
+
+      /* let shadowLight=3;
+      shadows(this.scene,shadowLight); */
+
       let mixer = new AnimationMixer(this.models[i]);
       this.AnimationUIs[i] = animationUI(
         gltfData,

@@ -304,8 +304,10 @@ class World {
   }  
   //LoadRoom
   async loadRoomGLTF() {
-    delta = clock.getDelta();        
-    let { gltfData } = await gltfLoad(assets.Room[0].URL,renderer);
+    delta = clock.getDelta();   
+         
+    let modelURL = await fetch(assets.Room[0].URL); 
+    let { gltfData } = await gltfLoad(modelURL.url);
     let loadedmodel = gltfData.scene;        
     roomParent.add(loadedmodel); 
     
@@ -340,7 +342,7 @@ class World {
           input_var_Fun(); 
         }        
       });            
-      if(input.id=="Green Theme"){
+      if(input.id=="Theme_2"){
         input.checked=true;                          
       }
       
@@ -391,7 +393,7 @@ async loadLightsGLTF() {
 
   //LoadBlinds
   async loadBlindsGLTF() {
-    delta = clock.getDelta();
+    delta = clock.getDelta();    
     await blindsModels.loadModel();
     scene.add(blindsModels.parentGroup);
     selectableObjects.push(blindsModels.parentGroup);   
@@ -400,7 +402,7 @@ async loadLightsGLTF() {
   }
   //LoadChair
   async loadChairGLTF() {
-    delta = clock.getDelta();      
+    delta = clock.getDelta();           
     await chairModels.loadModel();
     //adjust position of the chair
     chairModels.parentGroup.position.set(0, 0, -0.5);
@@ -411,8 +413,9 @@ async loadLightsGLTF() {
   }    
   //LoadPlants
   async loadPlants() { 
-    delta = clock.getDelta();        
-    const { gltfData } = await gltfLoad(assets.Plants[0].URL,renderer);
+    delta = clock.getDelta();  
+    let modelURL = await fetch(assets.Plants[0].URL);      
+    const { gltfData } = await gltfLoad(modelURL.url);
     const loadedmodel = gltfData.scene;     
     const plant1 = loadedmodel;    
     plantsParent.add(plant1);  
@@ -423,7 +426,8 @@ async loadLightsGLTF() {
   }  
   async loadCylindricalLight() {        
     delta = clock.getDelta();
-    const { gltfData } = await gltfLoad(assets.Lights_2[0].URL,renderer);
+    let modelURL = await fetch(assets.Lights_2[0].URL);
+    const { gltfData } = await gltfLoad(modelURL.url);
     const loadedmodel = gltfData.scene;
     const cylindricalLight1 = loadedmodel;
     scene.add(cylindricalLight1);
@@ -446,8 +450,8 @@ async loadLightsGLTF() {
   //LoadMirror
   async loadMirrorGLTF() {
     delta = clock.getDelta();  
-      
-    const { gltfData } = await gltfLoad(assets.Mirror[0].URL,renderer); 
+    let modelURL = await fetch(assets.Mirror[0].URL);    
+    const { gltfData } = await gltfLoad(modelURL.url); 
     const loadedmodel = gltfData.scene; 
     const mirror = loadedmodel;   
     mirrorParent.add(mirror)   
@@ -502,7 +506,7 @@ async loadLightsGLTF() {
       sunLight.intensity = 30;          
     
       shadowLight=0;        
-      shadows(scene,clock,shadowLight);  
+      shadows(scene,shadowLight);  
       scene.environment = hdri1;  
       renderer.toneMappingExposure=0.2;    
     };   
@@ -516,22 +520,19 @@ async loadLightsGLTF() {
       scene.environment = hdri0;      
       scene.background = new Color(0x000000); 
 
+      fanLight.intensity = 30;
       cylindricalLampSpotLight_1.intensity = 2;
       cylindricalLampSpotLight_2.intensity = 2;
       cylindricalLampSpotLight_3.intensity = 2;
       cylindricalLampSpotLight_4.intensity = 2;
-
-      cylindricalLampSpotLight_1.distance = 1;
-      cylindricalLampSpotLight_2.distance = 1;
-      cylindricalLampSpotLight_3.distance = 1;
-      cylindricalLampSpotLight_4.distance = 1;     
          
-      fanLight.intensity = 50;
-
-      tableLamp.intensity = 15;            
-      
+      if(a==0){
         shadowLight=3;
-        shadows(scene,clock,shadowLight);
+        shadows(scene,shadowLight);
+      }else{
+        shadowLight=1;
+        shadows(scene,shadowLight);
+      }
       
      
       a=a+1               
