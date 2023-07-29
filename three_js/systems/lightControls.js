@@ -92,6 +92,7 @@ async function lightControls(
       light: ambientLight,
     },        
   ];
+
   const htmlArray = LightControlsArray.map((item) =>
     elementFromHtmlString(`
     <div calss="d-flex lightSettingContainer" style="display:flex; align-items:center; width:100%; gap:10px;">

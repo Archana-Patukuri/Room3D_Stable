@@ -342,7 +342,7 @@ class World {
           input_var_Fun(); 
         }        
       });            
-      if(input.id=="Theme_2"){
+      if(input.id=="Theme_1"){
         input.checked=true;                          
       }
       
