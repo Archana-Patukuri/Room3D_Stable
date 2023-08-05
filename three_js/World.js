@@ -147,7 +147,7 @@ const stateList = {"HDRI":HDRI,
  let start,millis;
 start = Date.now();
 console.log("timer started")
-
+let myWorker = new Worker("webworker.js");
 class World {
   constructor() {        
     this.container = container;
@@ -365,10 +365,20 @@ class World {
   }    
 async loadTableGLTF() {
   delta = clock.getDelta();                                                                                                                                               
-  await tableModels.loadModel();  
-  tableModels.parentGroup.position.set(0, 0, 0.5);  
-  selectableObjects.push(tableModels.parentGroup);
-  scene.add(tableModels.parentGroup) 
+  if (window.Worker) {                
+    myWorker.postMessage("Table");          
+
+    myWorker.onmessage =async function(e) {   
+      if(e.data=="Table"){          
+      await tableModels.loadModel();  
+      tableModels.parentGroup.position.set(0, 0, 0.5);  
+      selectableObjects.push(tableModels.parentGroup);
+      scene.add(tableModels.parentGroup)         
+      }
+    }
+  } else {
+    console.log('Your browser doesn\'t support web workers.');
+  }
   renderer.render(scene, camera);
   console.log("table loaded",delta.toPrecision(3),"seconds")  
 }
