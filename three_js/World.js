@@ -365,7 +365,7 @@ class World {
   }    
 async loadTableGLTF() {
   delta = clock.getDelta();                                                                                                                                               
-  if (window.Worker) {                
+ /*  if (window.Worker) {                
     myWorker.postMessage("Table");          
 
     myWorker.onmessage =async function(e) {   
@@ -378,7 +378,11 @@ async loadTableGLTF() {
     }
   } else {
     console.log('Your browser doesn\'t support web workers.');
-  }
+  } */
+  await tableModels.loadModel();  
+      tableModels.parentGroup.position.set(0, 0, 0.5);  
+      selectableObjects.push(tableModels.parentGroup);
+      scene.add(tableModels.parentGroup)         
   renderer.render(scene, camera);
   console.log("table loaded",delta.toPrecision(3),"seconds")  
 }
